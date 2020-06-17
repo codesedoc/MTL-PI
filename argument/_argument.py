@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields
 import dataclasses
 from data.corpus import name2corpus_type
 from typing import Optional,Tuple, Dict, Any
@@ -73,9 +73,37 @@ class Arguments:
     field_name_replace_dict = {}
     pass
 
+    @classmethod
+    def field_names(self):
+        if not isinstance(self, Arguments):
+            return tuple([f.name for f in fields(self)])
+
+        if (not hasattr(self, '_field_names')) or (self._field_names is None):
+            self._field_names = tuple([f.name for f in fields(self)])
+        return self._field_names
+
+    @classmethod
+    def search_init_kwargs(self, kwargs: Dict[str, Any]):
+        if not isinstance(self, Arguments):
+            _field_names = self.field_names()
+        else:
+            _field_names = self._field_names
+
+        result = {}
+        for name in _field_names:
+            if name not in kwargs:
+                raise ValueError
+            else:
+                result[name] = kwargs[name]
+        return result
+
+    @property
+    def names2value(self):
+        names = self.field_names()
+        return {name: getattr(self, name) for name in names}
+
+
 @dataclass
-
-
 class ModelArguments(Arguments):
     cache_dir: Optional[str] = field(
         default=None, metadata={"help": "Where do you want to store the pretrained models downloaded from s3"}
@@ -215,7 +243,7 @@ class PerformingArguments(Arguments):
     logging_steps: int = field(default=500, metadata={"help": "Log every X updates steps. \
                                                       By default, it will be set to the num of \
                                                       steps in each epoch, when num_train_epochs do not be overridden"})
-    save_steps: int = field(default=500, metadata={"help": "Save checkpoint every X updates steps. \
+    save_steps: int = field(default=5000, metadata={"help": "Save checkpoint every X updates steps. \
                                                    By default, it will be set to the num of \
                                                    steps in each epoch, when num_train_epochs do not be overridden"})
     save_total_limit: Optional[int] = field(

@@ -1,5 +1,5 @@
 from argument import ModelArguments, PerformingArguments
-from typing import Optional, Tuple, Any, Dict, NamedTuple
+from typing import Optional, Tuple, Any, Dict, NamedTuple, List
 import torch
 import numpy as np
 from torch.optim.optimizer import Optimizer
@@ -16,6 +16,9 @@ class PredictionOutput(NamedTuple):
     label_ids: Optional[np.ndarray]
     metrics: Optional[Dict[str, float]]
     indexes: Optional[np.ndarray]
+    example_id2pred: Dict[int, np.ndarray] = None
+    example_ids: List[int] = None
+
 
 
 class TrainOutput(NamedTuple):

@@ -1,6 +1,6 @@
 from .. import Framework, FrameworkProxy
-from argument.tfrs import TFRsModelArguments, TFRsPerformingArguments
-from data.proxy.tfrs import TFRsDataProxy
+from argument.mtl_pi import MTLPIModelArguments, MTLPIPerformingArguments
+from data.proxy.mtl_pi import MTLPIDataProxy
 from transformers import AutoConfig, AutoModel, AutoTokenizer, AutoModelForSequenceClassification
 from torch.optim.optimizer import Optimizer
 from torch.optim.lr_scheduler import LambdaLR
@@ -31,15 +31,23 @@ class OptimizationKit:
 from enum import Enum,unique
 
 
+# class PredictionOutput(NamedTuple):
+#     predictions: np.ndarray
+#     label_ids: Optional[np.ndarray]
+#     metrics: Optional[Dict[str, float]]
+#     indexes: Optional[np.ndarray]
+
+
 @unique
 class PerformState(Enum):
     auxiliary = 'auxiliary'
-    parallel = 'in_parallel'
+    parallel = 'parallel'
     primary = 'primary'
 
 
 class MTLPIFramework(Framework):
-    def __init__(self, model_args: TFRsModelArguments, *args, **kwargs):
+
+    def __init__(self, model_args: MTLPIModelArguments, *args, **kwargs):
         super().__init__(model_args, *args, **kwargs)
         config = kwargs['config']
 
@@ -51,18 +59,19 @@ class MTLPIFramework(Framework):
         )
 
         self.dropout = torch.nn.Dropout(config.hidden_dropout_prob)
-        self.elaboration_classifier = torch.nn.Linear(config.hidden_size, config.num_labels)
-        self.paraphrase_classifier = torch.nn.Linear(config.hidden_size, config.num_labels)
+        self.auxiliary_classifier = torch.nn.Linear(config.hidden_size, config.num_labels)
+        self.primary_classifier = torch.nn.Linear(config.hidden_size, config.num_labels)
         self.auxiliary_classifier.apply(self._init_weights)
         self.primary_classifier.apply(self._init_weights)
-        self.perform_state = PerformState.train_elaboration
+        self.perform_state = PerformState.auxiliary
+        self.num_labels = config.num_labels
 
     def _init_weights(self, module):
         """ Initialize the weights """
         if isinstance(module, (torch.nn.Linear)):
             # Slightly different from the TF version which uses truncated_normal for initialization
             # cf https://github.com/pytorch/pytorch/pull/5617
-            module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
+            module.weight.data.normal_(mean=0.0, std=self.encoder.config.initializer_range)
             if module.bias is not None:
                 module.bias.data.zero_()
 
@@ -85,8 +94,11 @@ class MTLPIFramework(Framework):
         return outputs
 
     def _single_forward(self, labels, tfrs_output):
-        logits = self.elaboration_classifier(tfrs_output)
-        outputs = logits
+        if self.perform_state == PerformState.primary:
+            logits = self.primary_classifier(tfrs_output)
+        else:
+            logits = self.auxiliary_classifier(tfrs_output)
+        outputs = logits,
         if labels is not None:
             loss_fct = torch.nn.CrossEntropyLoss()
             loss = self._calculate_loss(logits=logits, labels=labels, loss_fct=loss_fct)
@@ -99,20 +111,30 @@ class MTLPIFramework(Framework):
             if name in input_:
                 tfrs_input[name] = input_[name]
         tfr_output = self.encoder(**tfrs_input)
-        p_labels = input_.get('primary_labels')
-        a_labels = input_.get('auxiliary_labels')
-
         pooled_output = tfr_output[1]
 
         pooled_output = self.dropout(pooled_output)
 
         if self.perform_state == PerformState.auxiliary:
+            a_labels = input_.get('labels')
+            if a_labels is None:
+                raise ValueError
+
             result = self._single_forward(labels=a_labels, tfrs_output=pooled_output)
 
         elif self.perform_state == PerformState.primary:
+            p_labels = input_.get('labels')
+            if p_labels is None:
+                raise ValueError
+
             result = self._single_forward(labels=p_labels, tfrs_output=pooled_output)
 
         elif self.perform_state == PerformState.parallel:
+            p_labels = input_.get('labels')
+            a_labels = input_.get('auxiliary_labels')
+            if a_labels is None or p_labels is None:
+                raise ValueError
+
             result = self._parallel_forward(primary_labels=p_labels, auxiliary_labels=a_labels, tfrs_output=pooled_output)
         else:
             raise ValueError
@@ -123,7 +145,9 @@ class MTLPIFramework(Framework):
 
 
 class MTLPIFrameworkProxy(FrameworkProxy):
-    def __init__(self, model_args: TFRsModelArguments, performing_args: TFRsPerformingArguments, data_proxy: TFRsDataProxy,
+    EMPTY_PREFIX = ""
+
+    def __init__(self, model_args: MTLPIModelArguments, performing_args: MTLPIPerformingArguments, data_proxy: MTLPIDataProxy,
                  *args, **kwargs):
 
         super().__init__(model_args, performing_args, data_proxy, *args, **kwargs)
@@ -136,15 +160,23 @@ class MTLPIFrameworkProxy(FrameworkProxy):
         self.optimization_kit = None
         self.tb_writer = SummaryWriter(log_dir=performing_args.logging_dir)
         self.model_args = model_args
-        self.performing_args = performing_args
+        self.primary_performing_args = performing_args
+        self.auxiliary_performing_args = replace(self.performing_args,
+                                                 num_train_epochs=performing_args.auxiliary_training_epoch,
+                                                 learning_rate=performing_args.learning_rate)
+
+        self.performing_args = self.primary_performing_args
+
         self.global_step: Optional[int] = None
         self.epoch: Optional[float] = None
 
-        self.primary_data_proxy = kwargs['primary_data_proxy']
-        self.auxiliary_data_proxy = kwargs['auxiliary_data_proxy']
+        self.primary_data_proxy = data_proxy.primary_sub_proxy
+        self.auxiliary_data_proxy = data_proxy.auxiliary_sub_proxy
 
         self.primary_data_proxy.tokenizer = tokenizer
         self.auxiliary_data_proxy.tokenizer = tokenizer
+        self._log_prefix = self.EMPTY_PREFIX
+        self.original_data_proxy = data_proxy
         # self.data_proxy.get_dataset(DataSetType.train)
         # self.data_proxy.get_dataset(DataSetType.dev)
 
@@ -174,26 +206,38 @@ class MTLPIFrameworkProxy(FrameworkProxy):
 
         return self.optimization_kit
 
+    def _create_update_input_features_updates(self, predict_output: PredictionOutput):
+        from data import InputFeaturesUpdate
+        e_id2pred = predict_output.example_id2pred
+        updates = []
+        for e_id, pred in e_id2pred.items():
+            updates.append(InputFeaturesUpdate(self.primary_data_proxy, DataSetType.train, e_id, self.original_data_proxy.get_feature_field_for_predict(pred)))
+        return updates
+
     def perform(self,  *args, **kwargs):
         performing_args = self.performing_args
 
         # Training
         if performing_args.do_train:
             self.framework.perform_state = PerformState.auxiliary
-            logger.info("*** Step1: Train auxiliary data ***")
+            self.performing_args = self.auxiliary_performing_args
             self.data_proxy = self.auxiliary_data_proxy
+            logger.info("*** Step1: Train auxiliary data ***")
+
             dataset = self.data_proxy.merge_datasets(ds_types=(DataSetType.train, DataSetType.test, DataSetType.dev))
             self.data_proxy.set_datasets(DataSetType.train, dataset)
             self.train()
 
             logger.info("*** Step2: Predict primary data ***")
-
+            self.performing_args = self.primary_performing_args
             self.data_proxy = self.primary_data_proxy
-            predict_output = self._predict()
-            self.data_proxy.update_inputfeatures_in_dataset()
+
+            predict_output = self._predict(DataSetType.train)
+            updates = self._create_update_input_features_updates(predict_output)
+            self.original_data_proxy.revise_invalid_predict_for_primary_task(updates=updates)
+            self.data_proxy.update_inputfeatures_in_dataset(DataSetType.train, )
 
             self.framework.perform_state = PerformState.parallel
-            self.data_proxy = self.primary_data_proxy
             self.train()
             # self.save_model()
 
@@ -352,12 +396,13 @@ class MTLPIFrameworkProxy(FrameworkProxy):
             self.epoch = self.performing_args.num_train_epochs
         if self.epoch is not None:
             logs["epoch"] = self.epoch
+        new_log = {f'{self._log_prefix}_{k}': v for k, v in logs.items()}
         if self.tb_writer:
-            for k, v in logs.items():
+            for k, v in new_log.items():
                 self.tb_writer.add_scalar(k, v, self.global_step)
             self.tb_writer.flush()
 
-        output = json.dumps({**logs, **{"step": self.global_step}})
+        output = json.dumps({**new_log, **{"step": self.global_step}})
 
         logger.info(output)
 
@@ -467,10 +512,13 @@ class MTLPIFrameworkProxy(FrameworkProxy):
             do_predict()
             replace(data_args, task_name="mnli")
 
-    def _predict(self) -> PredictionOutput:
-        test_dataloader = self.data_proxy.get_dataloader(DataSetType.test)
+    def _predict(self, ds_type: Optional[DataSetType] = None) -> PredictionOutput:
+        if ds_type is None:
+            ds_type = DataSetType.test
 
-        return self._prediction_loop(test_dataloader, description="Prediction", ds_type=DataSetType.test)
+        test_dataloader = self.data_proxy.get_dataloader(ds_type)
+
+        return self._prediction_loop(test_dataloader, description="Prediction", ds_type=ds_type)
 
     # def save_model(self, output_path: Optional[str] = None):
     #     pass
@@ -504,6 +552,8 @@ class MTLPIFrameworkProxy(FrameworkProxy):
         preds: Optional[Union[torch.Tensor, np.ndarray]] = None
         label_ids: Optional[Union[torch.Tensor, np.ndarray]] = None
         indexes:  Optional[Union[torch.Tensor, np.ndarray]] = None
+        example_id2pred: Optional[Dict] = {}
+        example_ids: Optional[Union[torch.Tensor, List[int]]] = None
         model.eval()
 
         for inputs in tqdm(dataloader, desc=description):
@@ -526,6 +576,12 @@ class MTLPIFrameworkProxy(FrameworkProxy):
                 else:
                     preds = torch.cat((preds, logits.detach()), dim=0)
 
+                if inputs.get('example_id') is not None:
+                    if example_ids is None:
+                        example_ids = inputs["example_id"].detach()
+                    else:
+                        example_ids = torch.cat((example_ids, inputs["example_id"].detach()), dim=0)
+
                 if inputs.get("labels") is not None:
                     if label_ids is None:
                         label_ids = inputs["labels"].detach()
@@ -546,6 +602,14 @@ class MTLPIFrameworkProxy(FrameworkProxy):
                 preds = np.argmax(preds, axis=1)
             elif output_mode == OutputMode.regression:
                 preds = np.squeeze(preds)
+
+            example_ids = example_ids.cpu().tolist().copy()
+            if len(example_ids) != len(preds):
+                raise ValueError
+            for e_id, pred in zip(example_ids, preds):
+                example_id2pred[e_id] = pred
+            if len(example_ids) != len(example_id2pred):
+                raise ValueError
 
         if label_ids is not None:
             label_ids = label_ids.cpu().numpy().copy()
@@ -570,6 +634,6 @@ class MTLPIFrameworkProxy(FrameworkProxy):
             if not key.startswith(f"{prefix}_"):
                 metrics[f"{prefix}_{key}"] = metrics.pop(key)
 
-        return PredictionOutput(predictions=preds, label_ids=label_ids, metrics=metrics, indexes=indexes)
+        return PredictionOutput(predictions=preds, label_ids=label_ids, metrics=metrics, indexes=indexes, example_id2pred=example_id2pred)
 
 
