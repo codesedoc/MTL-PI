@@ -1,0 +1,35 @@
+data
+__pycache__
+utils/stanford_parser_proccess/files
+.idea/
+result/log
+result/visualization
+# analyze/*.pkl
+# analyze/*.txt
+# analyze/*.png
+# utils/**/*.pkl
+# utils/**/*.txt
+# utils/stanford_parser_proccess/files
+/**/*.txt
+/**/*.pkl
+/**/*.png
+/**/embeddings
+/**/checkpoints
+
+/**/visualization
+/**/log
+/**/*.pt
+/**/*.pkls
+/**/*.db
+/**/*.tsv
+/**/*.csv
+#/**/result
+/**/runs
+#/**/tensorboard
+/**/*.json
+/**/glue_data
+*.zip
+/**/*.zip
+corpus/discourse/data
+venv
+
