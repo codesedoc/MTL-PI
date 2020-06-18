@@ -50,6 +50,8 @@ def connect_path(pre_path, *part_paths):
         pre_path = os.path.join(pre_path, p)
     return pre_path
 
+def exists(path):
+    return os.path.exists(path)
 
 def makedir(path):
     if not os.path.exists(path):

@@ -43,7 +43,7 @@ class PerformState(Enum):
 
 
 class MTLPIFramework(Framework):
-
+    name = 'MTL_PI'
     def __init__(self, model_args: MTLPIModelArguments, *args, **kwargs):
         super().__init__(model_args, *args, **kwargs)
         config = kwargs['config']
@@ -140,6 +140,8 @@ class MTLPIFramework(Framework):
 
 
 class MTLPIFrameworkProxy(TFRsFrameworkProxy):
+    framework_class = MTLPIFramework
+
     def __init__(self, model_args: MTLPIModelArguments, performing_args: MTLPIPerformingArguments, data_proxy: MTLPIDataProxy,
                  *args, **kwargs):
 
@@ -241,6 +243,11 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             logging.info("*** Test ***")
             self.predict()
 
-        return eval_results
+        standard = eval_results.get('dev_acc')
+        result = {
+            'eval_results': eval_results
+        }
+
+        return standard, result
 
 

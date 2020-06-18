@@ -17,8 +17,9 @@ def default_tensorboard_dir() -> str:
     from datetime import datetime
 
     current_time = datetime.now().strftime("%b%d_%H-%M-%S")
-    return file_tool.connect_path("runs", current_time + "_" + socket.gethostname())
+    # return file_tool.connect_path("runs", current_time + "_" + socket.gethostname())
 
+    return file_tool.connect_path("runs", "_" + socket.gethostname())
 
 class cached_property(property):
     """
@@ -102,6 +103,8 @@ class Arguments:
         names = self.field_names()
         return {name: getattr(self, name) for name in names}
 
+    def get_name_abbreviation(self) -> Dict[str, Any]:
+        return {}
 
 @dataclass
 class ModelArguments(Arguments):
@@ -157,6 +160,13 @@ class DataArguments(Arguments):
     def __post_init__(self):
         self.task_name = self.task_name.lower()
 
+    def get_name_abbreviation(self):
+        base_result = super().get_name_abbreviation()
+        result = {
+            "per_device_train_batch_size": "pdbz",
+        }
+        result.update(base_result)
+        return result
 
 @dataclass
 class PerformingArguments(Arguments):
@@ -296,7 +306,15 @@ class PerformingArguments(Arguments):
     def __post_init__(self):
         pass
 
+    def get_name_abbreviation(self):
+        base_result = super().get_name_abbreviation()
+        result = {
+            "learning_rate": "lr",
+            "num_train_epochs": 'ep'
+        }
+        result.update(base_result)
 
+        return result
 @dataclass
 class ArgumentsBox:
     model_args: ModelArguments

@@ -13,6 +13,15 @@ class MTLPIDataArguments(TFRsDataArguments):
         default=16, metadata={"help": "Batch size per GPU/CPU for training for auxiliary task."}
     )
 
+    def get_name_abbreviation(self):
+        base_result = super().get_name_abbreviation()
+        result = {
+            "auxiliary_per_device_batch_size": "aupdbz",
+        }
+        result.update(base_result)
+        return result
+
+
 @dataclass
 class MTLPIPerformingArguments(TFRsPerformingArguments):
     auxiliary_training_epoch: int = field(default=6, metadata={"help": "The training epoch for auxiliary task."})
@@ -24,6 +33,14 @@ class MTLPIPerformingArguments(TFRsPerformingArguments):
     #     'learning_rate': 'parallel_training_epoch',
     #     'train_batch_size': 'parallel_train_batch_size'
     # }
+    def get_name_abbreviation(self):
+        base_result = super().get_name_abbreviation()
+        result =  {
+            "auxiliary_training_epoch": "auep",
+            "auxiliary_learning_rate": "aulr",
+        }
+        result.update(base_result)
+        return result
 
     def __post_init__(self):
         super().__post_init__()

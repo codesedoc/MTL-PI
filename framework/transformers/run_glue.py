@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class TFRsFramework(Framework):
+    name = 'TFRs'
     def __init__(self, model_args: TFRsModelArguments, *args, **kwargs):
         super().__init__(model_args, *args, **kwargs)
         config = kwargs['config']
@@ -39,6 +40,8 @@ class TFRsFramework(Framework):
 
 
 class TFRsFrameworkProxy(FrameworkProxy):
+    framework_class = TFRsFramework
+
     def __init__(self, model_args: TFRsModelArguments, performing_args: TFRsPerformingArguments, data_proxy: TFRsDataProxy,
                  *args, **kwargs):
         self.data_proxy = data_proxy
@@ -51,7 +54,6 @@ class TFRsFrameworkProxy(FrameworkProxy):
         super().__init__(model_args, performing_args, data_proxy, *args, **kwargs)
 
         self.optimization_kit = None
-        self.tb_writer = SummaryWriter(log_dir=performing_args.logging_dir)
         self.model_args = model_args
         self.performing_args = performing_args
         self.global_step: Optional[int] = None
@@ -263,33 +265,7 @@ class TFRsFrameworkProxy(FrameworkProxy):
             do_evaluate()
             replace(data_args, task_name="mnli")
 
-    # def _evaluate(
-    #         self, ds_type: DataSetType,
-    # ) -> Dict[str, float]:
-    #     """
-    #     Run evaluation and return metrics.
-    #
-    #     The calling script will be responsible for providing a method to compute metrics, as they are
-    #     task-dependent.
-    #
-    #     Args:
-    #         eval_dataset: (Optional) Pass a dataset if you wish to override
-    #         the one on the instance.
-    #     Returns:
-    #         A dict containing:
-    #             - the eval loss
-    #             - the potential metrics computed from the predictions
-    #     """
-    #     if not self.data_proxy.has_label(ds_type):
-    #         logger.error(f'The {ds_type.value} set has not labels, so it can not be evaluated')
-    #
-    #     eval_dataloader = self.data_proxy.get_dataloader(ds_type)
-    #
-    #     output = self._prediction_loop(eval_dataloader, description="Evaluation", ds_type=ds_type)
-    #
-    #     self._log(output.metrics)
-    #
-    #     return output.metrics
+        return eval_results
 
     def predict(self):
         output_mode = self.data_proxy.corpus.output_mode
@@ -312,6 +288,7 @@ class TFRsFrameworkProxy(FrameworkProxy):
                         writer.write("%s = %s\n" % (key, value))
                 eval_results.update(metrics_result)
                 self._tensorboard_log(metrics_result)
+
             self._save_prediction(indexes=predict_output.indexes, predictions=predict_output.predictions)
 
         do_predict()

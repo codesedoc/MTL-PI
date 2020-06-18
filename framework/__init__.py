@@ -42,7 +42,7 @@ class OptimizationKit:
 
 class Framework(torch.nn.Module):
     parameter_name_for_no_decay = ["bias"]
-
+    name = 'framework'
     def __init__(self, model_args: ModelArguments, *args, **kwargs):
         super().__init__()
         self.model_args = model_args
@@ -67,6 +67,7 @@ class Framework(torch.nn.Module):
 
 class FrameworkProxy:
     EMPTY_PREFIX = ""
+    framework_class = Framework
 
     def __init__(self, model_args: ModelArguments, performing_args: PerformingArguments, data_proxy: DataProxy,
                  *args, **kwargs):
@@ -77,11 +78,23 @@ class FrameworkProxy:
 
         self.framework = self._create_framework()
         self.framework.to(self.performing_args.device)
+
         self.tb_writer = SummaryWriter(log_dir=performing_args.logging_dir)
 
         setup_seed(self.model_args.seed)
 
         pass
+
+
+    @property
+    def tensorboard_path(self):
+        from socket import gethostname
+        return file_tool.connect_path('result/tensorboard', self.framework.name, gethostname())
+
+    @property
+    def optuna_path(self):
+        from socket import gethostname
+        return file_tool.connect_path('result/optuna', self.framework.name, gethostname())
 
     def _create_framework(self) -> Framework:
         raise NotImplementedError()
@@ -99,7 +112,7 @@ class FrameworkProxy:
             self.train()
             # self.save_model()
 
-        print(torch.randn((5)))
+        # print(torch.randn((5)))
         # Evaluation
         eval_results = {}
         if performing_args.do_eval:
@@ -111,7 +124,12 @@ class FrameworkProxy:
             logging.info("*** Test ***")
             self.predict()
 
-        return eval_results
+        standard = eval_results.get('dev_acc')
+        result = {
+            'eval_results': eval_results
+        }
+
+        return standard, result
 
     def _get_optimization_kit(self, *args, **kwargs):
         raise NotImplementedError()

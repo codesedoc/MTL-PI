@@ -68,6 +68,8 @@ def get_global_position_encodings(length=100, dimension=300):
 
 
 def is_number(s):
+    if isinstance(s, str):
+        s = str(s)
     try:
         float(s)
         return True
