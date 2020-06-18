@@ -22,13 +22,14 @@ class _Configurator:
         self.arguments_type_box = None
         self._data_proxy_type = None
         self._framework_proxy_type = None
+        self._return_remaining_strings = False
 
     def _get_arguments_box_when_running(self, args_type_box: ArgumentsTypeBox):
         arguments_name2class = args_type_box.__dict__
         names = arguments_name2class.keys()
 
         args_parser = GArgumentParser([arguments_name2class[n] for n in names])
-        args_obj_tuple = args_parser.parse_args_into_dataclasses()
+        args_obj_tuple = args_parser.parse_args_into_dataclasses(return_remaining_strings=self._return_remaining_strings)
 
         arg_box_input = {}
         for k, v in zip(names, args_obj_tuple):
