@@ -28,7 +28,7 @@ class Controller:
 
         self.data_proxy = create_data_proxy(configurator.data_proxy_type, self.arguments_box.data_args, force=True)
 
-        self.data_proxy.mute = True
+        # self.data_proxy.mute = True
 
         self.framework_proxy = create_framework_proxy(configurator.framework_proxy_type, self.arguments_box.model_args,
                                                       self.arguments_box.performing_args, self.data_proxy, force=True)

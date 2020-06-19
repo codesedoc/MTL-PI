@@ -53,17 +53,18 @@ class Hyperor:
             self.trial_dict = {}
 
     def objective(self, trial):
+
         from contrl.controller import Controller
         controller = Controller(trial)
         trial = controller.trail
+        result, attr = controller.run()
 
-        if str(trial.params) in self.trial_dict:
-            self.logger.warning('trail params: %s  repeat!' %(str(trial.params)))
-            return self.trial_dict[str(trial.params)]
+        hyper_params = trial.user_attrs['real_hyper_params']
+        if str(hyper_params) in self.trial_dict:
+            self.logger.warning('trail hyper_params: %s  repeat!' % (str(hyper_params)))
+            return self.trial_dict[str(hyper_params)]
 
         self.log_trial(trial, 'current trial info')
-
-        result, attr = controller.run()
 
         if not general_tool.is_number(result):
             raise ValueError
