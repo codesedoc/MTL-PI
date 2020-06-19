@@ -128,6 +128,8 @@ class GArgumentParser(ArgumentParser):
                 # in case of duplicate arguments the first one has precedence
                 # so we append rather than prepend.
         namespace, remaining_args = self.parse_known_args(args=args)
+        namespace.task_name = namespace.task_name.lower()
+
         outputs = []
         for dtype in self.dataclass_types:
             keys = {f.name for f in dataclasses.fields(dtype)}

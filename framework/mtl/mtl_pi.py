@@ -18,7 +18,6 @@ logger = logging.getLogger(__name__)
 from framework import TrainOutput, PredictionOutput
 
 
-
 @dataclass
 class OptimizationKit:
     optimizer: Optimizer
@@ -152,29 +151,28 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             cache_dir=model_args.cache_dir,
         )
 
-        self.optimization_kit = None
-        self.model_args = model_args
         self.primary_performing_args = performing_args
         self.auxiliary_performing_args = replace(self.performing_args,
                                                  num_train_epochs=performing_args.auxiliary_training_epoch,
-                                                 learning_rate=performing_args.learning_rate)
+                                                 learning_rate=performing_args.auxiliary_learning_rate)
 
         self.performing_args = self.primary_performing_args
 
-        self.global_step: Optional[int] = None
-        self.epoch: Optional[float] = None
-
         self.primary_data_proxy = data_proxy.primary_sub_proxy
+
         self.auxiliary_data_proxy = data_proxy.auxiliary_sub_proxy
 
         self.primary_data_proxy.tokenizer = tokenizer
         self.auxiliary_data_proxy.tokenizer = tokenizer
-        self._log_prefix = self.EMPTY_PREFIX
+
         self.original_data_proxy = data_proxy
+
+        self.data_proxy = self.auxiliary_data_proxy
+
         # self.data_proxy.get_dataset(DataSetType.train)
         # self.data_proxy.get_dataset(DataSetType.dev)
 
-    def _create_framework(self)->MTLPIFramework:
+    def _create_framework(self) -> MTLPIFramework:
         model_args = self.model_args
 
         config = AutoConfig.from_pretrained(
@@ -196,24 +194,24 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             updates.append(InputFeaturesUpdate(self.primary_data_proxy, DataSetType.train, e_id, self.original_data_proxy.get_feature_field_for_predict(pred)))
         return updates
 
-    def perform(self,  *args, **kwargs):
+    def train(self,  *args, **kwargs):
         performing_args = self.performing_args
 
         # Training
         if performing_args.do_train:
-            self.framework.perform_state = PerformState.auxiliary
-            self.performing_args = self.auxiliary_performing_args
-            self.data_proxy = self.auxiliary_data_proxy
-            self.performing_args.evaluate_during_training = False
             logger.info("*** Step1: Train auxiliary data ***")
+
+            self.framework.perform_state = PerformState.auxiliary
+
+            self._switch_to_auxiliary_data()
 
             dataset = self.data_proxy.merge_datasets(ds_types=(DataSetType.train, DataSetType.test, DataSetType.dev))
             self.data_proxy.set_datasets(DataSetType.train, dataset)
-            self.train()
+            self._train()
 
             logger.info("*** Step2: Predict primary data ***")
-            self.performing_args = self.primary_performing_args
-            self.data_proxy = self.primary_data_proxy
+
+            self._switch_to_primary_data()
 
             predict_output = self._predict(DataSetType.train)
             updates = self._create_update_input_features_updates(predict_output)
@@ -221,33 +219,33 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             self.data_proxy.update_inputfeatures_in_dataset(DataSetType.train, updates)
 
             self.framework.perform_state = PerformState.parallel
-            temp_flag = self.performing_args.evaluate_during_training
 
-            self.performing_args.evaluate_during_training = False
-            self.train()
-            self.performing_args.evaluate_during_training = temp_flag
+            self._train()
 
+            logger.info("*** Step3: Evaluate primary data ***")
+            self._switch_to_primary_data()
+
+            self.framework.perform_state = PerformState.primary
             # self.save_model()
 
+    def _switch_to_auxiliary_data(self):
+        self.performing_args = self.auxiliary_performing_args
+        self.data_proxy = self.auxiliary_data_proxy
 
-        # self.data_proxy = self.primary_data_proxy
-        # Evaluation
-        self.framework.perform_state = PerformState.primary
-        eval_results = {}
-        if performing_args.do_eval:
-            logger.info("*** Evaluate ***")
-            eval_results = self.evaluate()
+    def _switch_to_primary_data(self):
+        self.performing_args = self.primary_performing_args
+        self.data_proxy = self.primary_data_proxy
 
-        # Prediction
-        if performing_args.do_predict:
-            logging.info("*** Test ***")
-            self.predict()
+    def _evaluate_during_training(self):
+        perform_state = self.framework.perform_state
+        if perform_state == PerformState.auxiliary:
+            return None
 
-        standard = eval_results.get('dev_acc')
-        result = {
-            'eval_results': eval_results
-        }
-
-        return standard, result
-
+        elif perform_state == PerformState.parallel:
+            self.framework.perform_state = PerformState.primary
+            metrics = self._evaluate(DataSetType.dev)
+            self.framework.perform_state = PerformState.parallel
+            return metrics
+        else:
+            raise ValueError
 

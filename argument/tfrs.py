@@ -4,7 +4,7 @@ from typing import Optional
 from config import configurator
 
 
-@dataclass
+@dataclass(frozen=True)
 class TFRsModelArguments(ModelArguments):
     """
     Arguments pertaining to which model/config/tokenizer we are going to fine-tune from.
@@ -20,7 +20,7 @@ class TFRsModelArguments(ModelArguments):
     )
 
 
-@dataclass
+@dataclass(frozen=True)
 class TFRsDataArguments(DataArguments):
     max_seq_length: int = field(
         default=128,
@@ -31,7 +31,7 @@ class TFRsDataArguments(DataArguments):
     )
 
 
-@dataclass
+@dataclass(frozen=True)
 class TFRsPerformingArguments(PerformingArguments):
     adam_epsilon: float = field(default=1e-8, metadata={"help": "Epsilon for Adam optimizer."})
 

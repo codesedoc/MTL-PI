@@ -26,11 +26,12 @@ class Controller:
         logger.info("Arguments: %s", self.arguments_box)
         setup_seed(self.arguments_box.model_args.seed)
 
-        self.data_proxy = create_data_proxy(configurator.data_proxy_type, self.arguments_box.data_args)
+        self.data_proxy = create_data_proxy(configurator.data_proxy_type, self.arguments_box.data_args, force=True)
 
+        self.data_proxy.mute = True
 
         self.framework_proxy = create_framework_proxy(configurator.framework_proxy_type, self.arguments_box.model_args,
-                                                      self.arguments_box.performing_args, self.data_proxy)
+                                                      self.arguments_box.performing_args, self.data_proxy, force=True)
         pass
 
     from typing import Dict, Any
@@ -103,7 +104,8 @@ class Controller:
         # auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 4, 6)
         # real_hyps['auxiliary_epoch'] = auxiliary_training_epoch
         #
-        # trial.set_user_attr('real_hyper_params', real_hyps)
+
+        trial.set_user_attr('real_hyper_params', real_hyps)
 
         self._replace_arguments_by_dict(real_hyps)
 
@@ -118,6 +120,16 @@ class Controller:
         )
 
     def run(self):
-        result = self.framework_proxy.perform(self.data_proxy)
-        return result
+        perform_result = self.framework_proxy.perform(self.data_proxy)
+        eval_results = perform_result['eval_results']
+
+        standard = 1 - eval_results.get('dev_acc')
+
+        if self.framework_proxy.tb_writer is not None and hasattr(self,'trail'):
+            hp_metric_dict = {f'hparams/{k}': v for k, v in eval_results.items()}
+
+            self.framework_proxy.tb_writer.add_hparams(self.trail.user_attrs['real_hyper_params'], metric_dict=hp_metric_dict)
+            self.framework_proxy.tb_writer.add_hparams(self.trail.user_attrs['real_hyper_params'], metric_dict=hp_metric_dict)
+
+        return standard, perform_result
 

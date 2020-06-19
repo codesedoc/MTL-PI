@@ -61,6 +61,8 @@ class Hyperor:
             self.logger.warning('trail params: %s  repeat!' %(str(trial.params)))
             return self.trial_dict[str(trial.params)]
 
+        self.log_trial(trial, 'current trial info')
+
         result, attr = controller.run()
 
         if not general_tool.is_number(result):
@@ -68,7 +70,6 @@ class Hyperor:
 
         trial.set_user_attr('other_results', attr)
         torch.cuda.empty_cache()
-        self.log_trial(trial, 'current trial info')
 
         self.trial_dict[str(trial.params)] = result
         return result

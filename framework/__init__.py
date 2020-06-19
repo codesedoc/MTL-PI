@@ -81,6 +81,16 @@ class FrameworkProxy:
 
         self.tb_writer = SummaryWriter(log_dir=performing_args.logging_dir)
 
+        self.tb_writer.add_text("performing_args", performing_args.to_json_string())
+        self.tb_writer.add_text("model_args", model_args.to_json_string())
+        self.tb_writer.add_text("data_args", data_proxy.data_args.to_json_string())
+
+        self.optimization_kit = None
+        self.model_args = model_args
+        self.performing_args = performing_args
+        self.global_step: Optional[int] = None
+        self.epoch: Optional[float] = None
+
         setup_seed(self.model_args.seed)
 
         pass
@@ -105,7 +115,6 @@ class FrameworkProxy:
     def perform(self,  *args, **kwargs):
         performing_args = self.performing_args
 
-
         # Training
         if performing_args.do_train:
             logger.info("*** Train ***")
@@ -124,17 +133,19 @@ class FrameworkProxy:
             logging.info("*** Test ***")
             self.predict()
 
-        standard = eval_results.get('dev_acc')
         result = {
             'eval_results': eval_results
         }
 
-        return standard, result
+        return result
 
-    def _get_optimization_kit(self, *args, **kwargs):
+    def _get_optimization_kit(self,  num_total_training_steps, force: bool = False,  **kwargs):
         raise NotImplementedError()
 
     def train(self, *args, **kwargs):
+        self._train(*args, **kwargs)
+
+    def _train(self, *args, **kwargs):
         from data import DataSetType
         train_dataloader = self.data_proxy.get_dataloader(DataSetType.train)
 
@@ -152,7 +163,7 @@ class FrameworkProxy:
             num_train_epochs = args.num_train_epochs
             logging_steps = len(train_dataloader)
 
-        kit = self._get_optimization_kit(num_total_training_steps=t_total)
+        kit = self._get_optimization_kit(num_total_training_steps=t_total, force=True)
         optimizer, scheduler = kit.optimizer, kit.lr_scheduler
 
         model = self.framework
@@ -165,10 +176,6 @@ class FrameworkProxy:
         # multi-gpu training (should be after apex fp16 initialization)
         if args.n_gpu > 1:
             model = torch.nn.DataParallel(model)
-
-        if self.tb_writer is not None:
-            self.tb_writer.add_text("args", args.to_json_string())
-            self.tb_writer.add_hparams(args.to_sanitized_dict(), metric_dict={})
 
         # Train!
 
@@ -239,7 +246,8 @@ class FrameworkProxy:
                         logging_loss = tr_loss
 
                         added_logs = self._add_logs_when_train()
-                        logs.update(added_logs)
+                        if added_logs is not None:
+                            logs.update(added_logs)
                         self._tensorboard_log(logs=logs)
 
                     if args.save_steps > 0 and self.global_step % args.save_steps == 0:
@@ -266,11 +274,17 @@ class FrameworkProxy:
         logger.info("\n\nTraining completed.\n\n")
         return TrainOutput(self.global_step, tr_loss / self.global_step)
 
+    def _evaluate_during_training(self):
+        return self._evaluate(DataSetType.dev)
+
     def _add_logs_when_train(self):
+        if self.epoch == self.performing_args.num_train_epochs:
+            return None
+
         if self.performing_args.evaluate_during_training:
-            metrics = self._evaluate(DataSetType.dev)
+            metrics = self._evaluate_during_training()
             return metrics
-        return {}
+        return None
 
     def _train_step(
             self, model: torch.nn.Module, inputs: Dict[str, torch.Tensor], optimizer: Optimizer
@@ -473,7 +487,7 @@ class FrameworkProxy:
         if step is None:
             step = self.global_step
         if prefix is None:
-            prefix = self.EMPTY_PREFIX
+            prefix = self.data_proxy.task_name
 
         if not hasattr(self, 'epoch'):
             self.epoch = self.performing_args.num_train_epochs
@@ -537,6 +551,7 @@ def create_framework_proxy(proxy_type: type, model_args: ModelArguments, perform
                            *args, **kwargs) -> FrameworkProxy:
 
     global framework_proxy_singleton
-    if framework_proxy_singleton is None:
+    force = kwargs.get('force') if kwargs.get('force') is not None else False
+    if framework_proxy_singleton is None or force:
         framework_proxy_singleton = _create_framework_proxy(proxy_type, model_args, performing_args, *args, **kwargs)
     return framework_proxy_singleton

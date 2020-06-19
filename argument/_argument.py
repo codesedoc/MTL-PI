@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field, fields
+from dataclasses import dataclass, field, fields, asdict, replace
 import dataclasses
 from data.corpus import name2corpus_type
 from typing import Optional,Tuple, Dict, Any
@@ -69,7 +69,7 @@ def torch_required(func):
     return wrapper
 
 
-@dataclass
+@dataclass(frozen=True)
 class Arguments:
     field_name_replace_dict = {}
     pass
@@ -77,18 +77,14 @@ class Arguments:
     @classmethod
     def field_names(self):
         if not isinstance(self, Arguments):
-            return tuple([f.name for f in fields(self)])
-
-        if (not hasattr(self, '_field_names')) or (self._field_names is None):
-            self._field_names = tuple([f.name for f in fields(self)])
-        return self._field_names
+            _field_names = tuple([f.name for f in fields(self)])
+        else:
+            _field_names = tuple([f.name for f in asdict(self)])
+        return _field_names
 
     @classmethod
     def search_init_kwargs(self, kwargs: Dict[str, Any]):
-        if not isinstance(self, Arguments):
-            _field_names = self.field_names()
-        else:
-            _field_names = self._field_names
+        _field_names = self.field_names()
 
         result = {}
         for name in _field_names:
@@ -100,13 +96,30 @@ class Arguments:
 
     @property
     def names2value(self):
-        names = self.field_names()
-        return {name: getattr(self, name) for name in names}
+        # names = self.field_names()
+        # return {name: getattr(self, name) for name in names}
+        return asdict(self)
 
     def get_name_abbreviation(self) -> Dict[str, Any]:
         return {}
 
-@dataclass
+    def to_json_string(self):
+        """
+        Serializes this instance to a JSON string.
+        """
+        return json.dumps(dataclasses.asdict(self), indent=2)
+
+    def to_sanitized_dict(self) -> Dict[str, Any]:
+        """
+        Sanitized serialization to use with TensorBoard’s hparams
+        """
+        d = dataclasses.asdict(self)
+        valid_types = [bool, int, float, str]
+        if is_torch_available():
+            valid_types.append(torch.Tensor)
+        return {k: v if type(v) in valid_types else str(v) for k, v in d.items()}
+
+@dataclass(frozen=True)
 class ModelArguments(Arguments):
     cache_dir: Optional[str] = field(
         default=None, metadata={"help": "Where do you want to store the pretrained models downloaded from s3"}
@@ -118,7 +131,7 @@ class ModelArguments(Arguments):
         pass
 
 
-@dataclass
+@dataclass(frozen=True)
 class DataArguments(Arguments):
     """
     Arguments pertaining to what data we are going to input our model for training and eval.
@@ -158,7 +171,7 @@ class DataArguments(Arguments):
     )
 
     def __post_init__(self):
-        self.task_name = self.task_name.lower()
+        pass
 
     def get_name_abbreviation(self):
         base_result = super().get_name_abbreviation()
@@ -168,7 +181,7 @@ class DataArguments(Arguments):
         result.update(base_result)
         return result
 
-@dataclass
+@dataclass(frozen=True)
 class PerformingArguments(Arguments):
     """
     TrainingArguments is the subset of the arguments we use in our example scripts
@@ -205,10 +218,10 @@ class PerformingArguments(Arguments):
     # config the arguments for devices
     no_cuda: bool = field(default=False, metadata={"help": "Do not use CUDA even when it is available"})
 
-    @cached_property
+    # @cached_property
+    @property
     @torch_required
     def _setup_devices(self) -> Tuple["torch.device", int]:
-        logger.info("PyTorch: setting up devices")
         if self.no_cuda:
             device = torch.device("cpu")
             n_gpu = 0
@@ -286,22 +299,6 @@ class PerformingArguments(Arguments):
     #     default=None, metadata={"help": "TPU: Number of TPU cores (automatically passed by launcher script)"}
     # )
     # tpu_metrics_debug: bool = field(default=False, metadata={"help": "TPU: Whether to print debug metrics"})
-
-    def to_json_string(self):
-        """
-        Serializes this instance to a JSON string.
-        """
-        return json.dumps(dataclasses.asdict(self), indent=2)
-
-    def to_sanitized_dict(self) -> Dict[str, Any]:
-        """
-        Sanitized serialization to use with TensorBoard’s hparams
-        """
-        d = dataclasses.asdict(self)
-        valid_types = [bool, int, float, str]
-        if is_torch_available():
-            valid_types.append(torch.Tensor)
-        return {k: v if type(v) in valid_types else str(v) for k, v in d.items()}
 
     def __post_init__(self):
         pass
