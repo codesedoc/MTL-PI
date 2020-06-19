@@ -129,7 +129,6 @@ class Controller:
             hp_metric_dict = {f'hparams/{k}': v for k, v in eval_results.items()}
 
             self.framework_proxy.tb_writer.add_hparams(self.trail.user_attrs['real_hyper_params'], metric_dict=hp_metric_dict)
-            self.framework_proxy.tb_writer.add_hparams(self.trail.user_attrs['real_hyper_params'], metric_dict=hp_metric_dict)
 
         return standard, perform_result
 

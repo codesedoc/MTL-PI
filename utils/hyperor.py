@@ -57,7 +57,7 @@ class Hyperor:
         from contrl.controller import Controller
         controller = Controller(trial)
         trial = controller.trail
-        result, attr = controller.run()
+
 
         hyper_params = trial.user_attrs['real_hyper_params']
         if str(hyper_params) in self.trial_dict:
@@ -66,6 +66,8 @@ class Hyperor:
 
         self.log_trial(trial, 'current trial info')
 
+        result, attr = controller.run()
+        
         if not general_tool.is_number(result):
             raise ValueError
 

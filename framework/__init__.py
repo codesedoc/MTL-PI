@@ -278,8 +278,8 @@ class FrameworkProxy:
         return self._evaluate(DataSetType.dev)
 
     def _add_logs_when_train(self):
-        if self.epoch == self.performing_args.num_train_epochs:
-            return None
+        # if self.epoch == self.performing_args.num_train_epochs:
+        #     return None
 
         if self.performing_args.evaluate_during_training:
             metrics = self._evaluate_during_training()
