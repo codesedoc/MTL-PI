@@ -46,6 +46,7 @@ class MTLPIDataProxy(TFRsDataProxy):
         return {'auxiliary_label': int(pred)}
 
     from data import InputFeaturesUpdate
+
     def revise_invalid_predict_for_primary_task(self, updates: List[InputFeaturesUpdate]):
         i_f_u = updates[0]
         auxiliary_label_key = 'auxiliary_label'
@@ -91,15 +92,20 @@ class MTLPIDataProxy(TFRsDataProxy):
             else:
                 raise ValueError
 
-        logger.info(f"The original number of auxiliray yes label predicted  is: {len(auxiliray_label_old_no_ids)}")
-        logger.info(f"The original number of auxiliray no label predicted is: {len(updates) - len(auxiliray_label_old_no_ids)}")
-        logger.info(f"After rivise, the number of auxiliray yes label is: {len(auxiliray_label_yes_ids)}")
-        logger.info(f"After rivise, the number of auxiliray no label is: {len(updates) - len(auxiliray_label_yes_ids)}")
+        num_old_yes = len(auxiliray_label_old_yes_ids)
+        num_old_no = len(updates) - len(auxiliray_label_old_yes_ids)
 
-        if len(auxiliray_label_no_ids) != len(updates) - len(auxiliray_label_yes_ids):
+        num_yes = len(auxiliray_label_yes_ids)
+        num_no = len(updates) - len(auxiliray_label_yes_ids)
+        logger.info(f"The original number of auxiliray yes label predicted  is: {num_old_yes}")
+        logger.info(f"The original number of auxiliray no label predicted is: {num_old_no}")
+        logger.info(f"After revise, the number of auxiliray yes label is: {num_yes}")
+        logger.info(f"After revise, the number of auxiliray no label is: {num_no}")
+
+        if num_old_no + num_old_yes != len(updates):
             raise ValueError
 
-        if len(auxiliray_label_old_no_ids) != len(updates) - len(auxiliray_label_old_yes_ids):
+        if num_old_no != len(updates) - num_yes:
             raise ValueError
 
         if len(e_id_set) !=0:
@@ -116,6 +122,12 @@ class MTLPIDataProxy(TFRsDataProxy):
         if (len(check_yes) != len(auxiliray_label_yes_ids)) or (len(check_no) != len(auxiliray_label_no_ids)):
             raise ValueError
 
-        return updates
+        detail_info = {
+            'The original number of auxiliray-yes-label predicted', num_old_yes,
+            'The original number of auxiliray-no-label predicted', num_old_no,
+            'After revise, the number of auxiliray-yes-label', num_yes,
+            'After revise, the number of auxiliray-no-label', num_no,
+        }
+        return updates, detail_info
 
 

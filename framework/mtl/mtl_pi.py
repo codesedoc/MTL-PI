@@ -215,7 +215,12 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
             predict_output = self._predict(DataSetType.train)
             updates = self._create_update_input_features_updates(predict_output)
-            # updates = self.original_data_proxy.revise_invalid_predict_for_primary_task(updates=updates)
+
+            if not self.performing_args.skip_revise_predictions:
+                updates, revise_details = self.original_data_proxy.revise_invalid_predict_for_primary_task(updates=updates)
+                if self.tb_writer is not None:
+                    self.tb_writer.add_text("revise_details_about_predicted_label_by_auxiliary_model", str(revise_details))
+
             self.data_proxy.update_inputfeatures_in_dataset(DataSetType.train, updates)
 
             self.framework.perform_state = PerformState.parallel

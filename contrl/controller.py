@@ -105,8 +105,9 @@ class Controller:
 
         # import torch
         # print(torch.randn(10))
-        
-        auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 1, 1, log=True)
+
+        auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 1, 10, 2)
+
         real_hyps['auxiliary_training_epoch'] = auxiliary_training_epoch
         #
 
