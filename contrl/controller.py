@@ -102,9 +102,11 @@ class Controller:
         # auxiliary_per_device_batch_size = batch_size_list[trial.suggest_int('auxiliary_batch_size', 0, len(batch_size_list)-1)]
         # real_hyps['auxiliary_per_device_batch_size'] = auxiliary_per_device_batch_size
         #
-        import torch
-        print(torch.randn(10))
-        auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 1, 10, log=True)
+
+        # import torch
+        # print(torch.randn(10))
+        
+        auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 1, 1, log=True)
         real_hyps['auxiliary_training_epoch'] = auxiliary_training_epoch
         #
 

@@ -97,6 +97,8 @@ class TFRsFrameworkProxy(FrameworkProxy):
 
             eval_result = self._evaluate(DataSetType.dev)
 
+            file_tool.makedir(args.output_dir)
+
             output_eval_file = file_tool.connect_path(args.output_dir, f"eval_results_{data_args.task_name}.txt")
 
             with open(output_eval_file, "w") as writer:
@@ -127,6 +129,7 @@ class TFRsFrameworkProxy(FrameworkProxy):
                     (predict_output.label_ids is not None):
                 metrics_result = predict_output.metrics
 
+                file_tool.makedir(args.output_dir)
                 output_eval_file = file_tool.connect_path(args.output_dir, f"eval_results_{data_args.task_name}.txt")
 
                 with open(output_eval_file, "w") as writer:
