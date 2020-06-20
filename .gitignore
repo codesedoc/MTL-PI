@@ -1,4 +1,4 @@
-data
+# data
 __pycache__
 utils/stanford_parser_proccess/files
 .idea/
@@ -33,3 +33,4 @@ result/visualization
 corpus/discourse/data
 venv
 
+/**/raw
