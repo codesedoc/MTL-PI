@@ -165,8 +165,6 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         self.primary_data_proxy.tokenizer = tokenizer
         self.auxiliary_data_proxy.tokenizer = tokenizer
 
-        self.original_data_proxy = data_proxy
-
         self.data_proxy = self.auxiliary_data_proxy
 
         # self.data_proxy.get_dataset(DataSetType.train)

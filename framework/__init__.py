@@ -74,16 +74,13 @@ class FrameworkProxy:
         self.model_args = model_args
         self.performing_args = performing_args
         self.data_proxy = data_proxy
+        self.original_data_proxy = data_proxy
         # setup_seed(model_args.seed)
 
         self.framework = self._create_framework()
         self.framework.to(self.performing_args.device)
 
-        self.tb_writer = SummaryWriter(log_dir=performing_args.logging_dir)
-
-        self.tb_writer.add_text("performing_args", performing_args.to_json_string())
-        self.tb_writer.add_text("model_args", model_args.to_json_string())
-        self.tb_writer.add_text("data_args", data_proxy.data_args.to_json_string())
+        self.tb_writer = None
 
         self.optimization_kit = None
         self.model_args = model_args
@@ -113,6 +110,11 @@ class FrameworkProxy:
         raise NotImplementedError()
 
     def perform(self,  *args, **kwargs):
+        self.tb_writer = SummaryWriter(log_dir=self.performing_args.logging_dir)
+        self.tb_writer.add_text("performing_args", self.performing_args.to_json_string())
+        self.tb_writer.add_text("model_args", self.model_args.to_json_string())
+        self.tb_writer.add_text("data_args", self.original_data_proxy.data_args.to_json_string())
+
         performing_args = self.performing_args
 
         # Training
