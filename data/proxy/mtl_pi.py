@@ -105,7 +105,7 @@ class MTLPIDataProxy(TFRsDataProxy):
         if num_old_no + num_old_yes != len(updates):
             raise ValueError
 
-        if num_old_no != len(updates) - num_yes:
+        if num_no != len(updates) - num_yes:
             raise ValueError
 
         if len(e_id_set) !=0:
@@ -122,11 +122,15 @@ class MTLPIDataProxy(TFRsDataProxy):
         if (len(check_yes) != len(auxiliray_label_yes_ids)) or (len(check_no) != len(auxiliray_label_no_ids)):
             raise ValueError
 
+        if (num_no - num_old_no) != (num_old_yes - num_yes):
+            raise ValueError
+
         detail_info = {
-            'The original number of auxiliray-yes-label predicted', num_old_yes,
-            'The original number of auxiliray-no-label predicted', num_old_no,
-            'After revise, the number of auxiliray-yes-label', num_yes,
-            'After revise, the number of auxiliray-no-label', num_no,
+            'The original number of auxiliray-yes-label predicted': num_old_yes,
+            'The original number of auxiliray-no-label predicted': num_old_no,
+            'After revise, the number of auxiliray-yes-label': num_yes,
+            'After revise, the number of auxiliray-no-label': num_no,
+            'number of labels revised': num_no - num_old_no,
         }
         return updates, detail_info
 
