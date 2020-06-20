@@ -33,7 +33,7 @@ configurator.framework_proxy_type = MTLPIFrameworkProxy
 framework_name = configurator.framework_proxy_type.framework_class.name
 import utils.file_tool as file_tool
 from socket import gethostname
-thp = Hyperor(study_path=file_tool.connect_path('result/optuna', framework_name, gethostname()), study_name=framework_name, trial_times=80)
+thp = Hyperor(study_path=file_tool.connect_path('result/optuna', framework_name, gethostname()), study_name=framework_name, trial_times=10)
 thp.tune_hyper_parameter()
 
 

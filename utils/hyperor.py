@@ -51,6 +51,7 @@ class Hyperor:
             self.trial_dict = self.study.user_attrs['trial_dict']
         else:
             self.trial_dict = {}
+            self.study.set_user_attr('trial_dict', self.trial_dict)
 
     def objective(self, trial):
 
@@ -67,7 +68,7 @@ class Hyperor:
         self.log_trial(trial, 'current trial info')
 
         result, attr = controller.run()
-        
+
         if not general_tool.is_number(result):
             raise ValueError
 

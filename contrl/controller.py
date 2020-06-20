@@ -65,6 +65,7 @@ class Controller:
         name2abbreviation = performing_args.get_name_abbreviation()
         name2abbreviation.update(self.arguments_box.data_args.get_name_abbreviation())
 
+        #update_tensorboard_path
         path = []
         for hy_name, value in replace_dict.items():
 
@@ -74,20 +75,20 @@ class Controller:
         if len(path) <=0 :
             raise ValueError
         path = '_'.join(path)
-        path = file_tool.connect_path('result/tensorboard', gethostname(), configurator.framework_proxy_type.framework_class.name, path)
+        path = file_tool.connect_path('result/tensorboard', configurator.framework_proxy_type.framework_class.name,  gethostname(),  path)
         self.arguments_box.performing_args = replace(performing_args, logging_dir=path)
 
     def load_optuna_trail(self, trial: Trial):
         # self.learn_rate_list = [5e-5, 3e-5, 2e-5, 1e-5]
         # self.learn_rate_list = [round(j * math.pow(10, -i), 7) for j in [2, 4, 6, 8] for i in range(4, 7)]
-        batch_size_list = [16, 32]
+        # batch_size_list = [16, 32]
         # self.transformer_dropout_list = [0, 0.05, 0.1]
 
         # self.weight_decay_list = [4 * math.pow(10, -i) for i in range(3, 8, 2)]
         real_hyps = {}
 
-        learning_rate = trial.suggest_loguniform('learning_rate', 1e-6, 1e-1)
-        real_hyps['learning_rate'] = learning_rate
+        # learning_rate = trial.suggest_loguniform('learning_rate', 1e-6, 1e-1)
+        # real_hyps['learning_rate'] = learning_rate
 
         # per_device_train_batch_size = batch_size_list[trial.suggest_int('batch_size', 0, len(batch_size_list)-1)]
         # real_hyps['per_device_train_batch_size'] = per_device_train_batch_size
@@ -101,8 +102,10 @@ class Controller:
         # auxiliary_per_device_batch_size = batch_size_list[trial.suggest_int('auxiliary_batch_size', 0, len(batch_size_list)-1)]
         # real_hyps['auxiliary_per_device_batch_size'] = auxiliary_per_device_batch_size
         #
-        # auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 4, 6)
-        # real_hyps['auxiliary_epoch'] = auxiliary_training_epoch
+        import torch
+        print(torch.randn(10))
+        auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 1, 10, log=True)
+        real_hyps['auxiliary_training_epoch'] = auxiliary_training_epoch
         #
 
         trial.set_user_attr('real_hyper_params', real_hyps)
