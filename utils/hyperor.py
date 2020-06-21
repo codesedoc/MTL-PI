@@ -59,26 +59,46 @@ class Hyperor:
         controller = Controller(trial)
         trial = controller.trail
 
-
         hyper_params = trial.user_attrs['real_hyper_params']
+
         if str(hyper_params) in self.trial_dict:
+            self.logger.info('*'*80)
             self.logger.warning('trail hyper_params: %s  repeat!' % (str(hyper_params)))
+            best_trial = self.study.best_trial
+            self.logger.info(f'best trial number:{best_trial.number} and result:{best_trial.user_attrs["result"]}')
+            self.logger.info('*'*80+'\n')
+
             return self.trial_dict[str(hyper_params)]
 
-        self.log_trial(trial, 'current trial info')
-
         result, attr = controller.run()
+        torch.cuda.empty_cache()
 
         if not general_tool.is_number(result):
             raise ValueError
 
-        trial.set_user_attr('other_results', attr)
-        torch.cuda.empty_cache()
+        self.record_one_time_trial(trial, result, attr, hyper_params)
 
-        self.trial_dict[str(trial.params)] = result
         return result
 
-    def log_trial(self, trial, head=None):
+    def record_one_time_trial(self, trial: optuna.Trial, result, attr, hyper_params):
+
+        if isinstance(attr, dict):
+            for k, v in attr.items():
+                trial.set_user_attr(k, v)
+        else:
+            trial.set_user_attr('other_results', attr)
+        trial.set_user_attr('result', result)
+
+        tail = None
+        if trial.number > 0:
+            best_trial = self.study.best_trial
+            tail = f'best trial number:{best_trial.number} and result:{best_trial.user_attrs["result"]}'
+        self.log_trial(trial, 'Current Trial Info', tail=tail)
+
+        self.trial_dict[str(hyper_params)] = result
+        self.study.set_user_attr('trial_dict', self.trial_dict)
+
+    def log_trial(self, trial, head=None, tail=None):
         self.logger.info('*'*80)
         if head is not None:
             self.logger.info(str(head))
@@ -88,17 +108,24 @@ class Hyperor:
         self.logger.info('params:{}'.format(trial.params))
         if hasattr(trial, 'state'):
             self.logger.info('state:{}'.format(trial.state))
+
+        if tail is not None:
+            self.logger.info("")
+            self.logger.info(str(tail))
+
         self.logger.info('*'*80+'\n')
 
     def show_best_trial(self):
         # print(dict(self.study.best_trial.params))
-        self.log_trial(self.study.best_trial, 'best trial info')
+        self.log_trial(self.study.best_trial, 'Best Trial Info')
 
     # def get_real_paras_values_of_trial(self, trial):
 
     def tune_hyper_parameter(self):
         self.study.optimize(self.objective, n_trials=self.trial_times)
-        self.log_trial(self.study.best_trial, 'best trial info')
+
+        tail = f'{"#"*10} Optuna finish another {self.trial_times} trials! {"#"*10}'
+        self.log_trial(self.study.best_trial, 'Best Trial Info', tail=tail)
         file_tool.save_data_pickle(self.study, file_tool.connect_path(self.study_path, 'study_hyper_parameter.pkls'))
         # log_tool.model_result_logger.info(
         #     'Current best value is {} with parameters: {}.'.format(study.best_value, study.best_params))

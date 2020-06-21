@@ -219,7 +219,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
                 if self.tb_writer is not None:
                     import json
                     self.tb_writer.add_text("revise_details_about_predicted_label_by_auxiliary_model",
-                                            json.dumps(revise_details, indent=2))
+                                            json.dumps(revise_details, indent=2), global_step=self.global_step)
 
             self.data_proxy.update_inputfeatures_in_dataset(DataSetType.train, updates)
 

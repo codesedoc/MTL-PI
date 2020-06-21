@@ -28,18 +28,17 @@ configurator.framework_proxy_type = MTLPIFrameworkProxy
 
 
 
-tuning_hp = False
-# tuning_hp = True
+# tuning_hp = False
+tuning_hp = True
 
 if tuning_hp:
     framework_name = configurator.framework_proxy_type.framework_class.name
     import utils.file_tool as file_tool
     from socket import gethostname
-    thp = Hyperor(study_path=file_tool.connect_path('result/optuna', framework_name, gethostname()), study_name=framework_name, trial_times=100)
+    thp = Hyperor(study_path=file_tool.connect_path('result/optuna', framework_name, gethostname()), study_name=framework_name, trial_times=1)
     thp.tune_hyper_parameter()
 else:
     from contrl import controller
-
 
     c = controller.Controller()
     c.run()
