@@ -138,7 +138,6 @@ class TFRsFrameworkProxy(FrameworkProxy):
                         logger.info("  %s = %s", key, value)
                         writer.write("%s = %s\n" % (key, value))
                 eval_results.update(metrics_result)
-                self._tensorboard_log(metrics_result)
 
             self._save_prediction(indexes=predict_output.indexes, predictions=predict_output.predictions)
 
@@ -147,6 +146,7 @@ class TFRsFrameworkProxy(FrameworkProxy):
             replace(data_args, task_name="mnli-mm")
             do_predict()
             replace(data_args, task_name="mnli")
+        return eval_results
 
 
 

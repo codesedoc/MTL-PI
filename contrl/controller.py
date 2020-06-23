@@ -1,6 +1,6 @@
 from config import configurator, Arguments
 from data.proxy import create_data_proxy
-from framework import create_framework_proxy
+from framework import create_framework_proxy, FrameworkProxy
 import logging
 from utils.general_tool import setup_seed
 logger = logging.getLogger(__name__)
@@ -8,12 +8,15 @@ from optuna import Trial
 from dataclasses import replace
 import utils.file_tool as file_tool
 from socket import gethostname
+from typing import Optional
+from argument import ArgumentsType
 import math
 
 
 class Controller:
-    def __init__(self, trail=None):
+    def __init__(self, trail=None, modify_args=None):
         self.arguments_box = configurator.get_arguments_box()
+        self.trail = None
         if trail is not None:
             self.trail = self.load_optuna_trail(trail)
         self._set_base_logger()
@@ -23,43 +26,34 @@ class Controller:
             self.arguments_box.performing_args.n_gpu,
             self.arguments_box.performing_args.fp16,
         )
+        self.data_proxy = None
+        self.framework_proxy: Optional[FrameworkProxy] = None
+        if modify_args is not None:
+            if not isinstance(modify_args, dict):
+                raise ValueError
+            self.modify_argument(**modify_args)
+
+        self.create_components()
+        # self.data_proxy.mute = True
+        pass
+
+    def create_components(self):
         logger.info("Arguments: %s", self.arguments_box)
         setup_seed(self.arguments_box.model_args.seed)
 
         self.data_proxy = create_data_proxy(configurator.data_proxy_type, self.arguments_box.data_args, force=True)
 
-        # self.data_proxy.mute = True
-
         self.framework_proxy = create_framework_proxy(configurator.framework_proxy_type, self.arguments_box.model_args,
                                                       self.arguments_box.performing_args, self.data_proxy, force=True)
-        pass
 
     from typing import Dict, Any
 
-    def _replace_arguments_by_dict(self, replace_dict: Dict[str, Any]):
-        def pick_up_arg(args_: Arguments):
-            piched_args = {}
-            arg_names2value = args_.names2value
-            for name in replace_dict:
-                if name in arg_names2value:
-                    piched_args[name] = replace_dict_.pop(name)
-            return piched_args
+    def _replace_all_arguments_by_dict(self, replace_dict: Dict[str, Any]):
+        self.arguments_box.model_args, replace_dict = self.arguments_box.model_args.replace_args(replace_dict)
+        self.arguments_box.data_args, replace_dict = self.arguments_box.data_args.replace_args(replace_dict)
+        performing_args, replace_dict = self.arguments_box.performing_args.replace_args(replace_dict)
 
-        def replace_args(args_obj: Arguments):
-            result = args_obj
-            re_args = pick_up_arg(args_obj)
-            if len(re_args) > 0:
-                new_args_obj = replace(args_obj, **re_args)
-                result = new_args_obj
-            return result
-
-        replace_dict_ = replace_dict.copy()
-
-        self.arguments_box.model_args = replace_args(self.arguments_box.model_args)
-        self.arguments_box.data_args = replace_args(self.arguments_box.data_args)
-        performing_args = replace_args(self.arguments_box.performing_args)
-
-        if len(replace_dict_) != 0:
+        if len(replace_dict) != 0:
             raise ValueError
 
         name2abbreviation = performing_args.get_name_abbreviation()
@@ -73,7 +67,10 @@ class Controller:
                 raise ValueError
             path.append(f'{name2abbreviation[hy_name]}-{round(value,8)}')
         if len(path) <=0 :
-            raise ValueError
+            if self.trail is not None:
+                raise ValueError
+            else:
+                return
         path = '_'.join(path)
         path = file_tool.connect_path('result/tensorboard', configurator.framework_proxy_type.framework_class.name,  gethostname(),  path)
         self.arguments_box.performing_args = replace(performing_args, logging_dir=path)
@@ -112,7 +109,7 @@ class Controller:
 
         trial.set_user_attr('real_hyper_params', real_hyps)
 
-        self._replace_arguments_by_dict(real_hyps)
+        self._replace_all_arguments_by_dict(real_hyps)
 
         return trial
 
@@ -130,10 +127,21 @@ class Controller:
 
         standard = 1 - eval_results.get('dev_acc')
 
-        if self.framework_proxy.tb_writer is not None and hasattr(self,'trail'):
-            hp_metric_dict = {f'hparams/{k}': v for k, v in eval_results.items()}
+        if self.framework_proxy.tb_writer is not None and self.trail is not None:
+            from utils.general_tool import is_number
+            hp_metric_dict = {f'hparams/{k}': v for k, v in eval_results.items() if is_number(str(v))}
 
             self.framework_proxy.tb_writer.add_hparams(self.trail.user_attrs['real_hyper_params'], metric_dict=hp_metric_dict)
 
         return standard, perform_result
+
+    def modify_argument(self, **name2value):
+        self._replace_all_arguments_by_dict(name2value)
+
+    def load_pretrained_framework(self, model_path):
+        self.framework_proxy.load_model(model_path)
+
+    def save_framework(self, model_path):
+        self.framework_proxy.save_model(model_path)
+
 

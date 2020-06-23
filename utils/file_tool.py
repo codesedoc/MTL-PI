@@ -50,8 +50,10 @@ def connect_path(pre_path, *part_paths):
         pre_path = os.path.join(pre_path, p)
     return pre_path
 
+
 def exists(path):
     return os.path.exists(path)
+
 
 def makedir(path):
     if not os.path.exists(path):
@@ -61,8 +63,10 @@ def makedir(path):
 def check_dir(path):
     return os.path.exists(path)
 
+
 def list_dir(path):
     return os.listdir(path)
+
 
 def check_file(filename):
     return os.path.exists(filename)
@@ -130,7 +134,6 @@ class PathManager:
 
     visualization_path = os.path.join(result_path, 'visualization')
     tensorboard_runs_path = os.path.join(visualization_path, 'tensorboard_runs')
-
 
     @staticmethod
     def change_filename_by_append(file_path, append_str):

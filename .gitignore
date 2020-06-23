@@ -34,3 +34,4 @@ corpus/discourse/data
 venv
 
 /**/raw
+/**/*.db

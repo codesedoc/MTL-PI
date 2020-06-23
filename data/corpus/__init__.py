@@ -88,12 +88,17 @@ class Corpus:
 # import data module
 from .glue.qqp import qqp
 from .glue.mrpc.mrpc import MRPCorpus
-from .elaboration.elaboration import ElabCorpus
+from .discourse.elaboration.elaboration import ElabCorpus
+from .discourse.coherence.coherence import CoherenceCorpus
+from .discourse.resemblance.resemblance import ResemblanceCorpus
+
 from ._utils import ItemsForMetricsComputation
 
 name2corpus_type = {
     'mrpc': MRPCorpus,
-    'elaboration': ElabCorpus
+    'elaboration': ElabCorpus,
+    'coherence': CoherenceCorpus,
+    'resemblance': ResemblanceCorpus
 }
 
 name2is_paraphrase = {

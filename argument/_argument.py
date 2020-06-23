@@ -119,6 +119,22 @@ class Arguments:
             valid_types.append(torch.Tensor)
         return {k: v if type(v) in valid_types else str(v) for k, v in d.items()}
 
+    def replace_args(self, replace_dict: Dict[str, Any]):
+        def pick_up_arg(args_: Arguments):
+            piched_args = {}
+            arg_names2value = args_.names2value
+            for name in replace_dict.copy():
+                if name in arg_names2value:
+                    piched_args[name] = replace_dict.pop(name)
+            return piched_args
+
+        result = self
+        re_args = pick_up_arg(self)
+        if len(re_args) > 0:
+            new_args_obj = replace(self, **re_args)
+            result = new_args_obj
+        return result, replace_dict
+
 @dataclass(frozen=True)
 class ModelArguments(Arguments):
     cache_dir: Optional[str] = field(

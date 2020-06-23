@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import pearsonr, spearmanr
-from sklearn.metrics import matthews_corrcoef, f1_score
+from sklearn.metrics import matthews_corrcoef, f1_score, accuracy_score, confusion_matrix
 from typing import NamedTuple
 
 
@@ -25,6 +25,19 @@ def acc_and_f1(preds, labels):
         "acc": acc,
         "f1": f1,
         "acc_and_f1": (acc + f1) / 2,
+    }
+
+
+def acc_and_f1_muti(preds, labels):
+    acc = accuracy_score(y_true=labels, y_pred=preds)
+    macro_f1 = f1_score(y_true=labels, y_pred=preds, average='macro')
+    micro_f1 = f1_score(y_true=labels, y_pred=preds, average='micro')
+    confusion_matrix_ = confusion_matrix(y_true=labels, y_pred=preds)
+    return {
+        "acc": acc,
+        "macro_f1": macro_f1,
+        "micro_f1": micro_f1,
+        'confusion_matrix': confusion_matrix_
     }
 
 

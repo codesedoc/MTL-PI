@@ -328,6 +328,14 @@ class FrameworkProxy:
         torch.save(self.framework.state_dict(), file_tool.connect_path(output_path, 'framework.pt'))
         self.framework.to(self.performing_args.device)
 
+    def load_model(self, model_path):
+        model_file = file_tool.connect_path(model_path, 'framework.pt')
+        if not file_tool.is_file(model_file):
+            raise ValueError
+        self.framework.load_state_dict(torch.load(model_file))
+        logger.info("Load model from: %s", model_file)
+        self.framework.to(self.performing_args.device)
+
     def predict(self) -> PredictionOutput:
         raise NotImplementedError()
 
@@ -493,12 +501,19 @@ class FrameworkProxy:
 
         if not hasattr(self, 'epoch'):
             self.epoch = self.performing_args.num_train_epochs
+
         if self.epoch is not None:
             logs["epoch"] = self.epoch
+
         new_log = {f'{prefix}_{k}': v for k, v in logs.items()}
         if tb_writer:
-            for k, v in new_log.items():
-                tb_writer.add_scalar(k, v, step)
+            for k, v in new_log.copy().items():
+                from utils.general_tool import is_number
+                if not is_number(str(v)):
+                    logger.warning(f"'{k}' is not scalar, so it can not be recorded by tensorboard")
+                    new_log.pop(k)
+                else:
+                    tb_writer.add_scalar(k, v, step)
             tb_writer.flush()
 
         import json
