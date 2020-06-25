@@ -20,6 +20,16 @@ class Corpus:
     raw_filename_dict = None
 
     label_type = None
+
+    @property
+    def value2name_of_label_type(self):
+        result = {}
+        for l_t in self.label_type:
+            if l_t.value in result:
+                raise ValueError
+            result[l_t.value] = l_t.name
+        return result
+
     def __init__(self):
         self.type2examples = {}
         self.id2example: Dict[int, Example] = {}

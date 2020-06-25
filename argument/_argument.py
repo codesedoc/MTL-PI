@@ -133,7 +133,7 @@ class Arguments:
         if len(re_args) > 0:
             new_args_obj = replace(self, **re_args)
             result = new_args_obj
-        return result, replace_dict
+        return result
 
 @dataclass(frozen=True)
 class ModelArguments(Arguments):
@@ -328,11 +328,26 @@ class PerformingArguments(Arguments):
         result.update(base_result)
 
         return result
+
 @dataclass
+
 class ArgumentsBox:
     model_args: ModelArguments
     data_args: DataArguments
     performing_args: PerformingArguments
+
+    def replace_args(self, replace_dict: Dict[str, Any]):
+        if len(replace_dict) <=0:
+            return
+        replace_dict_ = replace_dict.copy()
+        self.model_args = self.model_args.replace_args(replace_dict)
+        self.data_args = self.data_args.replace_args(replace_dict)
+        self.performing_args = self.performing_args.replace_args(replace_dict)
+
+        if len(replace_dict) != 0:
+            raise ValueError
+
+        logger.warning(f"replace some arguments: {str(replace_dict)}")
 
 
 @dataclass

@@ -146,6 +146,10 @@ class TFRsFrameworkProxy(FrameworkProxy):
             replace(data_args, task_name="mnli-mm")
             do_predict()
             replace(data_args, task_name="mnli")
+
+        if len(eval_results) == 0:
+            eval_results = None
+
         return eval_results
 
 

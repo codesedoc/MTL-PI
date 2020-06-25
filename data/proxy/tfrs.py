@@ -71,8 +71,11 @@ class TFRsDataProxy(DataProxy):
                 raise KeyError(output_mode)
 
         labels = [label_from_example(example) for example in examples]
+
+        reverse_texts_order = kwargs.get('reverse_texts_order', False)
+
         batch_encoding = tokenizer.batch_encode_plus(
-            [self.get_raw_texts_for_input(example) for example in examples], max_length=max_length, pad_to_max_length=True,
+            [self.get_raw_texts_for_input(example, reverse=reverse_texts_order) for example in examples], max_length=max_length, pad_to_max_length=True,
         )
 
         features = []
@@ -122,11 +125,28 @@ class TFRsDataProxy(DataProxy):
 
         return data_loader
 
-    def get_raw_texts_for_input(self, example: Example) -> Union[Tuple[str, str], str]:
+    def get_raw_texts_for_input(self, example: Example, reverse: bool = False) -> Union[Tuple[str, str], str]:
         texts = example.get_texts()
         if len(texts) >2 or len(texts)<=0:
             raise ValueError
         if len(texts) == 1:
             return texts[0].raw
         else:
-            return texts[0].raw, texts[1].raw
+            if reverse:
+                return texts[1].raw, texts[0].raw
+            else:
+                return texts[0].raw, texts[1].raw
+
+    def output_examples(self, e_ids, file_name):
+        save_data = [f'number of examples:{len(e_ids)}']
+        for e_id in e_ids:
+            save_data.append(str(e_id))
+            texts = self.get_raw_texts_for_input(example=self.corpus.id2example[e_id])
+            if isinstance(texts, str):
+                save_data.append(f'{texts}\n')
+            else:
+                save_data.append(f'{texts[0]}')
+                save_data.append(f'{texts[1]}\n')
+
+        from utils import file_tool
+        file_tool.save_list_data(data=save_data, file_name=file_name, model='w')

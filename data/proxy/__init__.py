@@ -29,9 +29,11 @@ class DataProxy:
         self._task_name = None
         self._mute = False
         self.input_feature_class: InputFeatures = kwargs.get('input_feature_class')
+        self.compute_metrics_function = self.corpus.compute_metrics
 
     def convert_examples_to_input_features(self, ds_type: DataSetType, *args, **kwargs):
-        if ds_type not in self.input_features_dict:
+        force = kwargs.get('force', False)
+        if (ds_type not in self.input_features_dict) or force:
             self._check_mute(kwargs)
             examples = self.corpus.get_examples(ds_type, *args, **kwargs)
             input_features = self._convert_examples_to_features(examples, *args, **kwargs)
@@ -42,7 +44,8 @@ class DataProxy:
         raise NotImplementedError()
 
     def get_dataset(self, ds_type: DataSetType, *args, **kwargs) -> Dataset:
-        if ds_type not in self.dataset_dict:
+        force = kwargs.get('force', False)
+        if (ds_type not in self.dataset_dict) or force:
             self._check_mute(kwargs)
             dataset = self._create_dataset(ds_type, *args, **kwargs)
             self.dataset_dict[ds_type] = dataset
@@ -52,7 +55,8 @@ class DataProxy:
         raise NotImplementedError()
 
     def get_dataloader(self, ds_type: DataSetType, *args, **kwargs) -> DataLoader:
-        if ds_type not in self.dataloader_dict:
+        force = kwargs.get('force', False)
+        if (ds_type not in self.dataloader_dict) or force:
             self._check_mute(kwargs)
             dataset = self.get_dataset(ds_type, *args, **kwargs)
             dataloader = self._create_dataloader(dataset, *args, **kwargs)
@@ -73,7 +77,7 @@ class DataProxy:
         #     logger.warning('Turn on mute currently!')
 
     def compute_metrics(self, itmes: ItemsForMetricsComputation):
-        return self.corpus.compute_metrics(itmes)
+        return self.compute_metrics_function(itmes)
 
     def merge_datasets(self, ds_types = Tuple[DataSetType]):
         data_sets = []
@@ -127,6 +131,16 @@ class DataProxy:
         from data.corpus import name2is_paraphrase
         return name2is_paraphrase[self.task_name]
 
+    def convert_label_id_to_name(self, labels):
+        value2name_of_label_type = self.corpus.value2name_of_label_type
+        result = []
+        for l_ in labels:
+            result.append(value2name_of_label_type[l_])
+        return result
+
+    def output_examples(self, e_ids, file_name):
+        raise NotImplementedError
+
 def _create_data_proxy(proxy_type: type, data_args: DataArguments, *args, **kwargs) -> DataProxy:
     data_proxy = proxy_type(data_args, *args, **kwargs)
     return data_proxy
@@ -141,6 +155,9 @@ def create_data_proxy(proxy_type: type, data_args: DataArguments, *args, **kwarg
     if data_proxy_singleton is None or force:
         data_proxy_singleton = _create_data_proxy(proxy_type, data_args, *args, **kwargs)
     return data_proxy_singleton
+
+
+
 
 
 

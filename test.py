@@ -2,9 +2,11 @@ import utils.hierarchical as hierarchical
 
 
 h = hierarchical.Hierarchic()
+
 # h._pretrain_model(h.coherence_controller, h.coherence_model_path)
 # h._pretrain_model(h.resemblance_controller, h.resemblance_model_path)
-h._test_models()
+# h._test_models()
+h._predict_elabration()
 
 
 # import matplotlib.pyplot as plt

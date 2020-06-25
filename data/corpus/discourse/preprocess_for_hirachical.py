@@ -196,9 +196,9 @@ def create_category2examples_and_sentences():
 
 
 def save_examples(examples, file_name):
-    save_data = ['\t'.join(('id', 'label', 'satellite_id', 'satellite', 'nucleus_id', 'nucleus', 'source'))]
+    save_data = [('id', 'label', 'satellite_id', 'satellite', 'nucleus_id', 'nucleus', 'source')]
     for e in examples:
-        save_data.append("\t".join([
+        save_data.append((
             str(e['id']),
             str(e['label']),
             str(e['satellite_id']),
@@ -207,9 +207,9 @@ def save_examples(examples, file_name):
             e['nucleus'],
             # e['relation'],
             e['source']
-        ]))
+        ))
 
-    file_tool.save_list_data(save_data, file_name, 'w')
+    file_tool.write_lines_to_tsv(save_data, file_name)
 
 
 def _sample_from_list(org_list, sample_rate):
@@ -445,6 +445,8 @@ def run():
     print('*'*80)
 
 if __name__ ==  "__main__":
+    from utils import general_tool
+    general_tool.setup_seed(1)
     run()
 # #
 #     from process_source_data import create_examples_sentences as old_create_examples

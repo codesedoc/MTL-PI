@@ -4,7 +4,20 @@ from dataclasses import dataclass, field
 
 @dataclass(frozen=True)
 class MTLPIModelArguments(TFRsModelArguments):
-    pass
+    loss_a: float = field(
+        default=0.5,
+        metadata={
+            "help": "The weight rate for two task"
+        },
+    )
+
+    def get_name_abbreviation(self):
+        base_result = super().get_name_abbreviation()
+        result = {
+            "loss_a": "mlla",
+        }
+        result.update(base_result)
+        return result
 
 
 @dataclass(frozen=True)

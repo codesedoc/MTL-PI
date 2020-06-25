@@ -44,12 +44,10 @@ class Example:
 @dataclass(frozen=True)
 class InputFeatures:
     example_id: int
+
     def to_json_string(self):
         """Serializes this instance to a JSON string."""
         return json.dumps(dataclasses.asdict(self)) + "\n"
-
-
-
 
 
 @dataclass(frozen=True)
@@ -133,11 +131,41 @@ class BaseDataSet(Dataset):
             self._features[index] = replace(self._features[index], **replace_dict)
 
     def update_feature(self, update_objs: List[InputFeaturesUpdate]):
+        old_num_features = len(self._features)
+        deleted_e_ids = set()
+        new_features = []
+        new_eid2index = {}
+        count = 0
         for uo in update_objs:
             index = self._e_id2f_index[int(uo.example_id)]
             feature = self._features[index]
-            new_feature = replace(feature, **uo.replace_field_dict)
-            self._features[index] = new_feature
+            if feature.example_id != uo.example_id:
+                raise ValueError
+
+            # self._features[index] = new_feature
+
+            if uo.replace_field_dict.get('delete'):
+                deleted_e_ids.add(uo.example_id)
+            else:
+                new_feature = replace(feature, **uo.replace_field_dict)
+                new_features.append(new_feature)
+                new_eid2index[uo.example_id] = count
+
+            # if uo.replace_field_dict['auxiliary_label'] == 1 and uo.example_id == 3652:
+            #     uo = uo
+        self._features = new_features
+        self._e_id2f_index = new_eid2index
+
+        for f in self._features:
+            if f.example_id in deleted_e_ids:
+                raise ValueError
+
+        if len(deleted_e_ids) + len(self._features) != old_num_features:
+            raise ValueError
+        if len(self._features) != len(self._e_id2f_index):
+            raise ValueError
+
+        print(f"Deleted {len(deleted_e_ids)} features: {sorted(deleted_e_ids)}")
 
     @staticmethod
     def merge_datasets(data_sets: Tuple[Dataset, ...]):
@@ -151,4 +179,3 @@ class BaseDataSet(Dataset):
             ds.deleted_features()
 
         return BaseDataSet(type_=tuple(type_), features=features)
-

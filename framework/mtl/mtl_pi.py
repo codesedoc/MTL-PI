@@ -83,7 +83,8 @@ class MTLPIFramework(Framework):
         a_loss = self._calculate_loss(a_logits, auxiliary_labels, loss_fct)
         p_loss = self._calculate_loss(p_logits, primary_labels, loss_fct)
 
-        loss = (a_loss + p_loss).mean(dim=-1)
+        loss_weight = 0.4
+        loss = loss_weight*a_loss + (1-loss_weight)*p_loss
 
         outputs = loss, ({'auxiliary': a_logits, 'primary': p_logits}, (a_loss, p_loss))
 
@@ -167,6 +168,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
         self.data_proxy = self.auxiliary_data_proxy
 
+        self.framework:MTLPIFramework = self.framework
         # self.data_proxy.get_dataset(DataSetType.train)
         # self.data_proxy.get_dataset(DataSetType.dev)
 
@@ -192,6 +194,13 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             updates.append(InputFeaturesUpdate(self.primary_data_proxy, DataSetType.train, e_id, self.original_data_proxy.get_feature_field_for_predict(pred)))
         return updates
 
+    def _predict_for_primary_train(self):
+        # predict_output = self._predict(DataSetType.train)
+        from utils import file_tool
+        id2pred = file_tool.load_data_pickle('utils/Hierarchic/mrpc_eid2elab_pred.pkl')
+
+        return PredictionOutput(predictions=None, label_ids=None, metrics=None, indexes=None, example_id2pred=id2pred)
+
     def train(self,  *args, **kwargs):
         performing_args = self.performing_args
 
@@ -211,7 +220,8 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
             self._switch_to_primary_data()
 
-            predict_output = self._predict(DataSetType.train)
+            predict_output = self._predict_for_primary_train()
+
             updates = self._create_update_input_features_updates(predict_output)
 
             if not self.performing_args.skip_revise_predictions:
@@ -223,11 +233,15 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
             self.data_proxy.update_inputfeatures_in_dataset(DataSetType.train, updates)
 
+            # self.framework.primary_classifier.load_state_dict(self.framework.auxiliary_classifier.state_dict())
+
+            logger.info("*** Step3: Parallel train ***")
+
             self.framework.perform_state = PerformState.parallel
 
             self._train()
 
-            logger.info("*** Step3: Evaluate primary data ***")
+            logger.info("*** Step4: Evaluate primary data ***")
             self._switch_to_primary_data()
 
             self.framework.perform_state = PerformState.primary
@@ -244,11 +258,16 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
     def _evaluate_during_training(self):
         perform_state = self.framework.perform_state
         if perform_state == PerformState.auxiliary:
+            # metrics = self._evaluate(DataSetType.test)
+            # return metrics
             return None
 
-        elif perform_state == PerformState.parallel:
+        elif perform_state == PerformState.parallel or perform_state == PerformState.primary:
             self.framework.perform_state = PerformState.primary
             metrics = self._evaluate(DataSetType.dev)
+
+            # test_metrics = self._evaluate(DataSetType.test)
+            # print(test_metrics)
             self.framework.perform_state = PerformState.parallel
             return metrics
         else:

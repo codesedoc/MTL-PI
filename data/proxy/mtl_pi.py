@@ -43,6 +43,9 @@ class MTLPIDataProxy(TFRsDataProxy):
         pass
 
     def get_feature_field_for_predict(self, pred):
+        from enum import Enum
+        if isinstance(pred, Enum):
+            pred=pred.value
         return {'auxiliary_label': int(pred)}
 
     from data import InputFeaturesUpdate
@@ -62,7 +65,7 @@ class MTLPIDataProxy(TFRsDataProxy):
             raise ValueError
 
         from data.corpus.glue.mrpc.mrpc import ParapraseLabel
-        from data.corpus.elaboration.elaboration import Elaboration
+        from data.corpus.discourse.elaboration.elaboration import Elaboration
 
         auxiliray_label_old_yes_ids = []
         auxiliray_label_yes_ids = []
@@ -70,9 +73,13 @@ class MTLPIDataProxy(TFRsDataProxy):
         auxiliray_label_old_no_ids = []
         e_id_set = set(list(self.primary_sub_proxy.corpus.id2example.keys()).copy())
         for i_f_u in updates:
-            if i_f_u.replace_field_dict[auxiliary_label_key] == Elaboration.yes.value:
+            auxiliary_label = i_f_u.replace_field_dict[auxiliary_label_key]
+            if isinstance(auxiliary_label, Elaboration):
+                auxiliary_label = auxiliary_label.value
+
+            if auxiliary_label == Elaboration.yes.value:
                 auxiliray_label_old_yes_ids.append(i_f_u.example_id)
-            elif i_f_u.replace_field_dict[auxiliary_label_key] == Elaboration.no.value:
+            elif auxiliary_label == Elaboration.no.value:
                 auxiliray_label_old_no_ids.append(i_f_u.example_id)
             else:
                 raise ValueError
@@ -82,10 +89,12 @@ class MTLPIDataProxy(TFRsDataProxy):
             e = self.primary_sub_proxy.corpus.id2example[i_f_u.example_id]
 
             if e.label == ParapraseLabel.yes:
+                if auxiliary_label == Elaboration.yes.value:
+                    i_f_u.replace_field_dict['delete'] = True
                 i_f_u.replace_field_dict[auxiliary_label_key] = Elaboration.no.value
                 auxiliray_label_no_ids.append(e.id)
             elif e.label == ParapraseLabel.no:
-                if i_f_u.replace_field_dict[auxiliary_label_key] == Elaboration.yes.value:
+                if auxiliary_label == Elaboration.yes.value:
                     auxiliray_label_yes_ids.append(e.id)
                 else:
                     auxiliray_label_no_ids.append(e.id)

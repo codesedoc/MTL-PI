@@ -131,13 +131,17 @@ class FrameworkProxy:
             eval_results = self.evaluate()
 
         # Prediction
+        test_result = None
         if performing_args.do_predict:
             logging.info("*** Test ***")
-            self.predict()
+            test_result = self.predict()
 
         result = {
             'eval_results': eval_results
         }
+
+        if test_result is not None:
+            result['test_results'] = test_result
 
         return result
 
@@ -378,14 +382,16 @@ class FrameworkProxy:
         #             writer.write("%d\t%s\n" % (index, item))
 
     def _prediction_loop(
-            self, dataloader: DataLoader, description: str, ds_type: DataSetType, prediction_loss_only: Optional[bool] = None
+            self, dataloader: DataLoader, description: str, ds_type: DataSetType, data_proxy: Optional[DataProxy] = None,
+            prediction_loss_only: Optional[bool] = None
     ) -> PredictionOutput:
         """
         Prediction/evaluation loop, shared by `evaluate()` and `predict()`.
 
         Works both with or without labels.
         """
-
+        if data_proxy is None:
+            data_proxy = self.data_proxy
         # prediction_loss_only = prediction_loss_only if prediction_loss_only is not None else self.prediction_loss_only
         model = self.framework
         args = self.performing_args
@@ -399,7 +405,7 @@ class FrameworkProxy:
 
         batch_size = dataloader.batch_size
         logger.info("***** Running %s *****", description)
-        logger.info("  Num examples = %d", self.data_proxy.get_num_examples(ds_type))
+        logger.info("  Num examples = %d", data_proxy.get_num_examples(ds_type))
         logger.info("  Batch size = %d", batch_size)
         losses: List[float] = []
 
@@ -453,7 +459,7 @@ class FrameworkProxy:
         if preds is not None:
             preds = preds.cpu().numpy().copy()
             from data import OutputMode
-            output_mode = self.data_proxy.corpus.output_mode
+            output_mode = data_proxy.corpus.output_mode
             if output_mode == OutputMode.classification:
                 preds = np.argmax(preds, axis=1)
             elif output_mode == OutputMode.regression:
@@ -475,7 +481,7 @@ class FrameworkProxy:
 
         if preds is not None and label_ids is not None:
             from data.corpus import ItemsForMetricsComputation
-            metrics = self.data_proxy.compute_metrics(ItemsForMetricsComputation(predictions=preds, label_ids=label_ids))
+            metrics = data_proxy.compute_metrics(ItemsForMetricsComputation(predictions=preds, label_ids=label_ids))
 
         else:
             metrics = {}
@@ -545,13 +551,21 @@ class FrameworkProxy:
 
         return output.metrics
 
-    def _predict(self, ds_type: Optional[DataSetType] = None) -> PredictionOutput:
+    def _predict(self, ds_type: Optional[DataSetType] = None, data_proxy: Optional[DataProxy] = None) -> PredictionOutput:
+        if data_proxy is None:
+            data_proxy = self.data_proxy
+
         if ds_type is None:
             ds_type = DataSetType.test
 
-        test_dataloader = self.data_proxy.get_dataloader(ds_type)
+        test_dataloader = data_proxy.get_dataloader(ds_type)
 
-        return self._prediction_loop(test_dataloader, description="Prediction", ds_type=ds_type)
+        return self._prediction_loop(test_dataloader, description="Prediction", ds_type=ds_type, data_proxy=data_proxy)
+
+    def predict_other_data(self, data_proxy: DataProxy, ds_type: Optional[DataSetType] = None) -> PredictionOutput:
+        if not isinstance(data_proxy, DataProxy):
+            raise ValueError
+        return self._predict(data_proxy=data_proxy, ds_type=ds_type)
 
 
 def _create_framework_proxy(proxy_type: type, model_args: ModelArguments, performing_args: PerformingArguments,
