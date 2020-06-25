@@ -108,7 +108,7 @@ class MTLPIFramework(Framework):
             if name in input_:
                 tfrs_input[name] = input_[name]
         tfr_output = self.encoder(**tfrs_input)
-        pooled_output = tfr_output[1]
+        pooled_output = tfr_output[0][:, 0]
 
         pooled_output = self.dropout(pooled_output)
 
