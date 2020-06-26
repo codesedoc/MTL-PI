@@ -64,7 +64,9 @@ class MTLPIFramework(Framework):
         self.perform_state = PerformState.auxiliary
         self.num_labels = config.num_labels
 
-        self.max_token_length = int(self.framework_proxy.data_proxy.data_args.max_seq_length/2)
+        self.max_token_length = int(self.framework_proxy.data_proxy.data_args.max_seq_length)
+        self.loss_weight = model_args.loss_a
+
         self.semantic_layer = SemanticLayer(SemanticCompareEnum.l1)
 
     def _init_weights(self, module):
@@ -85,13 +87,18 @@ class MTLPIFramework(Framework):
         p_logits = self.primary_classifier(tfrs_output)
 
         loss_fct = torch.nn.CrossEntropyLoss()
-        a_loss = self._calculate_loss(a_logits, auxiliary_labels, loss_fct)
-        p_loss = self._calculate_loss(p_logits, primary_labels, loss_fct)
 
-        loss_weight = 0.4
-        loss = loss_weight*a_loss + (1-loss_weight)*p_loss
+        # a_loss = self._calculate_loss(a_logits, auxiliary_labels, loss_fct)
+        # p_loss = self._calculate_loss(p_logits, primary_labels, loss_fct)
+        #
+        # loss_weight = self.loss_weight
+        # loss = loss_weight*a_loss + (1-loss_weight)*p_loss
+        # outputs = loss, ({'auxiliary': a_logits, 'primary': p_logits}, (a_loss, p_loss))
+        # outputs = loss, {'auxiliary': a_logits, 'primary': p_logits}
+        logits = a_logits[:, [1, 0]] + p_logits
+        loss = self._calculate_loss(logits, primary_labels, loss_fct)
 
-        outputs = loss, ({'auxiliary': a_logits, 'primary': p_logits}, (a_loss, p_loss))
+        outputs = loss, logits
 
         return outputs
 
@@ -119,52 +126,58 @@ class MTLPIFramework(Framework):
         if len(texts_num_of_tokens_batch) != len(tfr_output):
             raise ValueError
 
-        attention_mask = input_['attention_mask']
+        use_tokens = False
 
-        text_a_states_batch = []
-        text_b_states_batch = []
-        for a_m, t_output, texts_num_of_tokens in zip(attention_mask, tfr_output, texts_num_of_tokens_batch):
-            sequen_len = a_m.sum()
-            text_a_len = texts_num_of_tokens[0]
-            text_b_len = texts_num_of_tokens[1]
-            if text_a_len + text_b_len +3 != sequen_len:
-                raise ValueError
+        if use_tokens:
+            attention_mask = input_['attention_mask']
 
-            text_a_output_ = t_output[1: text_a_len+1]
-            text_b_output_ = t_output[text_a_len+2: text_b_len+text_a_len+2]
+            text_a_states_batch = []
+            text_b_states_batch = []
+            for a_m, t_output, texts_num_of_tokens in zip(attention_mask, tfr_output, texts_num_of_tokens_batch):
+                sequen_len = a_m.sum()
+                text_a_len = texts_num_of_tokens[0]
+                text_b_len = texts_num_of_tokens[1]
+                if text_a_len + text_b_len +3 != sequen_len:
+                    raise ValueError
 
-            from utils.data_tool import padding_tensor
-            text_a_output = padding_tensor(text_a_output_, self.max_token_length, align_dir='left', dim=0)
-            text_b_output = padding_tensor(text_b_output_, self.max_token_length, align_dir='left', dim=0)
+                text_a_output_ = t_output[1: text_a_len+1]
+                text_b_output_ = t_output[text_a_len+2: text_b_len+text_a_len+2]
 
-            text_a_states_batch.append(text_a_output)
-            text_b_states_batch.append(text_b_output)
+                from utils.data_tool import padding_tensor
+                text_a_output = padding_tensor(text_a_output_, self.max_token_length, align_dir='left', dim=0)
+                text_b_output = padding_tensor(text_b_output_, self.max_token_length, align_dir='left', dim=0)
 
-        text_a_states_batch = torch.stack(text_a_states_batch, dim=0)
-        text_b_states_batch = torch.stack(text_b_states_batch, dim=0)
+                text_a_states_batch.append(text_a_output)
+                text_b_states_batch.append(text_b_output)
 
-        tfrs_output = self.semantic_layer(text_a_states_batch, text_b_states_batch)
-        tfrs_output = self.dropout(tfrs_output)
+            text_a_states_batch = torch.stack(text_a_states_batch, dim=0)
+            text_b_states_batch = torch.stack(text_b_states_batch, dim=0)
+
+            tfr_output = self.semantic_layer(text_a_states_batch, text_b_states_batch)
+        else:
+            tfr_output = tfr_output[:, 0]
+
+        tfr_output = self.dropout(tfr_output)
 
         if self.perform_state == PerformState.auxiliary:
             a_labels = input_.get('labels')
             if a_labels is None:
                 raise ValueError
 
-            result = self._single_forward(labels=a_labels, tfrs_output=tfrs_output)
+            result = self._single_forward(labels=a_labels, tfrs_output=tfr_output)
 
         elif self.perform_state == PerformState.primary:
             p_labels = input_.get('labels')
 
-            result = self._single_forward(labels=p_labels, tfrs_output=tfrs_output)
+            result = self._single_forward(labels=p_labels, tfrs_output=tfr_output)
 
         elif self.perform_state == PerformState.parallel:
             p_labels = input_.get('labels')
             a_labels = input_.get('auxiliary_label')
-            if a_labels is None or p_labels is None:
-                raise ValueError
+            # if a_labels is None or p_labels is None:
+            #     raise ValueError
 
-            result = self._parallel_forward(primary_labels=p_labels, auxiliary_labels=a_labels, tfrs_output=tfrs_output)
+            result = self._parallel_forward(primary_labels=p_labels, auxiliary_labels=a_labels, tfrs_output=tfr_output)
         else:
             raise ValueError
 
@@ -242,35 +255,35 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         if performing_args.do_train:
             logger.info("*** Step1: Train auxiliary data ***")
 
-            # self.framework.perform_state = PerformState.auxiliary
+            self.framework.perform_state = PerformState.auxiliary
+
+            self._switch_to_auxiliary_data()
+
+            dataset = self.data_proxy.merge_datasets(ds_types=(DataSetType.train, DataSetType.test, DataSetType.dev))
+            self.data_proxy.set_datasets(DataSetType.train, dataset)
+            self._train()
+
+            # logger.info("*** Step2: Predict primary data ***")
             #
-            # self._switch_to_auxiliary_data()
+            # self._switch_to_primary_data()
             #
-            # dataset = self.data_proxy.merge_datasets(ds_types=(DataSetType.train, DataSetType.test, DataSetType.dev))
-            # self.data_proxy.set_datasets(DataSetType.train, dataset)
-            # self._train()
-
-            logger.info("*** Step2: Predict primary data ***")
-
-            self._switch_to_primary_data()
-
-            predict_output = self._predict_for_primary_train()
-
-            updates = self._create_update_input_features_updates(predict_output)
-
-            if not self.performing_args.skip_revise_predictions:
-                updates, revise_details = self.original_data_proxy.revise_invalid_predict_for_primary_task(updates=updates)
-                if self.tb_writer is not None:
-                    import json
-                    self.tb_writer.add_text("revise_details_about_predicted_label_by_auxiliary_model",
-                                            json.dumps(revise_details, indent=2), global_step=self.global_step)
-
-            self.data_proxy.update_inputfeatures_in_dataset(DataSetType.train, updates)
+            # predict_output = self._predict_for_primary_train()
+            #
+            # updates = self._create_update_input_features_updates(predict_output)
+            #
+            # if not self.performing_args.skip_revise_predictions:
+            #     updates, revise_details = self.original_data_proxy.revise_invalid_predict_for_primary_task(updates=updates)
+            #     if self.tb_writer is not None:
+            #         import json
+            #         self.tb_writer.add_text("revise_details_about_predicted_label_by_auxiliary_model",
+            #                                 json.dumps(revise_details, indent=2), global_step=self.global_step)
+            #
+            # self.data_proxy.update_inputfeatures_in_dataset(DataSetType.train, updates)
 
             # self.framework.primary_classifier.load_state_dict(self.framework.auxiliary_classifier.state_dict())
 
             logger.info("*** Step3: Parallel train ***")
-
+            self._switch_to_primary_data()
             self.framework.perform_state = PerformState.parallel
 
             self._train()
@@ -278,7 +291,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             logger.info("*** Step4: Evaluate primary data ***")
             self._switch_to_primary_data()
 
-            self.framework.perform_state = PerformState.primary
+            self.framework.perform_state = PerformState.parallel
             # self.save_model()
 
     def _switch_to_auxiliary_data(self):

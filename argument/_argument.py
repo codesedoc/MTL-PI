@@ -5,7 +5,7 @@ from typing import Optional,Tuple, Dict, Any
 import utils.file_tool as file_tool
 import logging
 from functools import wraps
-import torch,json
+import torch, json
 logger = logging.getLogger(__name__)
 
 
@@ -330,7 +330,6 @@ class PerformingArguments(Arguments):
         return result
 
 @dataclass
-
 class ArgumentsBox:
     model_args: ModelArguments
     data_args: DataArguments
