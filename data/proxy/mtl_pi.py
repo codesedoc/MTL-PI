@@ -26,6 +26,7 @@ class MTLPIDataProxy(TFRsDataProxy):
 
         super().__init__(data_args, *args, **kwargs)
         self.data_args = data_args
+        self.name = 'MTLPI_data_proxy'
         # tfs_data_args_field_names = TFRsDataArguments.field_names()
 
         # next five lines must be fix order
@@ -37,8 +38,12 @@ class MTLPIDataProxy(TFRsDataProxy):
                                       per_device_train_batch_size=self.data_args.auxiliary_per_device_batch_size )
 
         self.primary_sub_proxy = TFRsDataProxy(data_args=primary_data_args, input_feature_class = MTLPIInputFeatures)
+        self.primary_sub_proxy.name = 'MTLPI_primary_sub_data_proxy'
 
         self.auxiliary_sub_proxy = TFRsDataProxy(data_args=auxiliary_data_args, input_feature_class = MTLPIInputFeatures)
+        self.auxiliary_sub_proxy.name = 'MTLPI_auxiliary_sub_data_proxy'
+
+        self.sub_proxies = [self.primary_sub_proxy, self.auxiliary_sub_proxy]
         # last five lines must be fix order
         pass
 

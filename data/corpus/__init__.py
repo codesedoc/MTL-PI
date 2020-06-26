@@ -92,6 +92,27 @@ class Corpus:
 
         return text_obj
 
+    def _save_examples(self, e_ids: Tuple[int, ...], file_name):
+        save_data = [f'number of examples: {len(e_ids)}']
+        for id_ in e_ids:
+            example = self.id2example[id_]
+            texts = example.get_texts()
+            save_data.append(f'{id_}')
+            save_data.extend([str(t.raw) for t in texts])
+            save_data.append('')
+
+        from utils import file_tool
+        file_tool.makedir(file_tool.dirname(file_name))
+        file_tool.save_list_data(save_data, file_name, 'w')
+
+    def _e_ids_and_filename_tuples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any]):
+        raise NotImplementedError()
+
+    def save_examples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any]):
+        e_ids_and_filename_tuples = self._e_ids_and_filename_tuples_according_to_e_id2predictions(ds_type, e_id2predictions)
+        for e_ids, filename in e_ids_and_filename_tuples:
+            self._save_examples(e_ids, filename)
+
     pass
 
 

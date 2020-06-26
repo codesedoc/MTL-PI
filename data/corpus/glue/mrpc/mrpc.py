@@ -6,7 +6,7 @@ from data.corpus._utils import ItemsForMetricsComputation, acc_and_f1
 from data import Example, Sentence
 from enum import Enum, unique
 from dataclasses import dataclass
-from typing import Optional, Tuple, Dict
+from typing import Optional, Tuple, Dict, Any
 from utils.general_tool import is_number
 logger = logging.getLogger(__name__)
 
@@ -112,3 +112,37 @@ class MRPCorpus(Corpus):
     def compute_metrics(self, itmes: ItemsForMetricsComputation):
         return acc_and_f1(itmes.predictions, itmes.label_ids)
 
+    def _e_ids_and_filename_tuples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any]):
+        TP_e_ids = []
+        TN_e_ids = []
+        FP_e_ids = []
+        FN_e_ids = []
+        import numpy as np
+        from utils.general_tool import is_number
+        for e_id, pred in e_id2predictions.items():
+            if isinstance(pred, ParapraseLabel):
+                pred = pred.value
+
+            elif not isinstance(pred, int):
+                raise ValueError
+
+            example = self.id2example[e_id]
+            if example.label == ParapraseLabel.yes:
+                if pred == ParapraseLabel.yes.value:
+                    TP_e_ids.append(e_id)
+                else:
+                    FN_e_ids.append(e_id)
+            else:
+                if pred == ParapraseLabel.no.value:
+                    TN_e_ids.append(e_id)
+                else:
+                    FP_e_ids.append(e_id)
+
+        output_path = file_tool.connect_path(self.data_path, 'predict_output', ds_type.value)
+
+        return (
+            (TP_e_ids, file_tool.connect_path(output_path, 'TP.txt')),
+            (TN_e_ids, file_tool.connect_path(output_path, 'TN.txt')),
+            (FP_e_ids, file_tool.connect_path(output_path, 'FP.txt')),
+            (FN_e_ids, file_tool.connect_path(output_path, 'FN.txt'))
+        )

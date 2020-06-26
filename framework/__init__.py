@@ -468,8 +468,14 @@ class FrameworkProxy:
             example_ids = example_ids.cpu().tolist().copy()
             if len(example_ids) != len(preds):
                 raise ValueError
+
             for e_id, pred in zip(example_ids, preds):
+                if output_mode == OutputMode.classification:
+                    pred = int(pred)
+                elif output_mode == OutputMode.regression:
+                    pred = float(pred)
                 example_id2pred[e_id] = pred
+
             if len(example_ids) != len(example_id2pred):
                 raise ValueError
 
@@ -549,6 +555,8 @@ class FrameworkProxy:
 
         output = self._prediction_loop(eval_dataloader, description="Evaluation", ds_type=ds_type)
 
+        self.data_proxy.prediction_output_dict[ds_type] = output
+
         return output.metrics
 
     def _predict(self, ds_type: Optional[DataSetType] = None, data_proxy: Optional[DataProxy] = None) -> PredictionOutput:
@@ -560,7 +568,11 @@ class FrameworkProxy:
 
         test_dataloader = data_proxy.get_dataloader(ds_type)
 
-        return self._prediction_loop(test_dataloader, description="Prediction", ds_type=ds_type, data_proxy=data_proxy)
+        output = self._prediction_loop(test_dataloader, description="Prediction", ds_type=ds_type, data_proxy=data_proxy)
+
+        data_proxy.prediction_output_dict[ds_type] = output
+        return output
+
 
     def predict_other_data(self, data_proxy: DataProxy, ds_type: Optional[DataSetType] = None) -> PredictionOutput:
         if not isinstance(data_proxy, DataProxy):

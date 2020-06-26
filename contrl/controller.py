@@ -178,4 +178,7 @@ class Controller:
     def save_framework(self, model_path):
         self.framework_proxy.save_model(model_path)
 
+    def save_examples_according_to_evaluation(self):
+        self.data_proxy.save_examples_according_to_evaluation()
+
 

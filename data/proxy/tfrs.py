@@ -6,7 +6,7 @@ from torch.utils.data.sampler import RandomSampler, SequentialSampler
 import torch.utils.data as torch_data
 from data._utils import collate_batch
 from dataclasses import dataclass
-from typing import List, Optional, Union, Tuple
+from typing import List, Optional, Union, Tuple, Dict, Any
 import transformers
 
 from ..corpus import Corpus

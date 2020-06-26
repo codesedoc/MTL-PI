@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 class DataProxy:
     def __init__(self, data_args: DataArguments, *args, **kwargs):
+        self.name = None
         self.data_args = data_args
         corpus_name = data_args.task_name
         corpus_obj = name2corpus_type[corpus_name]()
@@ -30,6 +31,9 @@ class DataProxy:
         self._mute = False
         self.input_feature_class: InputFeatures = kwargs.get('input_feature_class')
         self.compute_metrics_function = self.corpus.compute_metrics
+        from framework import PredictionOutput
+        self.prediction_output_dict: Dict[DataSetType, Optional[PredictionOutput]] = {DataSetType.test: None, DataSetType.dev: None}
+        self.sub_proxies: List[DataProxy] = []
 
     def convert_examples_to_input_features(self, ds_type: DataSetType, *args, **kwargs):
         force = kwargs.get('force', False)
@@ -95,6 +99,23 @@ class DataProxy:
     def update_inputfeatures_in_dataset(self, ds_type: DataSetType, updates: List[InputFeaturesUpdate]):
         data_set = self.dataset_dict[ds_type]
         data_set.update_feature(updates)
+
+    def save_examples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any]):
+        self.corpus.save_examples_according_to_e_id2predictions(ds_type, e_id2predictions)
+
+    def save_examples_according_to_evaluation(self):
+        if self.prediction_output_dict[DataSetType.dev] is None:
+            logger.warning(f"{self.name} have not dev prediction output")
+        else:
+            self.save_examples_according_to_e_id2predictions(DataSetType.dev, self.prediction_output_dict[DataSetType.dev].example_id2pred)
+
+        if self.prediction_output_dict[DataSetType.test] is None:
+            logger.warning(f"{self.name} have not test prediction output")
+        else:
+            self.save_examples_according_to_e_id2predictions(DataSetType.test, self.prediction_output_dict[DataSetType.test].example_id2pred)
+
+        for sub_data_proxy in self.sub_proxies:
+            sub_data_proxy.save_examples_according_to_evaluation()
 
     @property
     def num_label(self):
