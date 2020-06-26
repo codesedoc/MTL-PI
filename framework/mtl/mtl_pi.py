@@ -116,42 +116,54 @@ class MTLPIFramework(Framework):
 
     def forward(self, **input_):
         tfrs_input = {}
-        for name in ['input_ids', 'attention_mask', 'token_type_ids']:
+        # tfs_input_name = ['input_ids', 'attention_mask', 'token_type_ids'].
+        tfs_input_name = ['input_ids', 'attention_mask']
+        tfrs_input_for_second = {}
+        for name in tfs_input_name:
             if name in input_:
                 tfrs_input[name] = input_[name]
+                tfrs_input_for_second[name] = input_[f"second_{name}"]
         tfr_output = self.encoder(**tfrs_input)
+        tfr_output_for_second = self.encoder(**tfrs_input_for_second)
+
         other_tfr_output = tfr_output[2:]
         tfr_output = tfr_output[0]
-        texts_num_of_tokens_batch = input_['texts_num_of_tokens']
-        if len(texts_num_of_tokens_batch) != len(tfr_output):
-            raise ValueError
 
-        use_tokens = False
+        tfr_output_for_second = tfr_output_for_second[0]
+
+        # texts_num_of_tokens_batch = input_['texts_num_of_tokens']
+        # if len(texts_num_of_tokens_batch) != len(tfr_output):
+        #     raise ValueError
+
+        use_tokens = True
 
         if use_tokens:
-            attention_mask = input_['attention_mask']
+            # attention_mask = input_['attention_mask']
 
-            text_a_states_batch = []
-            text_b_states_batch = []
-            for a_m, t_output, texts_num_of_tokens in zip(attention_mask, tfr_output, texts_num_of_tokens_batch):
-                sequen_len = a_m.sum()
-                text_a_len = texts_num_of_tokens[0]
-                text_b_len = texts_num_of_tokens[1]
-                if text_a_len + text_b_len +3 != sequen_len:
-                    raise ValueError
+            # text_a_states_batch = []
+            # text_b_states_batch = []
+            # for a_m, t_output, texts_num_of_tokens in zip(attention_mask, tfr_output, texts_num_of_tokens_batch):
+            #     sequen_len = a_m.sum()
+            #     text_a_len = texts_num_of_tokens[0]
+            #     text_b_len = texts_num_of_tokens[1]
+            #     if text_a_len + text_b_len +3 != sequen_len:
+            #         raise ValueError
+            #
+            #     text_a_output_ = t_output[1: text_a_len+1]
+            #     text_b_output_ = t_output[text_a_len+2: text_b_len+text_a_len+2]
+            #
+            #     from utils.data_tool import padding_tensor
+            #     text_a_output = padding_tensor(text_a_output_, self.max_token_length, align_dir='left', dim=0)
+            #     text_b_output = padding_tensor(text_b_output_, self.max_token_length, align_dir='left', dim=0)
+            #
+            #     text_a_states_batch.append(text_a_output)
+            #     text_b_states_batch.append(text_b_output)
+            #
+            # text_a_states_batch = torch.stack(text_a_states_batch, dim=0)
+            # text_b_states_batch = torch.stack(text_b_states_batch, dim=0)
 
-                text_a_output_ = t_output[1: text_a_len+1]
-                text_b_output_ = t_output[text_a_len+2: text_b_len+text_a_len+2]
-
-                from utils.data_tool import padding_tensor
-                text_a_output = padding_tensor(text_a_output_, self.max_token_length, align_dir='left', dim=0)
-                text_b_output = padding_tensor(text_b_output_, self.max_token_length, align_dir='left', dim=0)
-
-                text_a_states_batch.append(text_a_output)
-                text_b_states_batch.append(text_b_output)
-
-            text_a_states_batch = torch.stack(text_a_states_batch, dim=0)
-            text_b_states_batch = torch.stack(text_b_states_batch, dim=0)
+            text_a_states_batch = tfr_output
+            text_b_states_batch = tfr_output_for_second
 
             tfr_output = self.semantic_layer(text_a_states_batch, text_b_states_batch)
         else:
