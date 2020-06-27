@@ -152,5 +152,10 @@ class TFRsFrameworkProxy(FrameworkProxy):
 
         return eval_results
 
+    def args_need_to_record(self) -> Dict[str, Any]:
+        result = {'combine_two_text_as_input': self.model_args.combine_two_texts_as_input}
+        result.update(super().args_need_to_record())
+        return result
+
 
 

@@ -56,7 +56,10 @@ class Hyperor:
     def objective(self, trial):
 
         from contrl.controller import Controller
+
         controller = Controller(trial)
+        controller.add_user_atts_to_trial(trial)
+
         trial = controller.trail
 
         hyper_params = trial.user_attrs['real_hyper_params']

@@ -112,7 +112,7 @@ class MRPCorpus(Corpus):
     def compute_metrics(self, itmes: ItemsForMetricsComputation):
         return acc_and_f1(itmes.predictions, itmes.label_ids)
 
-    def _e_ids_and_filename_tuples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any]):
+    def _e_ids_and_filename_tuples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any], output_dir = None):
         TP_e_ids = []
         TN_e_ids = []
         FP_e_ids = []
@@ -138,7 +138,10 @@ class MRPCorpus(Corpus):
                 else:
                     FP_e_ids.append(e_id)
 
-        output_path = file_tool.connect_path(self.data_path, 'predict_output', ds_type.value)
+        if output_dir is None:
+            output_path = file_tool.connect_path(self.data_path, 'predict_output', ds_type.value)
+        else:
+            output_path = file_tool.connect_path(output_dir, 'examples_output', ds_type.value)
 
         return (
             (TP_e_ids, file_tool.connect_path(output_path, 'TP.txt')),

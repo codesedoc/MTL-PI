@@ -17,11 +17,13 @@ logger = logging.getLogger(__name__)
 @dataclass(frozen=True)
 class TFRsInputFeatures(InputFeatures):
     input_ids: List[int]
-    second_input_ids: List[int]
+    second_input_ids: Optional[List[int]] = None
 
     texts_num_of_tokens: Optional[List[int]] = None
+
     attention_mask: Optional[List[int]] = None
     second_attention_mask: Optional[List[int]] = None
+
     token_type_ids: Optional[List[int]] = None
     label: Optional[Union[int, float]] = None
     index: Optional[int] = None
@@ -40,6 +42,7 @@ class TFRsDataProxy(DataProxy):
         super().__init__(data_args, *args, **kwargs)
         self.data_args = data_args
         self.tokenizer: Optional[transformers.PreTrainedTokenizer] = None
+        self.combine_two_text_as_input = True
 
     def _convert_examples_to_features(self, examples: List[Example], *args, **kwargs):
         InputFeature_class = TFRsInputFeatures
@@ -79,54 +82,41 @@ class TFRsDataProxy(DataProxy):
 
         reverse_texts_order = kwargs.get('reverse_texts_order', False)
 
-        batch_encoding = tokenizer.batch_encode_plus(
-            [self.get_raw_texts_for_input(example, reverse=reverse_texts_order)[0] for example in examples], max_length=max_length, pad_to_max_length=True,
-            add_special_tokens=False, return_token_type_ids=False
-        )
+        combine_two_text_as_input = self.combine_two_text_as_input
 
-        second_batch_encoding = tokenizer.batch_encode_plus(
-            [self.get_raw_texts_for_input(example, reverse=reverse_texts_order)[1] for example in examples], max_length=max_length, pad_to_max_length=True,
-            add_special_tokens=False, return_token_type_ids=False
-        )
+        if not combine_two_text_as_input:
+            batch_encoding = tokenizer.batch_encode_plus(
+                [self.get_raw_texts_for_input(example, reverse=reverse_texts_order)[0] for example in examples], max_length=max_length, pad_to_max_length=True,
+                return_token_type_ids=False
+            )
 
-        # attention_mask = batch_encoding['attention_mask']
-        # input_ids = batch_encoding['input_ids']
-        #
-        #
-        # all_texts_num_of_tokens = []
-        # for a_m, input_id in zip(attention_mask, input_ids):
-        #     import numpy as np
-        #     sequen_len = np.array(a_m).sum(axis=-1)
-        #
-        #     sep_indexes = []
-        #     sep_token = tokenizer.convert_tokens_to_ids([tokenizer.sep_token])[0]
-        #     for sep_index, id_ in enumerate(input_id.copy()):
-        #         if id_ == sep_token:
-        #             sep_indexes.append(sep_index)
-        #
-        #     if len(sep_indexes) != 2:
-        #         raise ValueError
-        #
-        #     text_a_len = sep_indexes[0] - 1
-        #     text_b_len = sep_indexes[1] - sep_indexes[0] - 1
-        #
-        #     if sequen_len != sep_indexes[1] +1:
-        #         raise ValueError
-        #     all_texts_num_of_tokens.append([text_a_len, text_b_len])
+            second_batch_encoding = tokenizer.batch_encode_plus(
+                [self.get_raw_texts_for_input(example, reverse=reverse_texts_order)[1] for example in examples], max_length=max_length, pad_to_max_length=True,
+                return_token_type_ids=False
+            )
+
+        else:
+            batch_encoding = tokenizer.batch_encode_plus(
+                [self.get_raw_texts_for_input(example, reverse=reverse_texts_order) for example in examples], max_length=max_length, pad_to_max_length=True,
+                return_token_type_ids=True
+            )
+            second_batch_encoding = []
 
         features = []
         tokens_list = []
         for i in range(len(examples)):
             inputs = {k: batch_encoding[k][i] for k in batch_encoding}
-            second_inputs = {f'second_{k}': batch_encoding[k][i] for k in second_batch_encoding}
-            # feature = InputFeature_class(**inputs, example_id=examples[i].id, label=labels[i], index=examples[i].index,
-            #                              texts_num_of_tokens=all_texts_num_of_tokens[i])
+            second_inputs = {f'second_{k}': second_batch_encoding[k][i] for k in second_batch_encoding}
 
             feature = InputFeature_class(**inputs, example_id=examples[i].id, label=labels[i], index=examples[i].index,
                                          **second_inputs)
 
             features.append(feature)
-            tokens_list.append(tokenizer.convert_ids_to_tokens(inputs['input_ids']))
+
+            second_tokens = feature.second_input_ids
+            if second_tokens != None:
+                second_tokens = tokenizer.convert_ids_to_tokens(second_tokens)
+            tokens_list.append(f'\ninput_tokens:{tokenizer.convert_ids_to_tokens(inputs["input_ids"])} \n second_tokens:{second_tokens}')
 
         if not mute:
             for i, example in enumerate(examples[:3]):

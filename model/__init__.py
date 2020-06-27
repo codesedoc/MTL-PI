@@ -1,1 +1,1 @@
-from .semantic_layer import SemanticCompareEnum, SemanticLayer
+from .semantic_layer import DistanceTypeEnum, SemanticLayer

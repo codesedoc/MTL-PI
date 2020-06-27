@@ -100,22 +100,22 @@ class DataProxy:
         data_set = self.dataset_dict[ds_type]
         data_set.update_feature(updates)
 
-    def save_examples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any]):
-        self.corpus.save_examples_according_to_e_id2predictions(ds_type, e_id2predictions)
+    def save_examples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any], output_dir=None):
+        self.corpus.save_examples_according_to_e_id2predictions(ds_type, e_id2predictions, output_dir)
 
-    def save_examples_according_to_evaluation(self):
+    def save_examples_according_to_evaluation(self, output_dir=None):
         if self.prediction_output_dict[DataSetType.dev] is None:
             logger.warning(f"{self.name} have not dev prediction output")
         else:
-            self.save_examples_according_to_e_id2predictions(DataSetType.dev, self.prediction_output_dict[DataSetType.dev].example_id2pred)
+            self.save_examples_according_to_e_id2predictions(DataSetType.dev, self.prediction_output_dict[DataSetType.dev].example_id2pred, output_dir)
 
         if self.prediction_output_dict[DataSetType.test] is None:
             logger.warning(f"{self.name} have not test prediction output")
         else:
-            self.save_examples_according_to_e_id2predictions(DataSetType.test, self.prediction_output_dict[DataSetType.test].example_id2pred)
+            self.save_examples_according_to_e_id2predictions(DataSetType.test, self.prediction_output_dict[DataSetType.test].example_id2pred, output_dir)
 
         for sub_data_proxy in self.sub_proxies:
-            sub_data_proxy.save_examples_according_to_evaluation()
+            sub_data_proxy.save_examples_according_to_evaluation(output_dir)
 
     @property
     def num_label(self):

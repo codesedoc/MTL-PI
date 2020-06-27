@@ -332,13 +332,19 @@ class FrameworkProxy:
         torch.save(self.framework.state_dict(), file_tool.connect_path(output_path, 'framework.pt'))
         self.framework.to(self.performing_args.device)
 
-    def load_model(self, model_path):
+    def load_model(self, model_path, framework=None):
         model_file = file_tool.connect_path(model_path, 'framework.pt')
         if not file_tool.is_file(model_file):
             raise ValueError
-        self.framework.load_state_dict(torch.load(model_file))
+
+        if framework is None:
+            framework = self.framework
+
+        framework.load_state_dict(torch.load(model_file))
         logger.info("Load model from: %s", model_file)
-        self.framework.to(self.performing_args.device)
+        framework.to(self.performing_args.device)
+
+        return framework
 
     def predict(self) -> PredictionOutput:
         raise NotImplementedError()
@@ -370,16 +376,6 @@ class FrameworkProxy:
         file_tool.save_list_data(save_data, output_test_file, 'w')
         logger.info(f"Save the test results at: {output_test_file}")
 
-        # with open(output_test_file, "w") as writer:
-        #
-        #     writer.write("index\tprediction\n")
-        #
-        #     for index, item in enumerate(predictions):
-        #         if output_mode == OutputMode.regression:
-        #             writer.write("%d\t%3.3f\n" % (index, item))
-        #         else:
-        #             item = self.data_proxy.corpus.get_labels()[item]
-        #             writer.write("%d\t%s\n" % (index, item))
 
     def _prediction_loop(
             self, dataloader: DataLoader, description: str, ds_type: DataSetType, data_proxy: Optional[DataProxy] = None,
@@ -578,6 +574,9 @@ class FrameworkProxy:
         if not isinstance(data_proxy, DataProxy):
             raise ValueError
         return self._predict(data_proxy=data_proxy, ds_type=ds_type)
+
+    def args_need_to_record(self) -> Dict[str, Any]:
+        return {}
 
 
 def _create_framework_proxy(proxy_type: type, model_args: ModelArguments, performing_args: PerformingArguments,

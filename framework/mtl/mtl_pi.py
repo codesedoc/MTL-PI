@@ -10,7 +10,7 @@ from ..transformers.run_glue import TFRsFrameworkProxy
 from typing import Any, Tuple, Dict, Optional, List, Union
 from dataclasses import dataclass, replace
 from data.proxy import DataSetType
-from model import SemanticLayer, SemanticCompareEnum
+from model import SemanticLayer, DistanceTypeEnum
 
 
 import torch
@@ -18,6 +18,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 from framework import TrainOutput, PredictionOutput
+from argument.mtl_pi import FeatureComparedEnum
+
 
 
 @dataclass
@@ -57,17 +59,27 @@ class MTLPIFramework(Framework):
         )
 
         self.dropout = torch.nn.Dropout(config.hidden_dropout_prob)
-        self.auxiliary_classifier = torch.nn.Linear(config.hidden_size, config.num_labels)
-        self.primary_classifier = torch.nn.Linear(config.hidden_size, config.num_labels)
+
+        input_size_of_classifier = config.hidden_size
+        if (not model_args.combine_two_texts_as_input) and model_args.distance_type == DistanceTypeEnum.dim_l1.value:
+            input_size_of_classifier += 1
+
+        self.auxiliary_classifier = torch.nn.Linear(input_size_of_classifier, config.num_labels)
+        self.primary_classifier = torch.nn.Linear(input_size_of_classifier, config.num_labels)
+
         self.auxiliary_classifier.apply(self._init_weights)
         self.primary_classifier.apply(self._init_weights)
         self.perform_state = PerformState.auxiliary
         self.num_labels = config.num_labels
 
-        self.max_token_length = int(self.framework_proxy.data_proxy.data_args.max_seq_length)
+        # self.max_token_length = int(self.framework_proxy.data_proxy.data_args.max_seq_length)
         self.loss_weight = model_args.loss_a
+        self.model_args = model_args
 
-        self.semantic_layer = SemanticLayer(SemanticCompareEnum.l1)
+        if self.model_args.combine_two_texts_as_input:
+            self.model_args = replace(model_args, feature_compared='None', distance_type='None')
+
+        self.semantic_layer = SemanticLayer(model_args.distance_type)
 
     def _init_weights(self, module):
         """ Initialize the weights """
@@ -82,9 +94,9 @@ class MTLPIFramework(Framework):
         loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
         return loss
 
-    def _parallel_forward(self, primary_labels, auxiliary_labels, tfrs_output):
-        a_logits = self.auxiliary_classifier(tfrs_output)
-        p_logits = self.primary_classifier(tfrs_output)
+    def _parallel_forward(self, primary_labels, auxiliary_labels, features_classified):
+        a_logits = self.auxiliary_classifier(features_classified)
+        p_logits = self.primary_classifier(features_classified)
 
         loss_fct = torch.nn.CrossEntropyLoss()
 
@@ -95,6 +107,7 @@ class MTLPIFramework(Framework):
         # loss = loss_weight*a_loss + (1-loss_weight)*p_loss
         # outputs = loss, ({'auxiliary': a_logits, 'primary': p_logits}, (a_loss, p_loss))
         # outputs = loss, {'auxiliary': a_logits, 'primary': p_logits}
+
         logits = a_logits[:, [1, 0]] + p_logits
         loss = self._calculate_loss(logits, primary_labels, loss_fct)
 
@@ -102,11 +115,11 @@ class MTLPIFramework(Framework):
 
         return outputs
 
-    def _single_forward(self, labels, tfrs_output):
+    def _single_forward(self, labels, features_classified):
         if self.perform_state == PerformState.primary:
-            logits = self.primary_classifier(tfrs_output)
+            logits = self.primary_classifier(features_classified)
         else:
-            logits = self.auxiliary_classifier(tfrs_output)
+            logits = self.auxiliary_classifier(features_classified)
         outputs = logits,
         if labels is not None:
             loss_fct = torch.nn.CrossEntropyLoss()
@@ -115,73 +128,67 @@ class MTLPIFramework(Framework):
         return outputs
 
     def forward(self, **input_):
-        tfrs_input = {}
-        # tfs_input_name = ['input_ids', 'attention_mask', 'token_type_ids'].
-        tfs_input_name = ['input_ids', 'attention_mask']
-        tfrs_input_for_second = {}
-        for name in tfs_input_name:
-            if name in input_:
-                tfrs_input[name] = input_[name]
-                tfrs_input_for_second[name] = input_[f"second_{name}"]
-        tfr_output = self.encoder(**tfrs_input)
-        tfr_output_for_second = self.encoder(**tfrs_input_for_second)
 
-        other_tfr_output = tfr_output[2:]
-        tfr_output = tfr_output[0]
+        if self.model_args.combine_two_texts_as_input:
+            tfr_input_name = ['input_ids', 'attention_mask', 'token_type_ids']
+            tfr_input ={}
+            for name in tfr_input_name:
+                if name in input_:
+                    tfr_input[name] = input_[name]
 
-        tfr_output_for_second = tfr_output_for_second[0]
+            tfr_output = self.encoder(**tfr_input)[0]
 
-        # texts_num_of_tokens_batch = input_['texts_num_of_tokens']
-        # if len(texts_num_of_tokens_batch) != len(tfr_output):
-        #     raise ValueError
+            features = tfr_output[:, 0]
 
-        use_tokens = True
+            features = self.dropout(features)
 
-        if use_tokens:
-            # attention_mask = input_['attention_mask']
-
-            # text_a_states_batch = []
-            # text_b_states_batch = []
-            # for a_m, t_output, texts_num_of_tokens in zip(attention_mask, tfr_output, texts_num_of_tokens_batch):
-            #     sequen_len = a_m.sum()
-            #     text_a_len = texts_num_of_tokens[0]
-            #     text_b_len = texts_num_of_tokens[1]
-            #     if text_a_len + text_b_len +3 != sequen_len:
-            #         raise ValueError
-            #
-            #     text_a_output_ = t_output[1: text_a_len+1]
-            #     text_b_output_ = t_output[text_a_len+2: text_b_len+text_a_len+2]
-            #
-            #     from utils.data_tool import padding_tensor
-            #     text_a_output = padding_tensor(text_a_output_, self.max_token_length, align_dir='left', dim=0)
-            #     text_b_output = padding_tensor(text_b_output_, self.max_token_length, align_dir='left', dim=0)
-            #
-            #     text_a_states_batch.append(text_a_output)
-            #     text_b_states_batch.append(text_b_output)
-            #
-            # text_a_states_batch = torch.stack(text_a_states_batch, dim=0)
-            # text_b_states_batch = torch.stack(text_b_states_batch, dim=0)
-
-            text_a_states_batch = tfr_output
-            text_b_states_batch = tfr_output_for_second
-
-            tfr_output = self.semantic_layer(text_a_states_batch, text_b_states_batch)
         else:
-            tfr_output = tfr_output[:, 0]
+            tfr_input_name = ['input_ids', 'attention_mask']
+            tfr_input_for_first = {}
+            tfr_input_for_second = {}
 
-        tfr_output = self.dropout(tfr_output)
+            for name in tfr_input_name:
+                if name in input_:
+                    tfr_input_for_first[name] = input_[name]
+                    tfr_input_for_second[name] = input_[f"second_{name}"]
+
+            def states_batch_length_batch(tfr_input_):
+                if self.model_args.feature_compared == FeatureComparedEnum.tokens.value:
+                    tfr_output_ = self.encoder(**tfr_input_)[0]
+
+                    tfr_output_ = tfr_output_ * tfr_input_['attention_mask'][:,:,None]
+                    tfr_output_ = tfr_output_[:, 1:]
+
+                    length_batch = tfr_input_['attention_mask'].sum(dim=1, keepdim=True) - 1
+
+                elif self.model_args.feature_compared == FeatureComparedEnum.cls.value:
+                    tfr_output_ = self.encoder(**tfr_input_)[0][:, 0]
+                    tfr_output_ = tfr_output_[:, None, :]
+                    length_batch = 1
+                else:
+                    raise ValueError
+
+                tfr_output_ = self.dropout(tfr_output_)
+                return tfr_output_, length_batch
+
+            text_a_states_batch, text_a_length_batch = states_batch_length_batch(tfr_input_for_first)
+            text_b_states_batch, text_b_length_batch = states_batch_length_batch(tfr_input_for_second)
+
+            features = self.semantic_layer(text_a_states_batch, text_b_states_batch, text_a_length_batch, text_b_length_batch)
+
+        features_classified = features
 
         if self.perform_state == PerformState.auxiliary:
             a_labels = input_.get('labels')
             if a_labels is None:
                 raise ValueError
 
-            result = self._single_forward(labels=a_labels, tfrs_output=tfr_output)
+            result = self._single_forward(labels=a_labels, features_classified=features_classified)
 
         elif self.perform_state == PerformState.primary:
             p_labels = input_.get('labels')
 
-            result = self._single_forward(labels=p_labels, tfrs_output=tfr_output)
+            result = self._single_forward(labels=p_labels, features_classified=features_classified)
 
         elif self.perform_state == PerformState.parallel:
             p_labels = input_.get('labels')
@@ -189,13 +196,11 @@ class MTLPIFramework(Framework):
             # if a_labels is None or p_labels is None:
             #     raise ValueError
 
-            result = self._parallel_forward(primary_labels=p_labels, auxiliary_labels=a_labels, tfrs_output=tfr_output)
+            result = self._parallel_forward(primary_labels=p_labels, auxiliary_labels=a_labels, features_classified=features_classified)
         else:
             raise ValueError
 
-        outputs = result + other_tfr_output  # add hidden states and attention if they are here
-
-        return outputs  # (loss), logits, (hidden_states), (attentions)
+        return result  # (loss), logits
 
 
 class MTLPIFrameworkProxy(TFRsFrameworkProxy):
@@ -225,9 +230,16 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         self.primary_data_proxy.tokenizer = tokenizer
         self.auxiliary_data_proxy.tokenizer = tokenizer
 
+        self.primary_data_proxy.combine_two_text_as_input = model_args.combine_two_texts_as_input
+        self.auxiliary_data_proxy.combine_two_text_as_input = model_args.combine_two_texts_as_input
+
         self.data_proxy = self.auxiliary_data_proxy
 
         self.framework:MTLPIFramework = self.framework
+        self.model_args = self.framework.model_args
+
+        self.chose_two_way_when_evaluate = True
+
         # self.data_proxy.get_dataset(DataSetType.train)
         # self.data_proxy.get_dataset(DataSetType.dev)
 
@@ -241,7 +253,19 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             cache_dir=model_args.cache_dir,
         )
 
-        return MTLPIFramework(model_args, config=config, framework_proxy=self)
+        from utils import file_tool
+        self.framework_path = file_tool.connect_path(file_tool.dirname(__file__), 'after_auxiliary',
+                                                f'auep_{self.performing_args.auxiliary_training_epoch}',
+                                                f'aulr_{self.performing_args.auxiliary_learning_rate}')
+
+        self.pretrained_auxiliary = False
+
+        framework = MTLPIFramework(model_args, config=config, framework_proxy=self)
+
+        if file_tool.check_dir(self.framework_path):
+            framework = self.load_model(self.framework_path, framework=framework)
+            self.pretrained_auxiliary = True
+        return framework
 
         pass
 
@@ -263,48 +287,56 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
     def train(self,  *args, **kwargs):
         performing_args = self.performing_args
 
-        # Training
-        if performing_args.do_train:
+        if self.pretrained_auxiliary:
+            logging.info(f'Already trained auxiliary data')
+        else:
             logger.info("*** Step1: Train auxiliary data ***")
 
             self.framework.perform_state = PerformState.auxiliary
-
             self._switch_to_auxiliary_data()
 
-            dataset = self.data_proxy.merge_datasets(ds_types=(DataSetType.train, DataSetType.test, DataSetType.dev))
+            dataset = self.data_proxy.merge_datasets(ds_types=(DataSetType.train, DataSetType.test))
             self.data_proxy.set_datasets(DataSetType.train, dataset)
             self._train()
+            self.save_model(self.framework_path)
+        # logger.info("*** Step2: Predict primary data ***")
+        #
+        # self._switch_to_primary_data()
+        #
+        # predict_output = self._predict_for_primary_train()
+        #
+        # updates = self._create_update_input_features_updates(predict_output)
+        #
+        # if not self.performing_args.skip_revise_predictions:
+        #     updates, revise_details = self.original_data_proxy.revise_invalid_predict_for_primary_task(updates=updates)
+        #     if self.tb_writer is not None:
+        #         import json
+        #         self.tb_writer.add_text("revise_details_about_predicted_label_by_auxiliary_model",
+        #                                 json.dumps(revise_details, indent=2), global_step=self.global_step)
+        #
+        # self.data_proxy.update_inputfeatures_in_dataset(DataSetType.train, updates)
 
-            # logger.info("*** Step2: Predict primary data ***")
-            #
-            # self._switch_to_primary_data()
-            #
-            # predict_output = self._predict_for_primary_train()
-            #
-            # updates = self._create_update_input_features_updates(predict_output)
-            #
-            # if not self.performing_args.skip_revise_predictions:
-            #     updates, revise_details = self.original_data_proxy.revise_invalid_predict_for_primary_task(updates=updates)
-            #     if self.tb_writer is not None:
-            #         import json
-            #         self.tb_writer.add_text("revise_details_about_predicted_label_by_auxiliary_model",
-            #                                 json.dumps(revise_details, indent=2), global_step=self.global_step)
-            #
-            # self.data_proxy.update_inputfeatures_in_dataset(DataSetType.train, updates)
+        # self.framework.primary_classifier.load_state_dict(self.framework.auxiliary_classifier.state_dict())
 
-            # self.framework.primary_classifier.load_state_dict(self.framework.auxiliary_classifier.state_dict())
+        logger.info("*** Step2: Parallel train ***")
+        self._switch_to_primary_data()
+        self.framework.perform_state = PerformState.parallel
 
-            logger.info("*** Step3: Parallel train ***")
-            self._switch_to_primary_data()
+        self._train()
+
+        logger.info("*** Step3: Evaluate primary data ***")
+        self._switch_to_primary_data()
+
+        # self.framework.perform_state = PerformState.primary
+
+        if self.chose_two_way_when_evaluate:
             self.framework.perform_state = PerformState.parallel
+            logging.info(f'******************Chose two way*******************')
+        else:
+            self.framework.perform_state = PerformState.primary
+            logging.info(f'******************Chose single way*******************')
 
-            self._train()
-
-            logger.info("*** Step4: Evaluate primary data ***")
-            self._switch_to_primary_data()
-
-            self.framework.perform_state = PerformState.parallel
-            # self.save_model()
+        # self.save_model()
 
     def _switch_to_auxiliary_data(self):
         self.performing_args = self.auxiliary_performing_args
@@ -321,8 +353,14 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             # return metrics
             return None
 
-        elif perform_state == PerformState.parallel or perform_state == PerformState.primary:
-            self.framework.perform_state = PerformState.primary
+        elif perform_state == PerformState.parallel:
+            if self.chose_two_way_when_evaluate:
+                self.framework.perform_state = PerformState.parallel
+                # logging.info(f'******************Chose two way*******************')
+            else:
+                self.framework.perform_state = PerformState.primary
+                # logging.info(f'******************Chose single way*******************')
+
             metrics = self._evaluate(DataSetType.dev)
 
             # test_metrics = self._evaluate(DataSetType.test)
@@ -332,3 +370,12 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         else:
             raise ValueError
 
+    def args_need_to_record(self) -> Dict[str, Any]:
+        result = {
+            'distance_type': self.model_args.distance_type,
+            'feature_compared': self.model_args.feature_compared,
+            'chose_two_way_when_evaluate': self.chose_two_way_when_evaluate
+        }
+
+        result.update(super().args_need_to_record())
+        return result

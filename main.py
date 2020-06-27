@@ -28,8 +28,8 @@ configurator.framework_proxy_type = MTLPIFrameworkProxy
 
 
 
-# tuning_hp = False
-tuning_hp = True
+tuning_hp = False
+# tuning_hp = True
 
 if tuning_hp:
     framework_name = configurator.framework_proxy_type.framework_class.name
@@ -42,7 +42,7 @@ else:
 
     c = controller.Controller()
     c.run()
-    c.save_examples_according_to_evaluation()
+    # c.save_examples_according_to_evaluation()
 
 
 

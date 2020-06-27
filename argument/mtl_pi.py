@@ -1,5 +1,13 @@
 from .tfrs import TFRsDataArguments, TFRsModelArguments, TFRsPerformingArguments
 from dataclasses import dataclass, field
+from enum import Enum, unique
+from model import DistanceTypeEnum
+
+
+@unique
+class FeatureComparedEnum(Enum):
+    cls = 'cls'
+    tokens = 'tokens'
 
 
 @dataclass(frozen=True)
@@ -11,6 +19,14 @@ class MTLPIModelArguments(TFRsModelArguments):
         },
     )
 
+    distance_type: str = field(
+        default=DistanceTypeEnum.dim.value, metadata={"help": "whether combine two texts as input when pass to transformer"}
+    )
+
+    feature_compared: str = field(
+        default=FeatureComparedEnum.cls.value, metadata={"help": "Which feature is used to compare"}
+    )
+
     def get_name_abbreviation(self):
         base_result = super().get_name_abbreviation()
         result = {
@@ -18,6 +34,10 @@ class MTLPIModelArguments(TFRsModelArguments):
         }
         result.update(base_result)
         return result
+
+    def __post_init__(self):
+        if self.combine_two_texts_as_input and (self.feature_compared == FeatureComparedEnum.tokens.value):
+            raise ValueError
 
 
 @dataclass(frozen=True)
@@ -58,6 +78,7 @@ class MTLPIPerformingArguments(TFRsPerformingArguments):
 
     def __post_init__(self):
         super().__post_init__()
+
 
 
 # @dataclass

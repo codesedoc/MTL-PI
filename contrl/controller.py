@@ -141,6 +141,9 @@ class Controller:
 
         return trial
 
+    def add_user_atts_to_trial(self, trial: Trial):
+        trial.set_user_attr('args_need_to_record', self.framework_proxy.args_need_to_record())
+
     def _set_base_logger(self):
         # Setup logging
         logging.basicConfig(
@@ -179,6 +182,6 @@ class Controller:
         self.framework_proxy.save_model(model_path)
 
     def save_examples_according_to_evaluation(self):
-        self.data_proxy.save_examples_according_to_evaluation()
+        self.data_proxy.save_examples_according_to_evaluation(output_dir=self.arguments_box.performing_args.output_dir)
 
 

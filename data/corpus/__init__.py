@@ -105,11 +105,11 @@ class Corpus:
         file_tool.makedir(file_tool.dirname(file_name))
         file_tool.save_list_data(save_data, file_name, 'w')
 
-    def _e_ids_and_filename_tuples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any]):
+    def _e_ids_and_filename_tuples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any], output_dir=None):
         raise NotImplementedError()
 
-    def save_examples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any]):
-        e_ids_and_filename_tuples = self._e_ids_and_filename_tuples_according_to_e_id2predictions(ds_type, e_id2predictions)
+    def save_examples_according_to_e_id2predictions(self, ds_type: DataSetType, e_id2predictions: Dict[int, Any], output_dir=None):
+        e_ids_and_filename_tuples = self._e_ids_and_filename_tuples_according_to_e_id2predictions(ds_type, e_id2predictions, output_dir)
         for e_ids, filename in e_ids_and_filename_tuples:
             self._save_examples(e_ids, filename)
 
