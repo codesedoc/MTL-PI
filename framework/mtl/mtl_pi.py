@@ -295,7 +295,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             self.framework.perform_state = PerformState.auxiliary
             self._switch_to_auxiliary_data()
 
-            dataset = self.data_proxy.merge_datasets(ds_types=(DataSetType.train, DataSetType.test))
+            dataset = self.data_proxy.merge_datasets(ds_types=(DataSetType.train, DataSetType.dev, DataSetType.test))
             self.data_proxy.set_datasets(DataSetType.train, dataset)
             self._train()
             self.save_model(self.framework_path)
