@@ -356,10 +356,10 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         elif perform_state == PerformState.parallel:
             if self.chose_two_way_when_evaluate:
                 self.framework.perform_state = PerformState.parallel
-                # logging.info(f'******************Chose two way*******************')
+                logging.info(f'******************Chose two way*******************')
             else:
                 self.framework.perform_state = PerformState.primary
-                # logging.info(f'******************Chose single way*******************')
+                logging.info(f'******************Chose single way*******************')
 
             metrics = self._evaluate(DataSetType.dev)
 
