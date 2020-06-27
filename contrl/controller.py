@@ -42,6 +42,8 @@ class Controller:
                 raise ValueError
             self.modify_argument(**modify_args)
 
+        # self.modify_argument(n_args=1)
+
         self.create_components()
         # self.data_proxy.mute = True
         pass
@@ -82,6 +84,7 @@ class Controller:
 
         name2abbreviation.update(self.arguments_box.data_args.get_name_abbreviation())
         name2abbreviation.update(self.arguments_box.model_args.get_name_abbreviation())
+
         #update_tensorboard_path
         path = []
         for hy_name, value in replace_dict.items():
@@ -90,11 +93,12 @@ class Controller:
                 logging.error(f"hy{hy_name} is not in name2abbreviation")
                 return
             path.append(f'{name2abbreviation[hy_name]}-{round(value,8)}')
-        if len(path) <=0 :
-            if self.trail is not None:
-                raise ValueError
-            else:
-                return
+        if len(path) <= 0:
+            logger.info("Need not modify tensorboard path when modify some args")
+            return
+        if self.trail is not None:
+            logger.warning("Modify tensorboard path is not because of trial")
+
         path = '_'.join(path)
         path = file_tool.connect_path('result/tensorboard', configurator.framework_proxy_type.framework_class.name,  gethostname(),  path)
         self.arguments_box.performing_args = replace(performing_args, logging_dir=path)

@@ -1,0 +1,25 @@
+2020-06-28 01:51:41 - ********************************************************************************
+2020-06-28 01:51:41 - Current Trial Info
+2020-06-28 01:51:41 - number:0
+2020-06-28 01:51:41 - user_attrs:{'real_hyper_params': {'learning_rate': 1.7e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3, 'auxiliary_learning_rate': 1e-05, 'auxiliary_training_epoch': 3}, 'args_need_to_record': {'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': True, 'combine_two_text_as_input': True}, 'eval_results': {'dev_loss': 0.3742978724778867, 'dev_acc': 0.8480392156862745, 'dev_f1': 0.8934707903780068, 'dev_acc_and_f1': 0.8707550030321407}, 'test_results': {'test_loss': 0.4221465590375441, 'test_acc': 0.8243478260869566, 'test_f1': 0.872849349559379, 'test_acc_and_f1': 0.8485985878231678}, 'result': 0.1519607843137255}
+2020-06-28 01:51:41 - params:{'learning_rate': 17, 'batch_size': 1, 'epoch': 3, 'auxiliary_learning_rate': 1, 'auxiliary_training_epoch': 3}
+2020-06-28 01:51:41 - ********************************************************************************
+
+2020-06-28 01:56:36 - ********************************************************************************
+2020-06-28 01:56:36 - Current Trial Info
+2020-06-28 01:56:36 - number:1
+2020-06-28 01:56:36 - user_attrs:{'real_hyper_params': {'learning_rate': 4.9e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3, 'auxiliary_learning_rate': 4e-05, 'auxiliary_training_epoch': 3}, 'args_need_to_record': {'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': True, 'combine_two_text_as_input': True}, 'eval_results': {'dev_loss': 0.5272682573573262, 'dev_acc': 0.8480392156862745, 'dev_f1': 0.8927335640138409, 'dev_acc_and_f1': 0.8703863898500577}, 'test_results': {'test_loss': 0.5744601731981944, 'test_acc': 0.832463768115942, 'test_f1': 0.8776978417266187, 'test_acc_and_f1': 0.8550808049212804}, 'result': 0.1519607843137255}
+2020-06-28 01:56:36 - params:{'learning_rate': 49, 'batch_size': 1, 'epoch': 3, 'auxiliary_learning_rate': 4, 'auxiliary_training_epoch': 3}
+2020-06-28 01:56:36 - 
+2020-06-28 01:56:36 - best trial number:0 and result:0.1519607843137255
+2020-06-28 01:56:36 - ********************************************************************************
+
+2020-06-28 02:01:01 - ********************************************************************************
+2020-06-28 02:01:01 - Current Trial Info
+2020-06-28 02:01:01 - number:2
+2020-06-28 02:01:01 - user_attrs:{'real_hyper_params': {'learning_rate': 1.2e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4, 'auxiliary_learning_rate': 3e-05, 'auxiliary_training_epoch': 2}, 'args_need_to_record': {'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': True, 'combine_two_text_as_input': True}, 'eval_results': {'dev_loss': 0.4209897173385994, 'dev_acc': 0.821078431372549, 'dev_f1': 0.8781302170283807, 'dev_acc_and_f1': 0.8496043242004648}, 'test_results': {'test_loss': 0.47207483188766575, 'test_acc': 0.8139130434782609, 'test_f1': 0.8680641183723798, 'test_acc_and_f1': 0.8409885809253204}, 'result': 0.178921568627451}
+2020-06-28 02:01:01 - params:{'learning_rate': 12, 'batch_size': 1, 'epoch': 4, 'auxiliary_learning_rate': 3, 'auxiliary_training_epoch': 2}
+2020-06-28 02:01:01 - 
+2020-06-28 02:01:01 - best trial number:0 and result:0.1519607843137255
+2020-06-28 02:01:01 - ********************************************************************************
+
