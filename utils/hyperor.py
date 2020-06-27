@@ -40,7 +40,7 @@ class Hyperor:
                                          load_if_exists=True,
                                          pruner=optuna.pruners.MedianPruner())
 
-        logger_filename = file_tool.connect_path(self.study_path, 'log_analysis.txt')
+        logger_filename = file_tool.connect_path(self.study_path, 'log_analysis.txts')
         self.logger = log_tool.get_logger('my_optuna', logger_filename,
                                           log_format=logging.Formatter("%(asctime)s - %(message)s",
                                                                        datefmt="%Y-%m-%d %H:%M:%S"))
