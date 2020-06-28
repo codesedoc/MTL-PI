@@ -66,7 +66,10 @@ class Hyperor:
 
         if str(hyper_params) in self.trial_dict:
             self.logger.info('*'*80)
-            self.logger.warning('trail hyper_params: %s  repeat!' % (str(hyper_params)))
+            self.logger.info('*************Repeat!**************\n')
+            self.logger.info('trail hyper_params: %s  repeat!' % (str(hyper_params)))
+            self.logger.info(f'corresponding result: {self.trial_dict[str(hyper_params)]}')
+
             best_trial = self.study.best_trial
             self.logger.info(f'best trial number:{best_trial.number} and result:{best_trial.user_attrs["result"]}')
             self.logger.info('*'*80+'\n')
