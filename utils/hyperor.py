@@ -76,6 +76,7 @@ class Hyperor:
         if str(hyper_params) in self.trial_dict:
             self.logger.info('*'*80)
             self.logger.info('*************Repeat!**************\n')
+            self.logger.info('number:{}'.format(trial.number))
             self.logger.info('trail hyper_params: %s  repeat!' % (str(hyper_params)))
             self.logger.info(f'corresponding result: {self.trial_dict[str(hyper_params)]}')
 
@@ -142,7 +143,8 @@ class Hyperor:
     def tune_hyper_parameter(self):
         self.study.optimize(self.objective, n_trials=self.trial_times)
 
-        tail = f'{"#"*10} Optuna finish another {self.trial_times} trials! {"#"*10}'
+        tail = f'{"#"*10} Optuna finish another {self.trial_times} trials! ' \
+               f' Now the number of unify tail is:{len(self.trial_dict)} {"#"*10}'
         self.log_trial(self.study.best_trial, 'Best Trial Info', tail=tail)
         file_tool.save_data_pickle(self.study, file_tool.connect_path(self.study_path, 'study_hyper_parameter.pkls'))
         # log_tool.model_result_logger.info(
