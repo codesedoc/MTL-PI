@@ -18,6 +18,29 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+from enum import Enum, unique
+
+
+from transformers.modeling_roberta import RobertaClassificationHead as RobertaClassifier
+from transformers.modeling_utils import SequenceSummary as XLMClassifier
+from transformers.modeling_utils import SequenceSummary
+
+# @unique
+class TransformerTypeEnum(Enum):
+    albert = 'albert'
+    bert = 'bert'
+    roberta = RobertaClassifier
+    xlm = XLMClassifier
+    xlnet = SequenceSummary
+
+    @staticmethod
+    def get_enum_by_value(name):
+        for e in TransformerTypeEnum:
+            if e.name == name:
+                return e
+        raise ValueError
+
+
 class TFRsFramework(Framework):
     name = 'TFRs'
     def __init__(self, model_args: TFRsModelArguments, *args, **kwargs):
@@ -30,6 +53,8 @@ class TFRsFramework(Framework):
             config=config,
             cache_dir=model_args.cache_dir,
         )
+
+        self.transformer_type = TransformerTypeEnum.get_enum_by_value(model_args.model_name_or_path.split('-')[0])
 
     def forward(self, **input_):
         tfrs_input = {}
