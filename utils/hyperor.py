@@ -56,6 +56,8 @@ class Hyperor:
 
         self.trial_times = trial_times
 
+        self.current_trial_count = 0
+
         if 'trial_dict' in self.study.user_attrs:
             self.trial_dict = self.study.user_attrs['trial_dict']
         else:
@@ -96,6 +98,8 @@ class Hyperor:
             raise ValueError
 
         self.record_one_time_trial(trial, result, attr, hyper_params)
+
+        self.current_trial_count +=1
 
         return result
 
@@ -141,11 +145,16 @@ class Hyperor:
     # def get_real_paras_values_of_trial(self, trial):
 
     def tune_hyper_parameter(self):
-        self.study.optimize(self.objective, n_trials=self.trial_times)
+        self.current_trial_count = 0
+        try:
+            self.study.optimize(self.objective, n_trials=self.trial_times)
+        except KeyboardInterrupt:
+            self.logger.info(f'{"#"*20}KeyboardInterrupt: Stop tune hyper parameter!{"#"*20}')
 
-        tail = f'{"#"*10} Optuna finish another {self.trial_times} trials! ' \
-               f' Now the number of unify tail is:{len(self.trial_dict)} {"#"*10}'
-        self.log_trial(self.study.best_trial, 'Best Trial Info', tail=tail)
-        file_tool.save_data_pickle(self.study, file_tool.connect_path(self.study_path, 'study_hyper_parameter.pkls'))
+        finally:
+            tail = f'{"#"*10} Optuna finish another {self.current_trial_count } trials! ' \
+                   f' Now the number of unify tail is:{len(self.trial_dict)} {"#"*10}'
+            self.log_trial(self.study.best_trial, 'Best Trial Info', tail=tail)
+            file_tool.save_data_pickle(self.study, file_tool.connect_path(self.study_path, 'study_hyper_parameter.pkls'))
         # log_tool.model_result_logger.info(
         #     'Current best value is {} with parameters: {}.'.format(study.best_value, study.best_params))

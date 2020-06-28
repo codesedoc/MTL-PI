@@ -16,9 +16,6 @@ from framework.mtl.mtl_pi import MTLPIFrameworkProxy
 # configurator.framework_proxy_type = TFRsFrameworkProxy
 
 
-
-
-
 configurator.register_arguments(model_args=MTLPIModelArguments,
                                 data_args=MTLPIDataArguments,
                                 performing_args=MTLPIPerformingArguments)
@@ -28,8 +25,8 @@ configurator.framework_proxy_type = MTLPIFrameworkProxy
 
 
 
-# tuning_hp = False
-tuning_hp = True
+tuning_hp = False
+# tuning_hp = True
 
 if tuning_hp:
     framework_name = configurator.framework_proxy_type.framework_class.name
