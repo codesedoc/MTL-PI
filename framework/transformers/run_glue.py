@@ -23,15 +23,14 @@ from enum import Enum, unique
 
 from transformers.modeling_roberta import RobertaClassificationHead as RobertaClassifier
 from transformers.modeling_utils import SequenceSummary as XLMClassifier
-from transformers.modeling_utils import SequenceSummary
 
-# @unique
+@unique
 class TransformerTypeEnum(Enum):
     albert = 'albert'
     bert = 'bert'
     roberta = RobertaClassifier
     xlm = XLMClassifier
-    xlnet = SequenceSummary
+    xlnet = 'xlent'
 
     @staticmethod
     def get_enum_by_value(name):
