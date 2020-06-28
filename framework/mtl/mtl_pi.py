@@ -71,7 +71,8 @@ class MTLPIFramework(Framework):
             self.primary_classifier = torch.nn.Linear(config.hidden_size, config.num_labels)
 
         elif transformer_type == TransformerTypeEnum.xlnet:
-            self.xlnet_squence_sum = transformer_type.value(config)
+            from transformers.modeling_utils import SequenceSummary
+            self.xlnet_squence_sum = SequenceSummary(config)
             self.xlnet_squence_sum.apply(self._init_weights)
             self.auxiliary_classifier = torch.nn.Linear(config.d_model, config.num_labels)
             self.primary_classifier = torch.nn.Linear(config.d_model, config.num_labels)
