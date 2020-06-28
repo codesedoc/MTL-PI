@@ -86,6 +86,9 @@ class Hyperor:
             return self.trial_dict[str(hyper_params)]
 
         result, attr = controller.run()
+
+        del controller
+
         torch.cuda.empty_cache()
 
         if not general_tool.is_number(result):
