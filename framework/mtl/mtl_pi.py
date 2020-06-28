@@ -61,7 +61,7 @@ class MTLPIFramework(Framework):
         self.dropout = torch.nn.Dropout(config.hidden_dropout_prob)
 
         input_size_of_classifier = config.hidden_size
-        if (not model_args.combine_two_texts_as_input) and model_args.distance_type == DistanceTypeEnum.dim_l1.value:
+        if (model_args.split_two_texts_as_input) and model_args.distance_type == DistanceTypeEnum.dim_l1.value:
             input_size_of_classifier += 1
 
         self.auxiliary_classifier = torch.nn.Linear(input_size_of_classifier, config.num_labels)
@@ -76,7 +76,7 @@ class MTLPIFramework(Framework):
         self.loss_weight = model_args.loss_a
         self.model_args = model_args
 
-        if self.model_args.combine_two_texts_as_input:
+        if not self.model_args.split_two_texts_as_input:
             self.model_args = replace(model_args, feature_compared='None', distance_type='None')
 
         self.semantic_layer = SemanticLayer(model_args.distance_type)
@@ -129,7 +129,7 @@ class MTLPIFramework(Framework):
 
     def forward(self, **input_):
 
-        if self.model_args.combine_two_texts_as_input:
+        if not self.model_args.split_two_texts_as_input:
             tfr_input_name = ['input_ids', 'attention_mask', 'token_type_ids']
             tfr_input ={}
             for name in tfr_input_name:
@@ -186,11 +186,16 @@ class MTLPIFramework(Framework):
             result = self._single_forward(labels=a_labels, features_classified=features_classified)
 
         elif self.perform_state == PerformState.primary:
+            if self.framework_proxy.adjust_prediction and not self.framework_proxy.chose_two_way_when_evaluate:
+                raise ValueError
+
             p_labels = input_.get('labels')
 
             result = self._single_forward(labels=p_labels, features_classified=features_classified)
 
         elif self.perform_state == PerformState.parallel:
+            if not self.framework_proxy.adjust_prediction:
+                raise ValueError
             p_labels = input_.get('labels')
             a_labels = input_.get('auxiliary_label')
             # if a_labels is None or p_labels is None:
@@ -230,16 +235,23 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         self.primary_data_proxy.tokenizer = tokenizer
         self.auxiliary_data_proxy.tokenizer = tokenizer
 
-        self.primary_data_proxy.combine_two_text_as_input = model_args.combine_two_texts_as_input
-        self.auxiliary_data_proxy.combine_two_text_as_input = model_args.combine_two_texts_as_input
+        self.primary_data_proxy.combine_two_text_as_input = not model_args.split_two_texts_as_input
+        self.auxiliary_data_proxy.combine_two_text_as_input = not model_args.split_two_texts_as_input
 
         self.data_proxy = self.auxiliary_data_proxy
 
         self.framework:MTLPIFramework = self.framework
         self.model_args = self.framework.model_args
 
-        self.chose_two_way_when_evaluate = False
-        # self.chose_two_way_when_evaluate = True
+        # self.chose_two_way_when_evaluate = False
+
+        self.chose_two_way_when_evaluate = True
+
+        self.adjust_prediction = model_args.adjust_prediction
+
+        if not self.adjust_prediction:
+            self.chose_two_way_when_evaluate = False
+
         # self.data_proxy.get_dataset(DataSetType.train)
         # self.data_proxy.get_dataset(DataSetType.dev)
 
@@ -324,7 +336,13 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
         logger.info("*** Step2: Parallel train ***")
         self._switch_to_primary_data()
-        self.framework.perform_state = PerformState.parallel
+
+        if self.adjust_prediction:
+            self.framework.perform_state = PerformState.parallel
+            logging.info(f'****************** Adjust prediction for primary task *******************')
+        else:
+            self.framework.perform_state = PerformState.primary
+            logging.info(f'****************** Do not adjust prediction for primary task *******************')
 
         self._train()
 
@@ -371,6 +389,12 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             # print(test_metrics)
             self.framework.perform_state = PerformState.parallel
             return metrics
+
+        elif perform_state == PerformState.primary and not self.adjust_prediction:
+            logging.info(f'******************Chose single way*******************')
+            metrics = self._evaluate(DataSetType.dev)
+            return metrics
+
         else:
             raise ValueError
 
@@ -378,7 +402,8 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         result = {
             'distance_type': self.model_args.distance_type,
             'feature_compared': self.model_args.feature_compared,
-            'chose_two_way_when_evaluate': self.chose_two_way_when_evaluate
+            'chose_two_way_when_evaluate': self.chose_two_way_when_evaluate,
+            'adjust_prediction': self.adjust_prediction
         }
 
         result.update(super().args_need_to_record())
