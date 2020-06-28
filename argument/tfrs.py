@@ -19,7 +19,7 @@ class TFRsModelArguments(ModelArguments):
         default=None, metadata={"help": "Pretrained tokenizer name or path if not the same as model_name"}
     )
 
-    combine_two_texts_as_input: bool = field(
+    split_two_texts_as_input: bool = field(
         default=False, metadata={"help": "whether combine two texts as input when pass to transformer"}
     )
 

@@ -27,6 +27,8 @@ class MTLPIModelArguments(TFRsModelArguments):
         default=FeatureComparedEnum.cls.value, metadata={"help": "Which feature is used to compare"}
     )
 
+    adjust_prediction: bool = field(default=False, metadata={"help": "Adjust the primary prediction with the auxiliary information."})
+
     def get_name_abbreviation(self):
         base_result = super().get_name_abbreviation()
         result = {
@@ -36,7 +38,7 @@ class MTLPIModelArguments(TFRsModelArguments):
         return result
 
     def __post_init__(self):
-        if self.combine_two_texts_as_input and (self.feature_compared == FeatureComparedEnum.tokens.value):
+        if not self.split_two_texts_as_input and (self.feature_compared == FeatureComparedEnum.tokens.value):
             raise ValueError
 
 
@@ -75,6 +77,7 @@ class MTLPIPerformingArguments(TFRsPerformingArguments):
         }
         result.update(base_result)
         return result
+
 
     def __post_init__(self):
         super().__post_init__()
