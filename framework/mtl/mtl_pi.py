@@ -238,8 +238,8 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         self.framework:MTLPIFramework = self.framework
         self.model_args = self.framework.model_args
 
-        # self.chose_two_way_when_evaluate = False
-        self.chose_two_way_when_evaluate = True
+        self.chose_two_way_when_evaluate = False
+        # self.chose_two_way_when_evaluate = True
         # self.data_proxy.get_dataset(DataSetType.train)
         # self.data_proxy.get_dataset(DataSetType.dev)
 
