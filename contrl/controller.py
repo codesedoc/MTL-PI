@@ -100,7 +100,14 @@ class Controller:
             logger.warning("Modify tensorboard path is not because of trial")
 
         path = '_'.join(path)
-        path = file_tool.connect_path('result/tensorboard', configurator.framework_proxy_type.framework_class.name,  gethostname(),  path)
+
+        import os
+        gpu_num = os.environ['CUDA_VISIBLE_DEVICES']
+
+        if len(gpu_num) != 1:
+            raise ValueError
+
+        path = file_tool.connect_path('result/tensorboard', configurator.framework_proxy_type.framework_class.name,  gethostname(), f'gpu_{gpu_num}', path)
         self.arguments_box.performing_args = replace(performing_args, logging_dir=path)
 
     def load_optuna_trail(self, trial: Trial):
@@ -118,7 +125,7 @@ class Controller:
         per_device_train_batch_size = batch_size_list[trial.suggest_int('batch_size', 0, len(batch_size_list)-1)]
         real_hyps['per_device_train_batch_size'] = per_device_train_batch_size
         #
-        num_train_epochs = trial.suggest_int('epoch', 3, 4)
+        num_train_epochs = trial.suggest_int('epoch', 2, 4)
         real_hyps['num_train_epochs'] = num_train_epochs
         #
         # auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)

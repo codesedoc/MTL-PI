@@ -31,9 +31,18 @@ class Hyperor:
         if study_path is None:
             study_path = 'result/optuna'
 
+        import os
+        gpu_num = os.environ['CUDA_VISIBLE_DEVICES']
+
+        if len(gpu_num) != 1:
+            raise ValueError
+
+        study_path = file_tool.connect_path(study_path, f'gpu_{gpu_num}')
+
         self.study_path = study_path
         if not file_tool.exists(study_path):
             file_tool.makedir(study_path)
+
         self.study = optuna.create_study(study_name=study_name,
                                          storage='sqlite:///' + file_tool.connect_path(study_path,
                                                                                        'study_hyper_parameter.db'),
