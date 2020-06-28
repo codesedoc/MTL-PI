@@ -45,7 +45,7 @@ class TFRsFrameworkProxy(FrameworkProxy):
     def __init__(self, model_args: TFRsModelArguments, performing_args: TFRsPerformingArguments, data_proxy: TFRsDataProxy,
                  *args, **kwargs):
         self.data_proxy = data_proxy
-
+        self.data_proxy.combine_two_text_as_input = not model_args.split_two_texts_as_input
         self.data_proxy.tokenizer = AutoTokenizer.from_pretrained(
             model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
             cache_dir=model_args.cache_dir,
@@ -153,7 +153,7 @@ class TFRsFrameworkProxy(FrameworkProxy):
         return eval_results
 
     def args_need_to_record(self) -> Dict[str, Any]:
-        result = {'combine_two_text_as_input': self.model_args.combine_two_texts_as_input}
+        result = {'split_two_texts_as_input': self.model_args.split_two_texts_as_input}
         result.update(super().args_need_to_record())
         return result
 
