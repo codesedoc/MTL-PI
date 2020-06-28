@@ -57,7 +57,7 @@ class MTLPIDataArguments(TFRsDataArguments):
 
 @dataclass(frozen=True)
 class MTLPIPerformingArguments(TFRsPerformingArguments):
-    auxiliary_training_epoch: int = field(default=6, metadata={"help": "The training epoch for auxiliary task."})
+    auxiliary_training_epoch: int = field(default=2, metadata={"help": "The training epoch for auxiliary task."})
     auxiliary_learning_rate: float = field(default=2e-5, metadata={"help": "The initial learning rate for auxiliary task."})
 
     skip_revise_predictions: bool = field(default=False, metadata={"help": "The initial learning rate for auxiliary task."})

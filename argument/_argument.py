@@ -247,7 +247,8 @@ class PerformingArguments(Arguments):
             # If you only want to use a specific subset of GPUs use `CUDA_VISIBLE_DEVICES=0`
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
             n_gpu = torch.cuda.device_count()
-
+        if n_gpu !=1:
+            raise ValueError
         return device, n_gpu
 
     @property

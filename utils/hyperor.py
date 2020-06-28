@@ -31,9 +31,18 @@ class Hyperor:
         if study_path is None:
             study_path = 'result/optuna'
 
+        import os
+        gpu_num = os.environ['CUDA_VISIBLE_DEVICES']
+
+        if len(gpu_num) != 1:
+            raise ValueError
+
+        study_path = file_tool.connect_path(study_path, f'gpu_{gpu_num}')
+
         self.study_path = study_path
         if not file_tool.exists(study_path):
             file_tool.makedir(study_path)
+
         self.study = optuna.create_study(study_name=study_name,
                                          storage='sqlite:///' + file_tool.connect_path(study_path,
                                                                                        'study_hyper_parameter.db'),
@@ -66,7 +75,10 @@ class Hyperor:
 
         if str(hyper_params) in self.trial_dict:
             self.logger.info('*'*80)
-            self.logger.warning('trail hyper_params: %s  repeat!' % (str(hyper_params)))
+            self.logger.info('*************Repeat!**************\n')
+            self.logger.info('trail hyper_params: %s  repeat!' % (str(hyper_params)))
+            self.logger.info(f'corresponding result: {self.trial_dict[str(hyper_params)]}')
+
             best_trial = self.study.best_trial
             self.logger.info(f'best trial number:{best_trial.number} and result:{best_trial.user_attrs["result"]}')
             self.logger.info('*'*80+'\n')
