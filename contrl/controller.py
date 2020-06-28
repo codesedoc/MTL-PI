@@ -121,8 +121,8 @@ class Controller:
         num_train_epochs = trial.suggest_int('epoch', 3, 4)
         real_hyps['num_train_epochs'] = num_train_epochs
         #
-        auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)
-        real_hyps['auxiliary_learning_rate'] = auxiliary_learning_rate
+        # auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)
+        # real_hyps['auxiliary_learning_rate'] = auxiliary_learning_rate
         #
         # auxiliary_per_device_batch_size = batch_size_list[trial.suggest_int('auxiliary_batch_size', 0, len(batch_size_list)-1)]
         # real_hyps['auxiliary_per_device_batch_size'] = auxiliary_per_device_batch_size
@@ -131,8 +131,8 @@ class Controller:
         # import torch
         # print(torch.randn(10))
 
-        auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 2, 3)
-        real_hyps['auxiliary_training_epoch'] = auxiliary_training_epoch
+        # auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 2, 3)
+        # real_hyps['auxiliary_training_epoch'] = auxiliary_training_epoch
 
         # loss_a = trial.suggest_loguniform('loss_a', 0.01, 1.0)
         # real_hyps['loss_a'] = loss_a

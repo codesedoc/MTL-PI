@@ -238,8 +238,8 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         self.framework:MTLPIFramework = self.framework
         self.model_args = self.framework.model_args
 
-        self.chose_two_way_when_evaluate = False
-        # self.chose_two_way_when_evaluate = True
+        # self.chose_two_way_when_evaluate = False
+        self.chose_two_way_when_evaluate = True
         # self.data_proxy.get_dataset(DataSetType.train)
         # self.data_proxy.get_dataset(DataSetType.dev)
 
@@ -317,6 +317,10 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         # self.data_proxy.update_inputfeatures_in_dataset(DataSetType.train, updates)
 
         # self.framework.primary_classifier.load_state_dict(self.framework.auxiliary_classifier.state_dict())
+
+        from utils.general_tool import setup_seed
+
+        setup_seed(self.model_args.seed)
 
         logger.info("*** Step2: Parallel train ***")
         self._switch_to_primary_data()
