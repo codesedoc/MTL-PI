@@ -91,11 +91,7 @@ class Hyperor:
         result, attr = controller.run()
 
         del controller
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> e058e163ed76d0c993b1919908dd9182850c651e
         torch.cuda.empty_cache()
 
         if not general_tool.is_number(result):
