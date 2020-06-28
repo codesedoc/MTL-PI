@@ -15,7 +15,7 @@ import logging
 #         self.args_pointer = short_name
 
 class Hyperor:
-    def __init__(self, study_path, study_name, trial_times=10):
+    def __init__(self, study_path, study_name, trial_times=None):
         super().__init__()
         # self.args = args
         # # self.start_up_trials = 5
