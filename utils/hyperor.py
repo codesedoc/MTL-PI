@@ -74,8 +74,18 @@ class Hyperor:
     def objective(self, trial):
         print(f"already tried {len(self.trial_dict)} trials")
         from contrl.controller import Controller
-        trial.set_user_attr('tried_trial_dict', self.trial_dict)
-        controller = Controller(trial)
+        trial.tried_trial_keys = set(self.trial_dict.copy().keys())
+        # num_tried_trial_keys = len(self.trial_dict)
+        try:
+            controller = Controller(trial)
+            # num_tried_trial_keys += 1
+        except:
+            raise
+        finally:
+            # trial.set_user_attr.pop('tried_trial_keys')
+            pass
+
+
         controller.add_user_atts_to_trial(trial)
 
         trial = controller.trail
