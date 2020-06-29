@@ -123,14 +123,14 @@ class Controller:
 
         def _fix_hyps():
             real_hyps.clear()
-            # learning_rate = round(trial.suggest_int('learning_rate', 8, 80) * 1e-6, 8)
-            # real_hyps['learning_rate'] = learning_rate
+            learning_rate = round(trial.suggest_int('learning_rate', 8, 80) * 1e-6, 8)
+            real_hyps['learning_rate'] = learning_rate
 
             per_device_train_batch_size = batch_size_list[trial.suggest_int('batch_size', 0, len(batch_size_list)-1)]
             real_hyps['per_device_train_batch_size'] = per_device_train_batch_size
             #
-            # num_train_epochs = trial.suggest_int('epoch', 2, 4)
-            # real_hyps['num_train_epochs'] = num_train_epochs
+            num_train_epochs = trial.suggest_int('epoch', 2, 4)
+            real_hyps['num_train_epochs'] = num_train_epochs
             #
             # auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)
             # real_hyps['auxiliary_learning_rate'] = auxiliary_learning_rate
