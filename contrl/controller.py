@@ -163,7 +163,7 @@ class Controller:
             _fix_hyps()
             used_tiem = time.time()-strat_time
 
-            print(f'used tiem: {time.time()-strat_time}')
+            # print(f'used tiem: {time.time()-strat_time}')
             sample_count += 1
 
             key_of_trial = Hyperor.key_of_one_trial(trial)
