@@ -20156,3 +20156,1131 @@
 2020-06-29 18:01:23 - best trial number:73 and result:0.09068627450980393
 2020-06-29 18:01:23 - ********************************************************************************
 
+2020-06-29 18:40:16 - ********************************************************************************
+2020-06-29 18:40:16 - Best Trial Info
+2020-06-29 18:40:16 - number:73
+2020-06-29 18:40:16 - user_attrs:{'args_need_to_record': {'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2643998909522505, 'dev_acc': 0.9093137254901961, 'dev_f1': 0.9338103756708409, 'dev_acc_and_f1': 0.9215620505805184}, 'real_hyper_params': {'learning_rate': 3.5e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 2}, 'result': 0.09068627450980393, 'test_results': {'test_loss': 0.3492815207207092, 'test_acc': 0.8602898550724638, 'test_f1': 0.8960758947822337, 'test_acc_and_f1': 0.8781828749273488}}
+2020-06-29 18:40:16 - params:{'batch_size': 0, 'epoch': 2, 'learning_rate': 35}
+2020-06-29 18:40:16 - state:TrialState.COMPLETE
+2020-06-29 18:40:16 - 
+2020-06-29 18:40:16 - ########## Optuna finish another 0 trials!  Now the number of unify tail is:140 ##########
+2020-06-29 18:40:16 - ********************************************************************************
+
+2020-06-29 19:47:38 - ********************************************************************************
+2020-06-29 19:47:38 - Current Trial Info
+2020-06-29 19:47:38 - number:2242
+2020-06-29 19:47:38 - user_attrs:{'real_hyper_params': {'num_train_epochs': 4}, 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.6239533254913255, 'dev_acc': 0.6838235294117647, 'dev_f1': 0.8122270742358079, 'dev_acc_and_f1': 0.7480253018237863}, 'test_results': {'test_loss': 0.6389518952756016, 'test_acc': 0.664927536231884, 'test_f1': 0.7987465181058496, 'test_acc_and_f1': 0.7318370271688668}, 'result': 0.3161764705882353}
+2020-06-29 19:47:38 - params:{'epoch': 4}
+2020-06-29 19:47:38 - 
+2020-06-29 19:47:38 - best trial number:73 and result:0.09068627450980393
+2020-06-29 19:47:38 - ********************************************************************************
+
+2020-06-29 19:49:33 - ********************************************************************************
+2020-06-29 19:49:33 - Current Trial Info
+2020-06-29 19:49:33 - number:2243
+2020-06-29 19:49:33 - user_attrs:{'real_hyper_params': {'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.42072535598394917, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9151943462897526, 'dev_acc_and_f1': 0.8987736437331115}, 'test_results': {'test_loss': 0.4978319209551922, 'test_acc': 0.8469565217391304, 'test_f1': 0.888888888888889, 'test_acc_and_f1': 0.8679227053140097}, 'result': 0.11764705882352944}
+2020-06-29 19:49:33 - params:{'epoch': 4}
+2020-06-29 19:49:33 - 
+2020-06-29 19:49:33 - best trial number:73 and result:0.09068627450980393
+2020-06-29 19:49:33 - ********************************************************************************
+
+2020-06-29 19:52:15 - ********************************************************************************
+2020-06-29 19:52:15 - Current Trial Info
+2020-06-29 19:52:15 - number:2244
+2020-06-29 19:52:15 - user_attrs:{'real_hyper_params': {'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4341152365885529, 'dev_acc': 0.8651960784313726, 'dev_f1': 0.9005424954792043, 'dev_acc_and_f1': 0.8828692869552884}, 'test_results': {'test_loss': 0.5073679908592668, 'test_acc': 0.8330434782608696, 'test_f1': 0.8723404255319149, 'test_acc_and_f1': 0.8526919518963922}, 'result': 0.13480392156862742}
+2020-06-29 19:52:15 - params:{'epoch': 2}
+2020-06-29 19:52:15 - 
+2020-06-29 19:52:15 - best trial number:73 and result:0.09068627450980393
+2020-06-29 19:52:15 - ********************************************************************************
+
+2020-06-29 19:53:50 - ********************************************************************************
+2020-06-29 19:53:50 - Best Trial Info
+2020-06-29 19:53:50 - number:73
+2020-06-29 19:53:50 - user_attrs:{'args_need_to_record': {'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2643998909522505, 'dev_acc': 0.9093137254901961, 'dev_f1': 0.9338103756708409, 'dev_acc_and_f1': 0.9215620505805184}, 'real_hyper_params': {'learning_rate': 3.5e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 2}, 'result': 0.09068627450980393, 'test_results': {'test_loss': 0.3492815207207092, 'test_acc': 0.8602898550724638, 'test_f1': 0.8960758947822337, 'test_acc_and_f1': 0.8781828749273488}}
+2020-06-29 19:53:50 - params:{'batch_size': 0, 'epoch': 2, 'learning_rate': 35}
+2020-06-29 19:53:50 - state:TrialState.COMPLETE
+2020-06-29 19:53:50 - 
+2020-06-29 19:53:50 - ########## Optuna finish another 3 trials!  Now the number of unify tail is:143 ##########
+2020-06-29 19:53:50 - ********************************************************************************
+
+2020-06-29 19:57:42 - ********************************************************************************
+2020-06-29 19:57:42 - Best Trial Info
+2020-06-29 19:57:42 - number:73
+2020-06-29 19:57:42 - user_attrs:{'args_need_to_record': {'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2643998909522505, 'dev_acc': 0.9093137254901961, 'dev_f1': 0.9338103756708409, 'dev_acc_and_f1': 0.9215620505805184}, 'real_hyper_params': {'learning_rate': 3.5e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 2}, 'result': 0.09068627450980393, 'test_results': {'test_loss': 0.3492815207207092, 'test_acc': 0.8602898550724638, 'test_f1': 0.8960758947822337, 'test_acc_and_f1': 0.8781828749273488}}
+2020-06-29 19:57:42 - params:{'batch_size': 0, 'epoch': 2, 'learning_rate': 35}
+2020-06-29 19:57:42 - state:TrialState.COMPLETE
+2020-06-29 19:57:42 - 
+2020-06-29 19:57:42 - ########## Optuna finish another 0 trials!  Now the number of unify tail is:143 ##########
+2020-06-29 19:57:42 - ********************************************************************************
+
+2020-06-29 22:11:23 - ********************************************************************************
+2020-06-29 22:11:23 - Current Trial Info
+2020-06-29 22:11:23 - number:2247
+2020-06-29 22:11:23 - user_attrs:{'real_hyper_params': {'learning_rate': 6.1e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.5867679539118328, 'dev_acc': 0.8627450980392157, 'dev_f1': 0.9020979020979022, 'dev_acc_and_f1': 0.8824215000685589}, 'test_results': {'test_loss': 0.5782517510535264, 'test_acc': 0.8608695652173913, 'test_f1': 0.8970840480274443, 'test_acc_and_f1': 0.8789768066224178}, 'result': 0.13725490196078427}
+2020-06-29 22:11:23 - params:{'learning_rate': 40, 'batch_size': 0, 'epoch': 4}
+2020-06-29 22:11:23 - 
+2020-06-29 22:11:23 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:11:23 - ********************************************************************************
+
+2020-06-29 22:13:12 - ********************************************************************************
+2020-06-29 22:13:12 - Current Trial Info
+2020-06-29 22:13:12 - number:2248
+2020-06-29 22:13:12 - user_attrs:{'real_hyper_params': {'learning_rate': 6.4e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3324444711792703, 'dev_acc': 0.8651960784313726, 'dev_f1': 0.9040139616055847, 'dev_acc_and_f1': 0.8846050200184786}, 'test_results': {'test_loss': 0.3709277442690951, 'test_acc': 0.8498550724637681, 'test_f1': 0.8896463570515551, 'test_acc_and_f1': 0.8697507147576616}, 'result': 0.13480392156862742}
+2020-06-29 22:13:12 - params:{'learning_rate': 39, 'batch_size': 0, 'epoch': 4}
+2020-06-29 22:13:12 - 
+2020-06-29 22:13:12 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:13:12 - ********************************************************************************
+
+2020-06-29 22:16:20 - ********************************************************************************
+2020-06-29 22:16:20 - Current Trial Info
+2020-06-29 22:16:20 - number:2249
+2020-06-29 22:16:20 - user_attrs:{'real_hyper_params': {'learning_rate': 1.9e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.40044508436146903, 'dev_acc': 0.8995098039215687, 'dev_f1': 0.9266547406082289, 'dev_acc_and_f1': 0.9130822722648988}, 'test_results': {'test_loss': 0.5189661041885201, 'test_acc': 0.8718840579710145, 'test_f1': 0.9047003018542475, 'test_acc_and_f1': 0.8882921799126311}, 'result': 0.10049019607843135}
+2020-06-29 22:16:20 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:16:20 - 
+2020-06-29 22:16:20 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:16:20 - ********************************************************************************
+
+2020-06-29 22:18:50 - ********************************************************************************
+2020-06-29 22:18:50 - Current Trial Info
+2020-06-29 22:18:50 - number:2250
+2020-06-29 22:18:50 - user_attrs:{'real_hyper_params': {'learning_rate': 1.8e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.29713089019060135, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9230769230769231, 'dev_acc_and_f1': 0.9088423831070891}, 'test_results': {'test_loss': 0.388522752388208, 'test_acc': 0.8684057971014493, 'test_f1': 0.9020284851100561, 'test_acc_and_f1': 0.8852171411057527}, 'result': 0.10539215686274506}
+2020-06-29 22:18:50 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:18:50 - 
+2020-06-29 22:18:50 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:18:50 - ********************************************************************************
+
+2020-06-29 22:21:40 - ********************************************************************************
+2020-06-29 22:21:40 - Current Trial Info
+2020-06-29 22:21:40 - number:2251
+2020-06-29 22:21:40 - user_attrs:{'real_hyper_params': {'learning_rate': 1e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.32321999850226385, 'dev_acc': 0.8774509803921569, 'dev_f1': 0.9125874125874125, 'dev_acc_and_f1': 0.8950191964897847}, 'test_results': {'test_loss': 0.37326868640741817, 'test_acc': 0.8579710144927536, 'test_f1': 0.8961424332344213, 'test_acc_and_f1': 0.8770567238635875}, 'result': 0.12254901960784315}
+2020-06-29 22:21:40 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:21:40 - 
+2020-06-29 22:21:40 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:21:40 - ********************************************************************************
+
+2020-06-29 22:23:21 - ********************************************************************************
+2020-06-29 22:23:21 - Current Trial Info
+2020-06-29 22:23:21 - number:2252
+2020-06-29 22:23:21 - user_attrs:{'real_hyper_params': {'learning_rate': 6.9e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.27408300208694797, 'dev_acc': 0.8897058823529411, 'dev_f1': 0.9200710479573712, 'dev_acc_and_f1': 0.9048884651551561}, 'test_results': {'test_loss': 0.31478296913620496, 'test_acc': 0.8591304347826086, 'test_f1': 0.8945770065075922, 'test_acc_and_f1': 0.8768537206451004}, 'result': 0.11029411764705888}
+2020-06-29 22:23:21 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:23:21 - 
+2020-06-29 22:23:21 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:23:21 - ********************************************************************************
+
+2020-06-29 22:26:31 - ********************************************************************************
+2020-06-29 22:26:31 - Current Trial Info
+2020-06-29 22:26:31 - number:2253
+2020-06-29 22:26:31 - user_attrs:{'real_hyper_params': {'learning_rate': 2.2e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4399555524190267, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9238938053097344, 'dev_acc_and_f1': 0.9092508242234947}, 'test_results': {'test_loss': 0.5552157697578272, 'test_acc': 0.8689855072463768, 'test_f1': 0.9030874785591766, 'test_acc_and_f1': 0.8860364929027766}, 'result': 0.10539215686274506}
+2020-06-29 22:26:31 - params:{'learning_rate': 24, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:26:31 - 
+2020-06-29 22:26:31 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:26:31 - ********************************************************************************
+
+2020-06-29 22:28:12 - ********************************************************************************
+2020-06-29 22:28:12 - Current Trial Info
+2020-06-29 22:28:12 - number:2254
+2020-06-29 22:28:12 - user_attrs:{'real_hyper_params': {'learning_rate': 7.7e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3415069661888422, 'dev_acc': 0.8529411764705882, 'dev_f1': 0.88929889298893, 'dev_acc_and_f1': 0.8711200347297591}, 'test_results': {'test_loss': 0.3796533398261225, 'test_acc': 0.8353623188405798, 'test_f1': 0.8742249778565102, 'test_acc_and_f1': 0.854793648348545}, 'result': 0.1470588235294118}
+2020-06-29 22:28:12 - params:{'learning_rate': 32, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:28:12 - 
+2020-06-29 22:28:12 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:28:12 - ********************************************************************************
+
+2020-06-29 22:30:43 - ********************************************************************************
+2020-06-29 22:30:43 - Current Trial Info
+2020-06-29 22:30:43 - number:2255
+2020-06-29 22:30:43 - user_attrs:{'real_hyper_params': {'learning_rate': 1.9e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3201410241571127, 'dev_acc': 0.8921568627450981, 'dev_f1': 0.9225352112676057, 'dev_acc_and_f1': 0.907346037006352}, 'test_results': {'test_loss': 0.3958731552723933, 'test_acc': 0.871304347826087, 'test_f1': 0.9048027444253859, 'test_acc_and_f1': 0.8880535461257364}, 'result': 0.10784313725490191}
+2020-06-29 22:30:43 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:30:43 - 
+2020-06-29 22:30:43 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:30:43 - ********************************************************************************
+
+2020-06-29 22:33:51 - ********************************************************************************
+2020-06-29 22:33:51 - Current Trial Info
+2020-06-29 22:33:51 - number:2256
+2020-06-29 22:33:51 - user_attrs:{'real_hyper_params': {'learning_rate': 7.9e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.6243507143329171, 'dev_acc': 0.6838235294117647, 'dev_f1': 0.8122270742358079, 'dev_acc_and_f1': 0.7480253018237863}, 'test_results': {'test_loss': 0.6380156486950539, 'test_acc': 0.664927536231884, 'test_f1': 0.7987465181058496, 'test_acc_and_f1': 0.7318370271688668}, 'result': 0.3161764705882353}
+2020-06-29 22:33:51 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:33:51 - 
+2020-06-29 22:33:51 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:33:51 - ********************************************************************************
+
+2020-06-29 22:39:08 - ********************************************************************************
+2020-06-29 22:39:08 - Current Trial Info
+2020-06-29 22:39:08 - number:2257
+2020-06-29 22:39:08 - user_attrs:{'real_hyper_params': {'learning_rate': 4.6e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3010913489349917, 'dev_acc': 0.9019607843137255, 'dev_f1': 0.9277978339350181, 'dev_acc_and_f1': 0.9148793091243719}, 'test_results': {'test_loss': 0.4012169430239333, 'test_acc': 0.8695652173913043, 'test_f1': 0.9028077753779697, 'test_acc_and_f1': 0.8861864963846371}, 'result': 0.0980392156862745}
+2020-06-29 22:39:08 - params:{'learning_rate': 31, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:39:08 - 
+2020-06-29 22:39:08 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:39:08 - ********************************************************************************
+
+2020-06-29 22:41:56 - ********************************************************************************
+2020-06-29 22:41:56 - Current Trial Info
+2020-06-29 22:41:56 - number:2258
+2020-06-29 22:41:56 - user_attrs:{'real_hyper_params': {'learning_rate': 3.3e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.40376150169793296, 'dev_acc': 0.8848039215686274, 'dev_f1': 0.9162210338680927, 'dev_acc_and_f1': 0.9005124777183601}, 'test_results': {'test_loss': 0.45932090232424716, 'test_acc': 0.8823188405797101, 'test_f1': 0.9120069354139576, 'test_acc_and_f1': 0.8971628879968339}, 'result': 0.11519607843137258}
+2020-06-29 22:41:56 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:41:56 - 
+2020-06-29 22:41:56 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:41:56 - ********************************************************************************
+
+2020-06-29 22:45:04 - ********************************************************************************
+2020-06-29 22:45:04 - Current Trial Info
+2020-06-29 22:45:04 - number:2259
+2020-06-29 22:45:04 - user_attrs:{'real_hyper_params': {'learning_rate': 5e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.6160368071321178, 'dev_acc': 0.8602941176470589, 'dev_f1': 0.9001751313485115, 'dev_acc_and_f1': 0.8802346244977852}, 'test_results': {'test_loss': 0.6167246067930979, 'test_acc': 0.856231884057971, 'test_f1': 0.8936535162950257, 'test_acc_and_f1': 0.8749427001764983}, 'result': 0.13970588235294112}
+2020-06-29 22:45:04 - params:{'learning_rate': 38, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:45:04 - 
+2020-06-29 22:45:04 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:45:04 - ********************************************************************************
+
+2020-06-29 22:48:12 - ********************************************************************************
+2020-06-29 22:48:12 - Current Trial Info
+2020-06-29 22:48:12 - number:2260
+2020-06-29 22:48:12 - user_attrs:{'real_hyper_params': {'learning_rate': 1.4e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.40392495560295444, 'dev_acc': 0.8872549019607843, 'dev_f1': 0.9178571428571428, 'dev_acc_and_f1': 0.9025560224089635}, 'test_results': {'test_loss': 0.46544030246635276, 'test_acc': 0.871304347826087, 'test_f1': 0.904639175257732, 'test_acc_and_f1': 0.8879717615419095}, 'result': 0.11274509803921573}
+2020-06-29 22:48:12 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:48:12 - 
+2020-06-29 22:48:12 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:48:12 - ********************************************************************************
+
+2020-06-29 22:50:05 - ********************************************************************************
+2020-06-29 22:50:05 - Current Trial Info
+2020-06-29 22:50:05 - number:2261
+2020-06-29 22:50:05 - user_attrs:{'real_hyper_params': {'learning_rate': 7.1e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.34609268430401297, 'dev_acc': 0.8602941176470589, 'dev_f1': 0.8994708994708994, 'dev_acc_and_f1': 0.8798825085589792}, 'test_results': {'test_loss': 0.36302953865379095, 'test_acc': 0.8481159420289855, 'test_f1': 0.885987815491732, 'test_acc_and_f1': 0.8670518787603587}, 'result': 0.13970588235294112}
+2020-06-29 22:50:05 - params:{'learning_rate': 29, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:50:05 - 
+2020-06-29 22:50:05 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:50:05 - ********************************************************************************
+
+2020-06-29 22:51:57 - ********************************************************************************
+2020-06-29 22:51:57 - Current Trial Info
+2020-06-29 22:51:57 - number:2262
+2020-06-29 22:51:57 - user_attrs:{'real_hyper_params': {'learning_rate': 7.9e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.6197421778650845, 'dev_acc': 0.6838235294117647, 'dev_f1': 0.8122270742358079, 'dev_acc_and_f1': 0.7480253018237863}, 'test_results': {'test_loss': 0.6341801730019075, 'test_acc': 0.664927536231884, 'test_f1': 0.7987465181058496, 'test_acc_and_f1': 0.7318370271688668}, 'result': 0.3161764705882353}
+2020-06-29 22:51:57 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-29 22:51:57 - 
+2020-06-29 22:51:57 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:51:57 - ********************************************************************************
+
+2020-06-29 22:53:40 - ********************************************************************************
+2020-06-29 22:53:40 - Current Trial Info
+2020-06-29 22:53:40 - number:2263
+2020-06-29 22:53:40 - user_attrs:{'real_hyper_params': {'learning_rate': 1.1e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3166407397856899, 'dev_acc': 0.8455882352941176, 'dev_f1': 0.8904347826086957, 'dev_acc_and_f1': 0.8680115089514067}, 'test_results': {'test_loss': 0.3958365299083568, 'test_acc': 0.8289855072463768, 'test_f1': 0.8750529436679373, 'test_acc_and_f1': 0.852019225457157}, 'result': 0.15441176470588236}
+2020-06-29 22:53:40 - params:{'learning_rate': 39, 'batch_size': 0, 'epoch': 4}
+2020-06-29 22:53:40 - 
+2020-06-29 22:53:40 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:53:40 - ********************************************************************************
+
+2020-06-29 22:56:48 - ********************************************************************************
+2020-06-29 22:56:48 - Current Trial Info
+2020-06-29 22:56:48 - number:2264
+2020-06-29 22:56:48 - user_attrs:{'real_hyper_params': {'learning_rate': 7.5e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4465407358080733, 'dev_acc': 0.8725490196078431, 'dev_f1': 0.9087719298245615, 'dev_acc_and_f1': 0.8906604747162024}, 'test_results': {'test_loss': 0.5241616933296124, 'test_acc': 0.8452173913043478, 'test_f1': 0.8853585229712323, 'test_acc_and_f1': 0.86528795713779}, 'result': 0.12745098039215685}
+2020-06-29 22:56:48 - params:{'learning_rate': 38, 'batch_size': 0, 'epoch': 4}
+2020-06-29 22:56:48 - 
+2020-06-29 22:56:48 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:56:48 - ********************************************************************************
+
+2020-06-29 22:59:37 - ********************************************************************************
+2020-06-29 22:59:37 - Current Trial Info
+2020-06-29 22:59:37 - number:2265
+2020-06-29 22:59:37 - user_attrs:{'real_hyper_params': {'learning_rate': 6.1e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.47306908820481863, 'dev_acc': 0.8651960784313726, 'dev_f1': 0.9001814882032667, 'dev_acc_and_f1': 0.8826887833173196}, 'test_results': {'test_loss': 0.568038739617569, 'test_acc': 0.855072463768116, 'test_f1': 0.8921484037963763, 'test_acc_and_f1': 0.8736104337822461}, 'result': 0.13480392156862742}
+2020-06-29 22:59:37 - params:{'learning_rate': 38, 'batch_size': 0, 'epoch': 4}
+2020-06-29 22:59:37 - 
+2020-06-29 22:59:37 - best trial number:73 and result:0.09068627450980393
+2020-06-29 22:59:37 - ********************************************************************************
+
+2020-06-29 23:02:09 - ********************************************************************************
+2020-06-29 23:02:09 - Current Trial Info
+2020-06-29 23:02:09 - number:2266
+2020-06-29 23:02:09 - user_attrs:{'real_hyper_params': {'learning_rate': 1.3e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.28703661262989044, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9141856392294221, 'dev_acc_and_f1': 0.8970438000068679}, 'test_results': {'test_loss': 0.38857788861625725, 'test_acc': 0.8568115942028985, 'test_f1': 0.8954718578078713, 'test_acc_and_f1': 0.876141726005385}, 'result': 0.12009803921568629}
+2020-06-29 23:02:09 - params:{'learning_rate': 41, 'batch_size': 0, 'epoch': 4}
+2020-06-29 23:02:09 - 
+2020-06-29 23:02:09 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:02:09 - ********************************************************************************
+
+2020-06-29 23:03:52 - ********************************************************************************
+2020-06-29 23:03:52 - Current Trial Info
+2020-06-29 23:03:52 - number:2267
+2020-06-29 23:03:52 - user_attrs:{'real_hyper_params': {'learning_rate': 2.7e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.276379276432243, 'dev_acc': 0.8897058823529411, 'dev_f1': 0.9194991055456172, 'dev_acc_and_f1': 0.9046024939492792}, 'test_results': {'test_loss': 0.3320238864635704, 'test_acc': 0.8655072463768116, 'test_f1': 0.8986899563318778, 'test_acc_and_f1': 0.8820986013543447}, 'result': 0.11029411764705888}
+2020-06-29 23:03:52 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:03:52 - 
+2020-06-29 23:03:52 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:03:52 - ********************************************************************************
+
+2020-06-29 23:07:00 - ********************************************************************************
+2020-06-29 23:07:00 - Current Trial Info
+2020-06-29 23:07:00 - number:2268
+2020-06-29 23:07:00 - user_attrs:{'real_hyper_params': {'learning_rate': 6.7e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.5334917602731901, 'dev_acc': 0.8578431372549019, 'dev_f1': 0.8996539792387542, 'dev_acc_and_f1': 0.8787485582468281}, 'test_results': {'test_loss': 0.5892268096579721, 'test_acc': 0.8498550724637681, 'test_f1': 0.8903007200338839, 'test_acc_and_f1': 0.870077896248826}, 'result': 0.1421568627450981}
+2020-06-29 23:07:00 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:07:00 - 
+2020-06-29 23:07:00 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:07:00 - ********************************************************************************
+
+2020-06-29 23:09:18 - ********************************************************************************
+2020-06-29 23:09:18 - Current Trial Info
+2020-06-29 23:09:18 - number:2269
+2020-06-29 23:09:18 - user_attrs:{'real_hyper_params': {'learning_rate': 5.1e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.31417633929089006, 'dev_acc': 0.8970588235294118, 'dev_f1': 0.925531914893617, 'dev_acc_and_f1': 0.9112953692115144}, 'test_results': {'test_loss': 0.382023170693881, 'test_acc': 0.8753623188405797, 'test_f1': 0.9068860978778691, 'test_acc_and_f1': 0.8911242083592243}, 'result': 0.1029411764705882}
+2020-06-29 23:09:18 - params:{'learning_rate': 31, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:09:18 - 
+2020-06-29 23:09:18 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:09:18 - ********************************************************************************
+
+2020-06-29 23:12:08 - ********************************************************************************
+2020-06-29 23:12:08 - Current Trial Info
+2020-06-29 23:12:08 - number:2270
+2020-06-29 23:12:08 - user_attrs:{'real_hyper_params': {'learning_rate': 1.3e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3146146679041432, 'dev_acc': 0.875, 'dev_f1': 0.9106830122591945, 'dev_acc_and_f1': 0.8928415061295972}, 'test_results': {'test_loss': 0.3772663006352054, 'test_acc': 0.856231884057971, 'test_f1': 0.8952702702702702, 'test_acc_and_f1': 0.8757510771641206}, 'result': 0.125}
+2020-06-29 23:12:08 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:12:08 - 
+2020-06-29 23:12:08 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:12:08 - ********************************************************************************
+
+2020-06-29 23:15:01 - ********************************************************************************
+2020-06-29 23:15:01 - Current Trial Info
+2020-06-29 23:15:01 - number:2271
+2020-06-29 23:15:01 - user_attrs:{'real_hyper_params': {'learning_rate': 2.9e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.42365892319118276, 'dev_acc': 0.8700980392156863, 'dev_f1': 0.9055258467023173, 'dev_acc_and_f1': 0.8878119429590018}, 'test_results': {'test_loss': 0.4501435351859847, 'test_acc': 0.8823188405797101, 'test_f1': 0.9129875696528076, 'test_acc_and_f1': 0.8976532051162589}, 'result': 0.1299019607843137}
+2020-06-29 23:15:01 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:15:01 - 
+2020-06-29 23:15:01 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:15:01 - ********************************************************************************
+
+2020-06-29 23:17:18 - ********************************************************************************
+2020-06-29 23:17:18 - Current Trial Info
+2020-06-29 23:17:18 - number:2272
+2020-06-29 23:17:18 - user_attrs:{'real_hyper_params': {'learning_rate': 7.4e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3247816383692564, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9135802469135803, 'dev_acc_and_f1': 0.896741103848947}, 'test_results': {'test_loss': 0.3802903270935295, 'test_acc': 0.8620289855072464, 'test_f1': 0.8992379339542762, 'test_acc_and_f1': 0.8806334597307612}, 'result': 0.12009803921568629}
+2020-06-29 23:17:18 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:17:18 - 
+2020-06-29 23:17:18 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:17:18 - ********************************************************************************
+
+2020-06-29 23:19:50 - ********************************************************************************
+2020-06-29 23:19:50 - Current Trial Info
+2020-06-29 23:19:50 - number:2273
+2020-06-29 23:19:50 - user_attrs:{'real_hyper_params': {'learning_rate': 7.5e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.36282018849662706, 'dev_acc': 0.8529411764705882, 'dev_f1': 0.8936170212765957, 'dev_acc_and_f1': 0.8732790988735919}, 'test_results': {'test_loss': 0.41316508491420084, 'test_acc': 0.8423188405797102, 'test_f1': 0.8826574633304572, 'test_acc_and_f1': 0.8624881519550838}, 'result': 0.1470588235294118}
+2020-06-29 23:19:50 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:19:50 - 
+2020-06-29 23:19:50 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:19:50 - ********************************************************************************
+
+2020-06-29 23:22:42 - ********************************************************************************
+2020-06-29 23:22:42 - Current Trial Info
+2020-06-29 23:22:42 - number:2274
+2020-06-29 23:22:42 - user_attrs:{'real_hyper_params': {'learning_rate': 5.6e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.455912500839023, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9145907473309609, 'dev_acc_and_f1': 0.8984718442537157}, 'test_results': {'test_loss': 0.5387403915886319, 'test_acc': 0.8678260869565217, 'test_f1': 0.9020618556701031, 'test_acc_and_f1': 0.8849439713133125}, 'result': 0.11764705882352944}
+2020-06-29 23:22:42 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:22:42 - 
+2020-06-29 23:22:42 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:22:42 - ********************************************************************************
+
+2020-06-29 23:24:26 - ********************************************************************************
+2020-06-29 23:24:26 - Current Trial Info
+2020-06-29 23:24:26 - number:2275
+2020-06-29 23:24:26 - user_attrs:{'real_hyper_params': {'learning_rate': 2.8e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2958911588671161, 'dev_acc': 0.875, 'dev_f1': 0.9077757685352622, 'dev_acc_and_f1': 0.891387884267631}, 'test_results': {'test_loss': 0.32339802422319297, 'test_acc': 0.8597101449275363, 'test_f1': 0.8939526730937774, 'test_acc_and_f1': 0.8768314090106568}, 'result': 0.125}
+2020-06-29 23:24:26 - params:{'learning_rate': 43, 'batch_size': 0, 'epoch': 4}
+2020-06-29 23:24:26 - 
+2020-06-29 23:24:26 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:24:26 - ********************************************************************************
+
+2020-06-29 23:27:19 - ********************************************************************************
+2020-06-29 23:27:19 - Current Trial Info
+2020-06-29 23:27:19 - number:2276
+2020-06-29 23:27:19 - user_attrs:{'real_hyper_params': {'learning_rate': 4.9e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4720778052567267, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9142857142857143, 'dev_acc_and_f1': 0.8983193277310924}, 'test_results': {'test_loss': 0.5063783620932588, 'test_acc': 0.8701449275362318, 'test_f1': 0.903114186851211, 'test_acc_and_f1': 0.8866295571937215}, 'result': 0.11764705882352944}
+2020-06-29 23:27:19 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:27:19 - 
+2020-06-29 23:27:19 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:27:19 - ********************************************************************************
+
+2020-06-29 23:29:53 - ********************************************************************************
+2020-06-29 23:29:53 - Current Trial Info
+2020-06-29 23:29:53 - number:2277
+2020-06-29 23:29:53 - user_attrs:{'real_hyper_params': {'learning_rate': 1.7e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2826933416665769, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9228007181328547, 'dev_acc_and_f1': 0.9087042806350548}, 'test_results': {'test_loss': 0.37008962421505537, 'test_acc': 0.8684057971014493, 'test_f1': 0.9027003857693956, 'test_acc_and_f1': 0.8855530914354224}, 'result': 0.10539215686274506}
+2020-06-29 23:29:53 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:29:53 - 
+2020-06-29 23:29:53 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:29:53 - ********************************************************************************
+
+2020-06-29 23:33:04 - ********************************************************************************
+2020-06-29 23:33:04 - Current Trial Info
+2020-06-29 23:33:04 - number:2278
+2020-06-29 23:33:04 - user_attrs:{'real_hyper_params': {'learning_rate': 1.2e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.34637565662463504, 'dev_acc': 0.8921568627450981, 'dev_f1': 0.9208633093525179, 'dev_acc_and_f1': 0.906510086048808}, 'test_results': {'test_loss': 0.43189797338305247, 'test_acc': 0.8660869565217392, 'test_f1': 0.9009009009009009, 'test_acc_and_f1': 0.88349392871132}, 'result': 0.10784313725490191}
+2020-06-29 23:33:04 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:33:04 - 
+2020-06-29 23:33:04 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:33:04 - ********************************************************************************
+
+2020-06-29 23:35:24 - ********************************************************************************
+2020-06-29 23:35:24 - Current Trial Info
+2020-06-29 23:35:24 - number:2279
+2020-06-29 23:35:24 - user_attrs:{'real_hyper_params': {'learning_rate': 1.9e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.26845376938581467, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9238938053097344, 'dev_acc_and_f1': 0.9092508242234947}, 'test_results': {'test_loss': 0.34653229304347877, 'test_acc': 0.8631884057971014, 'test_f1': 0.899488926746167, 'test_acc_and_f1': 0.8813386662716343}, 'result': 0.10539215686274506}
+2020-06-29 23:35:24 - params:{'learning_rate': 32, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:35:24 - 
+2020-06-29 23:35:24 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:35:24 - ********************************************************************************
+
+2020-06-29 23:38:36 - ********************************************************************************
+2020-06-29 23:38:36 - Current Trial Info
+2020-06-29 23:38:36 - number:2280
+2020-06-29 23:38:36 - user_attrs:{'real_hyper_params': {'learning_rate': 6.6e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.5084914963181112, 'dev_acc': 0.8774509803921569, 'dev_f1': 0.9134948096885814, 'dev_acc_and_f1': 0.8954728950403692}, 'test_results': {'test_loss': 0.5964293077726055, 'test_acc': 0.8533333333333334, 'test_f1': 0.8940979489326077, 'test_acc_and_f1': 0.8737156411329705}, 'result': 0.12254901960784315}
+2020-06-29 23:38:36 - params:{'learning_rate': 34, 'batch_size': 1, 'epoch': 2}
+2020-06-29 23:38:36 - 
+2020-06-29 23:38:36 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:38:36 - ********************************************************************************
+
+2020-06-29 23:41:48 - ********************************************************************************
+2020-06-29 23:41:48 - Current Trial Info
+2020-06-29 23:41:48 - number:2281
+2020-06-29 23:41:48 - user_attrs:{'real_hyper_params': {'learning_rate': 5.8e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.5424052669721491, 'dev_acc': 0.8897058823529411, 'dev_f1': 0.9214659685863874, 'dev_acc_and_f1': 0.9055859254696643}, 'test_results': {'test_loss': 0.6305967429933069, 'test_acc': 0.8742028985507246, 'test_f1': 0.9069867123874839, 'test_acc_and_f1': 0.8905948054691042}, 'result': 0.11029411764705888}
+2020-06-29 23:41:48 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:41:48 - 
+2020-06-29 23:41:48 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:41:48 - ********************************************************************************
+
+2020-06-29 23:44:22 - ********************************************************************************
+2020-06-29 23:44:22 - Current Trial Info
+2020-06-29 23:44:22 - number:2282
+2020-06-29 23:44:22 - user_attrs:{'real_hyper_params': {'learning_rate': 6.6e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3493800604460286, 'dev_acc': 0.8602941176470589, 'dev_f1': 0.8998242530755711, 'dev_acc_and_f1': 0.880059185361315}, 'test_results': {'test_loss': 0.3757881760528242, 'test_acc': 0.847536231884058, 'test_f1': 0.8864911523521797, 'test_acc_and_f1': 0.8670136921181189}, 'result': 0.13970588235294112}
+2020-06-29 23:44:22 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:44:22 - 
+2020-06-29 23:44:22 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:44:22 - ********************************************************************************
+
+2020-06-29 23:46:55 - ********************************************************************************
+2020-06-29 23:46:55 - Current Trial Info
+2020-06-29 23:46:55 - number:2283
+2020-06-29 23:46:55 - user_attrs:{'real_hyper_params': {'learning_rate': 5.3e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4375979355445095, 'dev_acc': 0.8676470588235294, 'dev_f1': 0.9042553191489361, 'dev_acc_and_f1': 0.8859511889862328}, 'test_results': {'test_loss': 0.4766994944980575, 'test_acc': 0.8724637681159421, 'test_f1': 0.9042645778938206, 'test_acc_and_f1': 0.8883641730048814}, 'result': 0.13235294117647056}
+2020-06-29 23:46:55 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:46:55 - 
+2020-06-29 23:46:55 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:46:55 - ********************************************************************************
+
+2020-06-29 23:49:14 - ********************************************************************************
+2020-06-29 23:49:14 - Current Trial Info
+2020-06-29 23:49:14 - number:2284
+2020-06-29 23:49:14 - user_attrs:{'real_hyper_params': {'learning_rate': 7.8e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.5386391813848533, 'dev_acc': 0.7475490196078431, 'dev_f1': 0.8417818740399386, 'dev_acc_and_f1': 0.794665446823891}, 'test_results': {'test_loss': 0.5705907858770203, 'test_acc': 0.7217391304347827, 'test_f1': 0.8180439727065959, 'test_acc_and_f1': 0.7698915515706892}, 'result': 0.25245098039215685}
+2020-06-29 23:49:14 - params:{'learning_rate': 31, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:49:14 - 
+2020-06-29 23:49:14 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:49:14 - ********************************************************************************
+
+2020-06-29 23:51:00 - ********************************************************************************
+2020-06-29 23:51:00 - Current Trial Info
+2020-06-29 23:51:00 - number:2285
+2020-06-29 23:51:00 - user_attrs:{'real_hyper_params': {'learning_rate': 1.6e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2946285849400595, 'dev_acc': 0.8872549019607843, 'dev_f1': 0.9181494661921709, 'dev_acc_and_f1': 0.9027021840764775}, 'test_results': {'test_loss': 0.3522633030251772, 'test_acc': 0.8573913043478261, 'test_f1': 0.8946917808219178, 'test_acc_and_f1': 0.876041542584872}, 'result': 0.11274509803921573}
+2020-06-29 23:51:00 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:51:00 - 
+2020-06-29 23:51:00 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:51:00 - ********************************************************************************
+
+2020-06-29 23:54:14 - ********************************************************************************
+2020-06-29 23:54:14 - Current Trial Info
+2020-06-29 23:54:14 - number:2286
+2020-06-29 23:54:14 - user_attrs:{'real_hyper_params': {'learning_rate': 8e-06, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.30210339687034193, 'dev_acc': 0.8700980392156863, 'dev_f1': 0.905861456483126, 'dev_acc_and_f1': 0.8879797478494061}, 'test_results': {'test_loss': 0.3985239694032956, 'test_acc': 0.8591304347826086, 'test_f1': 0.8964635705155518, 'test_acc_and_f1': 0.8777970026490802}, 'result': 0.1299019607843137}
+2020-06-29 23:54:14 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:54:14 - 
+2020-06-29 23:54:14 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:54:14 - ********************************************************************************
+
+2020-06-29 23:56:34 - ********************************************************************************
+2020-06-29 23:56:34 - Current Trial Info
+2020-06-29 23:56:34 - number:2287
+2020-06-29 23:56:34 - user_attrs:{'real_hyper_params': {'learning_rate': 1.3e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.28302375037296146, 'dev_acc': 0.875, 'dev_f1': 0.9090909090909091, 'dev_acc_and_f1': 0.8920454545454546}, 'test_results': {'test_loss': 0.359112192393729, 'test_acc': 0.8515942028985507, 'test_f1': 0.8902229845626072, 'test_acc_and_f1': 0.8709085937305789}, 'result': 0.125}
+2020-06-29 23:56:34 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:56:34 - 
+2020-06-29 23:56:34 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:56:34 - ********************************************************************************
+
+2020-06-29 23:59:46 - ********************************************************************************
+2020-06-29 23:59:46 - Current Trial Info
+2020-06-29 23:59:46 - number:2288
+2020-06-29 23:59:46 - user_attrs:{'real_hyper_params': {'learning_rate': 4.9e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.5274972917110312, 'dev_acc': 0.8872549019607843, 'dev_f1': 0.9184397163120569, 'dev_acc_and_f1': 0.9028473091364206}, 'test_results': {'test_loss': 0.6445135539742531, 'test_acc': 0.8672463768115942, 'test_f1': 0.9029249682068673, 'test_acc_and_f1': 0.8850856725092308}, 'result': 0.11274509803921573}
+2020-06-29 23:59:46 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-29 23:59:46 - 
+2020-06-29 23:59:46 - best trial number:73 and result:0.09068627450980393
+2020-06-29 23:59:46 - ********************************************************************************
+
+2020-06-30 00:02:20 - ********************************************************************************
+2020-06-30 00:02:20 - Current Trial Info
+2020-06-30 00:02:20 - number:2289
+2020-06-30 00:02:20 - user_attrs:{'real_hyper_params': {'learning_rate': 2.7e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3685500301858958, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9126559714795008, 'dev_acc_and_f1': 0.8962789661319073}, 'test_results': {'test_loss': 0.4304664609781294, 'test_acc': 0.8678260869565217, 'test_f1': 0.9014693171996543, 'test_acc_and_f1': 0.8846477020780881}, 'result': 0.12009803921568629}
+2020-06-30 00:02:20 - params:{'learning_rate': 29, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:02:20 - 
+2020-06-30 00:02:20 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:02:20 - ********************************************************************************
+
+2020-06-30 00:04:42 - ********************************************************************************
+2020-06-30 00:04:42 - Current Trial Info
+2020-06-30 00:04:42 - number:2290
+2020-06-30 00:04:42 - user_attrs:{'real_hyper_params': {'learning_rate': 4.3e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3079224088612725, 'dev_acc': 0.8774509803921569, 'dev_f1': 0.9094202898550725, 'dev_acc_and_f1': 0.8934356351236147}, 'test_results': {'test_loss': 0.3677880169858259, 'test_acc': 0.8736231884057971, 'test_f1': 0.904969485614647, 'test_acc_and_f1': 0.889296337010222}, 'result': 0.12254901960784315}
+2020-06-30 00:04:42 - params:{'learning_rate': 40, 'batch_size': 0, 'epoch': 4}
+2020-06-30 00:04:42 - 
+2020-06-30 00:04:42 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:04:42 - ********************************************************************************
+
+2020-06-30 00:07:35 - ********************************************************************************
+2020-06-30 00:07:35 - Current Trial Info
+2020-06-30 00:07:35 - number:2291
+2020-06-30 00:07:35 - user_attrs:{'real_hyper_params': {'learning_rate': 8e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.6083760343345941, 'dev_acc': 0.696078431372549, 'dev_f1': 0.8103975535168195, 'dev_acc_and_f1': 0.7532379924446843}, 'test_results': {'test_loss': 0.6173863353000747, 'test_acc': 0.6904347826086956, 'test_f1': 0.8036764705882352, 'test_acc_and_f1': 0.7470556265984654}, 'result': 0.303921568627451}
+2020-06-30 00:07:35 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:07:35 - 
+2020-06-30 00:07:35 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:07:35 - ********************************************************************************
+
+2020-06-30 00:09:55 - ********************************************************************************
+2020-06-30 00:09:55 - Current Trial Info
+2020-06-30 00:09:55 - number:2292
+2020-06-30 00:09:55 - user_attrs:{'real_hyper_params': {'learning_rate': 2.2e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2871374547773716, 'dev_acc': 0.875, 'dev_f1': 0.9094138543516875, 'dev_acc_and_f1': 0.8922069271758437}, 'test_results': {'test_loss': 0.345487744167999, 'test_acc': 0.8736231884057971, 'test_f1': 0.9067579127459366, 'test_acc_and_f1': 0.8901905505758669}, 'result': 0.125}
+2020-06-30 00:09:55 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:09:55 - 
+2020-06-30 00:09:55 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:09:55 - ********************************************************************************
+
+2020-06-30 00:12:49 - ********************************************************************************
+2020-06-30 00:12:49 - Current Trial Info
+2020-06-30 00:12:49 - number:2293
+2020-06-30 00:12:49 - user_attrs:{'real_hyper_params': {'learning_rate': 3.5e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.448007274638204, 'dev_acc': 0.8651960784313726, 'dev_f1': 0.9029982363315697, 'dev_acc_and_f1': 0.8840971573814711}, 'test_results': {'test_loss': 0.47573666733310177, 'test_acc': 0.8684057971014493, 'test_f1': 0.9030328919265271, 'test_acc_and_f1': 0.8857193445139881}, 'result': 0.13480392156862742}
+2020-06-30 00:12:49 - params:{'learning_rate': 32, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:12:49 - 
+2020-06-30 00:12:49 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:12:49 - ********************************************************************************
+
+2020-06-30 00:15:24 - ********************************************************************************
+2020-06-30 00:15:24 - Current Trial Info
+2020-06-30 00:15:24 - number:2294
+2020-06-30 00:15:24 - user_attrs:{'real_hyper_params': {'learning_rate': 6.4e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3581400469822042, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9148936170212766, 'dev_acc_and_f1': 0.8986232790988735}, 'test_results': {'test_loss': 0.4185208683419559, 'test_acc': 0.856231884057971, 'test_f1': 0.8917975567190227, 'test_acc_and_f1': 0.8740147203884969}, 'result': 0.11764705882352944}
+2020-06-30 00:15:24 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:15:24 - 
+2020-06-30 00:15:24 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:15:24 - ********************************************************************************
+
+2020-06-30 00:17:45 - ********************************************************************************
+2020-06-30 00:17:45 - Current Trial Info
+2020-06-30 00:17:45 - number:2295
+2020-06-30 00:17:45 - user_attrs:{'real_hyper_params': {'learning_rate': 2.9e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3197181648483463, 'dev_acc': 0.8921568627450981, 'dev_f1': 0.9217081850533807, 'dev_acc_and_f1': 0.9069325238992394}, 'test_results': {'test_loss': 0.36994981170735425, 'test_acc': 0.8730434782608696, 'test_f1': 0.9048239895697523, 'test_acc_and_f1': 0.8889337339153109}, 'result': 0.10784313725490191}
+2020-06-30 00:17:45 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:17:45 - 
+2020-06-30 00:17:45 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:17:45 - ********************************************************************************
+
+2020-06-30 00:20:20 - ********************************************************************************
+2020-06-30 00:20:20 - Current Trial Info
+2020-06-30 00:20:20 - number:2296
+2020-06-30 00:20:20 - user_attrs:{'real_hyper_params': {'learning_rate': 8e-06, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.27972575598487665, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9123434704830053, 'dev_acc_and_f1': 0.8961227156336595}, 'test_results': {'test_loss': 0.3782642391613788, 'test_acc': 0.8527536231884058, 'test_f1': 0.8919148936170213, 'test_acc_and_f1': 0.8723342584027135}, 'result': 0.12009803921568629}
+2020-06-30 00:20:20 - params:{'learning_rate': 31, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:20:20 - 
+2020-06-30 00:20:20 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:20:20 - ********************************************************************************
+
+2020-06-30 00:22:47 - ********************************************************************************
+2020-06-30 00:22:47 - Current Trial Info
+2020-06-30 00:22:47 - number:2297
+2020-06-30 00:22:47 - user_attrs:{'real_hyper_params': {'learning_rate': 5.8e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2923681189616521, 'dev_acc': 0.8970588235294118, 'dev_f1': 0.9265734265734265, 'dev_acc_and_f1': 0.9118161250514192}, 'test_results': {'test_loss': 0.405947102401923, 'test_acc': 0.8597101449275363, 'test_f1': 0.8966695132365499, 'test_acc_and_f1': 0.8781898290820431}, 'result': 0.1029411764705882}
+2020-06-30 00:22:47 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:22:47 - 
+2020-06-30 00:22:47 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:22:47 - ********************************************************************************
+
+2020-06-30 00:25:22 - ********************************************************************************
+2020-06-30 00:25:22 - Current Trial Info
+2020-06-30 00:25:22 - number:2298
+2020-06-30 00:25:22 - user_attrs:{'real_hyper_params': {'learning_rate': 6.9e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4198233219338398, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9169550173010381, 'dev_acc_and_f1': 0.8996539792387543}, 'test_results': {'test_loss': 0.45528606280546496, 'test_acc': 0.8573913043478261, 'test_f1': 0.8946917808219178, 'test_acc_and_f1': 0.876041542584872}, 'result': 0.11764705882352944}
+2020-06-30 00:25:22 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:25:22 - 
+2020-06-30 00:25:22 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:25:22 - ********************************************************************************
+
+2020-06-30 00:28:37 - ********************************************************************************
+2020-06-30 00:28:37 - Current Trial Info
+2020-06-30 00:28:37 - number:2299
+2020-06-30 00:28:37 - user_attrs:{'real_hyper_params': {'learning_rate': 6.8e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4430930008198701, 'dev_acc': 0.8504901960784313, 'dev_f1': 0.8950086058519794, 'dev_acc_and_f1': 0.8727494009652054}, 'test_results': {'test_loss': 0.4865163105919405, 'test_acc': 0.8486956521739131, 'test_f1': 0.8886993603411514, 'test_acc_and_f1': 0.8686975062575322}, 'result': 0.14950980392156865}
+2020-06-30 00:28:37 - params:{'learning_rate': 38, 'batch_size': 0, 'epoch': 3}
+2020-06-30 00:28:37 - 
+2020-06-30 00:28:37 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:28:37 - ********************************************************************************
+
+2020-06-30 00:30:59 - ********************************************************************************
+2020-06-30 00:30:59 - Current Trial Info
+2020-06-30 00:30:59 - number:2300
+2020-06-30 00:30:59 - user_attrs:{'real_hyper_params': {'learning_rate': 2.5e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.304590129750032, 'dev_acc': 0.8848039215686274, 'dev_f1': 0.9171075837742505, 'dev_acc_and_f1': 0.9009557526714389}, 'test_results': {'test_loss': 0.3447922579081798, 'test_acc': 0.8753623188405797, 'test_f1': 0.9078439777111017, 'test_acc_and_f1': 0.8916031482758406}, 'result': 0.11519607843137258}
+2020-06-30 00:30:59 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:30:59 - 
+2020-06-30 00:30:59 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:30:59 - ********************************************************************************
+
+2020-06-30 00:33:56 - ********************************************************************************
+2020-06-30 00:33:56 - Current Trial Info
+2020-06-30 00:33:56 - number:2301
+2020-06-30 00:33:56 - user_attrs:{'real_hyper_params': {'learning_rate': 4.5e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.5347314016783938, 'dev_acc': 0.8872549019607843, 'dev_f1': 0.9187279151943463, 'dev_acc_and_f1': 0.9029914085775652}, 'test_results': {'test_loss': 0.5354004806614723, 'test_acc': 0.8782608695652174, 'test_f1': 0.9101027397260273, 'test_acc_and_f1': 0.8941818046456224}, 'result': 0.11274509803921573}
+2020-06-30 00:33:56 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:33:56 - 
+2020-06-30 00:33:56 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:33:56 - ********************************************************************************
+
+2020-06-30 00:36:51 - ********************************************************************************
+2020-06-30 00:36:51 - Current Trial Info
+2020-06-30 00:36:51 - number:2302
+2020-06-30 00:36:51 - user_attrs:{'real_hyper_params': {'learning_rate': 5e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.43624716602704106, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9136690647482014, 'dev_acc_and_f1': 0.898011002962336}, 'test_results': {'test_loss': 0.5642632508339981, 'test_acc': 0.856231884057971, 'test_f1': 0.8939264328485884, 'test_acc_and_f1': 0.8750791584532798}, 'result': 0.11764705882352944}
+2020-06-30 00:36:51 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:36:51 - 
+2020-06-30 00:36:51 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:36:51 - ********************************************************************************
+
+2020-06-30 00:39:33 - ********************************************************************************
+2020-06-30 00:39:33 - Current Trial Info
+2020-06-30 00:39:33 - number:2303
+2020-06-30 00:39:33 - user_attrs:{'real_hyper_params': {'learning_rate': 7.6e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.6239541897586748, 'dev_acc': 0.6838235294117647, 'dev_f1': 0.8122270742358079, 'dev_acc_and_f1': 0.7480253018237863}, 'test_results': {'test_loss': 0.6388089473324793, 'test_acc': 0.664927536231884, 'test_f1': 0.7987465181058496, 'test_acc_and_f1': 0.7318370271688668}, 'result': 0.3161764705882353}
+2020-06-30 00:39:33 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:39:33 - 
+2020-06-30 00:39:33 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:39:33 - ********************************************************************************
+
+2020-06-30 00:41:54 - ********************************************************************************
+2020-06-30 00:41:54 - Current Trial Info
+2020-06-30 00:41:54 - number:2304
+2020-06-30 00:41:54 - user_attrs:{'real_hyper_params': {'learning_rate': 7.3e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3312959449694437, 'dev_acc': 0.8872549019607843, 'dev_f1': 0.9175627240143369, 'dev_acc_and_f1': 0.9024088129875606}, 'test_results': {'test_loss': 0.3649924614949635, 'test_acc': 0.8597101449275363, 'test_f1': 0.8949652777777778, 'test_acc_and_f1': 0.877337711352657}, 'result': 0.11274509803921573}
+2020-06-30 00:41:54 - params:{'learning_rate': 39, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:41:54 - 
+2020-06-30 00:41:54 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:41:54 - ********************************************************************************
+
+2020-06-30 00:43:53 - ********************************************************************************
+2020-06-30 00:43:53 - Current Trial Info
+2020-06-30 00:43:53 - number:2305
+2020-06-30 00:43:53 - user_attrs:{'real_hyper_params': {'learning_rate': 6.6e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3053634967289719, 'dev_acc': 0.8676470588235294, 'dev_f1': 0.9035714285714286, 'dev_acc_and_f1': 0.885609243697479}, 'test_results': {'test_loss': 0.331115938015972, 'test_acc': 0.864927536231884, 'test_f1': 0.8990030342436065, 'test_acc_and_f1': 0.8819652852377453}, 'result': 0.13235294117647056}
+2020-06-30 00:43:53 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:43:53 - 
+2020-06-30 00:43:53 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:43:53 - ********************************************************************************
+
+2020-06-30 00:45:51 - ********************************************************************************
+2020-06-30 00:45:51 - Current Trial Info
+2020-06-30 00:45:51 - number:2306
+2020-06-30 00:45:51 - user_attrs:{'real_hyper_params': {'learning_rate': 7.5e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3194955295207454, 'dev_acc': 0.8602941176470589, 'dev_f1': 0.8980322003577819, 'dev_acc_and_f1': 0.8791631590024204}, 'test_results': {'test_loss': 0.35003491770476103, 'test_acc': 0.856231884057971, 'test_f1': 0.8926406926406926, 'test_acc_and_f1': 0.8744362883493317}, 'result': 0.13970588235294112}
+2020-06-30 00:45:51 - params:{'learning_rate': 39, 'batch_size': 0, 'epoch': 3}
+2020-06-30 00:45:51 - 
+2020-06-30 00:45:51 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:45:51 - ********************************************************************************
+
+2020-06-30 00:49:06 - ********************************************************************************
+2020-06-30 00:49:06 - Current Trial Info
+2020-06-30 00:49:06 - number:2307
+2020-06-30 00:49:06 - user_attrs:{'real_hyper_params': {'learning_rate': 1.3e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.39487775532053965, 'dev_acc': 0.8872549019607843, 'dev_f1': 0.9184397163120569, 'dev_acc_and_f1': 0.9028473091364206}, 'test_results': {'test_loss': 0.48822653435032676, 'test_acc': 0.8573913043478261, 'test_f1': 0.8950511945392491, 'test_acc_and_f1': 0.8762212494435375}, 'result': 0.11274509803921573}
+2020-06-30 00:49:06 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:49:06 - 
+2020-06-30 00:49:06 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:49:06 - ********************************************************************************
+
+2020-06-30 00:52:01 - ********************************************************************************
+2020-06-30 00:52:01 - Current Trial Info
+2020-06-30 00:52:01 - number:2308
+2020-06-30 00:52:01 - user_attrs:{'real_hyper_params': {'learning_rate': 2.7e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3625507902573137, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9244288224956063, 'dev_acc_and_f1': 0.9095183328164307}, 'test_results': {'test_loss': 0.41870680123705556, 'test_acc': 0.8805797101449275, 'test_f1': 0.9119658119658121, 'test_acc_and_f1': 0.8962727610553698}, 'result': 0.10539215686274506}
+2020-06-30 00:52:01 - params:{'learning_rate': 38, 'batch_size': 0, 'epoch': 4}
+2020-06-30 00:52:01 - 
+2020-06-30 00:52:01 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:52:01 - ********************************************************************************
+
+2020-06-30 00:54:57 - ********************************************************************************
+2020-06-30 00:54:57 - Current Trial Info
+2020-06-30 00:54:57 - number:2309
+2020-06-30 00:54:57 - user_attrs:{'real_hyper_params': {'learning_rate': 5.3e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.38538017182373535, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9228007181328547, 'dev_acc_and_f1': 0.9087042806350548}, 'test_results': {'test_loss': 0.47195023295892125, 'test_acc': 0.8666666666666667, 'test_f1': 0.8993875765529309, 'test_acc_and_f1': 0.8830271216097988}, 'result': 0.10539215686274506}
+2020-06-30 00:54:57 - params:{'learning_rate': 31, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:54:57 - 
+2020-06-30 00:54:57 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:54:57 - ********************************************************************************
+
+2020-06-30 00:57:20 - ********************************************************************************
+2020-06-30 00:57:20 - Current Trial Info
+2020-06-30 00:57:20 - number:2310
+2020-06-30 00:57:20 - user_attrs:{'real_hyper_params': {'learning_rate': 1.6e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.283430758498463, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9126559714795008, 'dev_acc_and_f1': 0.8962789661319073}, 'test_results': {'test_loss': 0.34069793985259755, 'test_acc': 0.8666666666666667, 'test_f1': 0.9017933390264731, 'test_acc_and_f1': 0.8842300028465699}, 'result': 0.12009803921568629}
+2020-06-30 00:57:20 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:57:20 - 
+2020-06-30 00:57:20 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:57:20 - ********************************************************************************
+
+2020-06-30 00:59:57 - ********************************************************************************
+2020-06-30 00:59:57 - Current Trial Info
+2020-06-30 00:59:57 - number:2311
+2020-06-30 00:59:57 - user_attrs:{'real_hyper_params': {'learning_rate': 7e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3771820516855109, 'dev_acc': 0.8627450980392157, 'dev_f1': 0.902439024390244, 'dev_acc_and_f1': 0.8825920612147299}, 'test_results': {'test_loss': 0.3990030136235334, 'test_acc': 0.8452173913043478, 'test_f1': 0.8854568854568855, 'test_acc_and_f1': 0.8653371383806167}, 'result': 0.13725490196078427}
+2020-06-30 00:59:57 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 00:59:57 - 
+2020-06-30 00:59:57 - best trial number:73 and result:0.09068627450980393
+2020-06-30 00:59:57 - ********************************************************************************
+
+2020-06-30 01:03:21 - ********************************************************************************
+2020-06-30 01:03:21 - Current Trial Info
+2020-06-30 01:03:21 - number:2312
+2020-06-30 01:03:21 - user_attrs:{'real_hyper_params': {'learning_rate': 7.2e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.46481048491071253, 'dev_acc': 0.8504901960784313, 'dev_f1': 0.8950086058519794, 'dev_acc_and_f1': 0.8727494009652054}, 'test_results': {'test_loss': 0.4691441738633094, 'test_acc': 0.8463768115942029, 'test_f1': 0.8873778155546111, 'test_acc_and_f1': 0.866877313574407}, 'result': 0.14950980392156865}
+2020-06-30 01:03:21 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:03:21 - 
+2020-06-30 01:03:21 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:03:21 - ********************************************************************************
+
+2020-06-30 01:06:37 - ********************************************************************************
+2020-06-30 01:06:37 - Current Trial Info
+2020-06-30 01:06:37 - number:2313
+2020-06-30 01:06:37 - user_attrs:{'real_hyper_params': {'learning_rate': 7.1e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.6245046135257272, 'dev_acc': 0.6838235294117647, 'dev_f1': 0.8122270742358079, 'dev_acc_and_f1': 0.7480253018237863}, 'test_results': {'test_loss': 0.6380581731597582, 'test_acc': 0.664927536231884, 'test_f1': 0.7987465181058496, 'test_acc_and_f1': 0.7318370271688668}, 'result': 0.3161764705882353}
+2020-06-30 01:06:37 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:06:37 - 
+2020-06-30 01:06:37 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:06:37 - ********************************************************************************
+
+2020-06-30 01:09:53 - ********************************************************************************
+2020-06-30 01:09:53 - Current Trial Info
+2020-06-30 01:09:53 - number:2314
+2020-06-30 01:09:53 - user_attrs:{'real_hyper_params': {'learning_rate': 1.6e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4078737836258084, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9135802469135803, 'dev_acc_and_f1': 0.896741103848947}, 'test_results': {'test_loss': 0.4946397051335899, 'test_acc': 0.8684057971014493, 'test_f1': 0.9027003857693956, 'test_acc_and_f1': 0.8855530914354224}, 'result': 0.12009803921568629}
+2020-06-30 01:09:53 - params:{'learning_rate': 32, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:09:53 - 
+2020-06-30 01:09:53 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:09:53 - ********************************************************************************
+
+2020-06-30 01:12:21 - ********************************************************************************
+2020-06-30 01:12:21 - Current Trial Info
+2020-06-30 01:12:21 - number:2315
+2020-06-30 01:12:21 - user_attrs:{'real_hyper_params': {'learning_rate': 7.2e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.31131114978708474, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9166666666666667, 'dev_acc_and_f1': 0.8995098039215687}, 'test_results': {'test_loss': 0.38268851671643833, 'test_acc': 0.8394202898550724, 'test_f1': 0.883662326753465, 'test_acc_and_f1': 0.8615413083042687}, 'result': 0.11764705882352944}
+2020-06-30 01:12:21 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:12:21 - 
+2020-06-30 01:12:21 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:12:21 - ********************************************************************************
+
+2020-06-30 01:14:12 - ********************************************************************************
+2020-06-30 01:14:12 - Current Trial Info
+2020-06-30 01:14:12 - number:2316
+2020-06-30 01:14:12 - user_attrs:{'real_hyper_params': {'learning_rate': 2.4e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2832564853277861, 'dev_acc': 0.8725490196078431, 'dev_f1': 0.9064748201438848, 'dev_acc_and_f1': 0.889511919875864}, 'test_results': {'test_loss': 0.3277224919034375, 'test_acc': 0.8608695652173913, 'test_f1': 0.8950131233595799, 'test_acc_and_f1': 0.8779413442884856}, 'result': 0.12745098039215685}
+2020-06-30 01:14:12 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:14:12 - 
+2020-06-30 01:14:12 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:14:12 - ********************************************************************************
+
+2020-06-30 01:16:51 - ********************************************************************************
+2020-06-30 01:16:51 - Current Trial Info
+2020-06-30 01:16:51 - number:2317
+2020-06-30 01:16:51 - user_attrs:{'real_hyper_params': {'learning_rate': 5.5e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4242691011989818, 'dev_acc': 0.8700980392156863, 'dev_f1': 0.9061946902654867, 'dev_acc_and_f1': 0.8881463647405865}, 'test_results': {'test_loss': 0.44964594376721867, 'test_acc': 0.8608695652173913, 'test_f1': 0.8969957081545065, 'test_acc_and_f1': 0.8789326366859489}, 'result': 0.1299019607843137}
+2020-06-30 01:16:51 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:16:51 - 
+2020-06-30 01:16:51 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:16:51 - ********************************************************************************
+
+2020-06-30 01:20:06 - ********************************************************************************
+2020-06-30 01:20:06 - Current Trial Info
+2020-06-30 01:20:06 - number:2318
+2020-06-30 01:20:06 - user_attrs:{'real_hyper_params': {'learning_rate': 6e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4896063693598205, 'dev_acc': 0.8700980392156863, 'dev_f1': 0.9061946902654867, 'dev_acc_and_f1': 0.8881463647405865}, 'test_results': {'test_loss': 0.5483735114405001, 'test_acc': 0.8579710144927536, 'test_f1': 0.8954332052923603, 'test_acc_and_f1': 0.8767021098925569}, 'result': 0.1299019607843137}
+2020-06-30 01:20:06 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:20:06 - 
+2020-06-30 01:20:06 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:20:06 - ********************************************************************************
+
+2020-06-30 01:22:34 - ********************************************************************************
+2020-06-30 01:22:34 - Current Trial Info
+2020-06-30 01:22:34 - number:2319
+2020-06-30 01:22:34 - user_attrs:{'real_hyper_params': {'learning_rate': 4.5e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.37140898983560355, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9151943462897526, 'dev_acc_and_f1': 0.8987736437331115}, 'test_results': {'test_loss': 0.4057361995111461, 'test_acc': 0.8707246376811594, 'test_f1': 0.90562843842573, 'test_acc_and_f1': 0.8881765380534448}, 'result': 0.11764705882352944}
+2020-06-30 01:22:34 - params:{'learning_rate': 38, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:22:34 - 
+2020-06-30 01:22:34 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:22:34 - ********************************************************************************
+
+2020-06-30 01:25:32 - ********************************************************************************
+2020-06-30 01:25:32 - Current Trial Info
+2020-06-30 01:25:32 - number:2320
+2020-06-30 01:25:32 - user_attrs:{'real_hyper_params': {'learning_rate': 2.6e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3656009869540439, 'dev_acc': 0.8872549019607843, 'dev_f1': 0.9192982456140351, 'dev_acc_and_f1': 0.9032765737874097}, 'test_results': {'test_loss': 0.4227168813209843, 'test_acc': 0.88, 'test_f1': 0.9112730390055722, 'test_acc_and_f1': 0.8956365195027861}, 'result': 0.11274509803921573}
+2020-06-30 01:25:32 - params:{'learning_rate': 41, 'batch_size': 0, 'epoch': 4}
+2020-06-30 01:25:32 - 
+2020-06-30 01:25:32 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:25:32 - ********************************************************************************
+
+2020-06-30 01:27:58 - ********************************************************************************
+2020-06-30 01:27:58 - Current Trial Info
+2020-06-30 01:27:58 - number:2321
+2020-06-30 01:27:58 - user_attrs:{'real_hyper_params': {'learning_rate': 5.3e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.34411971387909907, 'dev_acc': 0.8774509803921569, 'dev_f1': 0.9119718309859154, 'dev_acc_and_f1': 0.8947114056890362}, 'test_results': {'test_loss': 0.3983261844798647, 'test_acc': 0.8724637681159421, 'test_f1': 0.9058219178082192, 'test_acc_and_f1': 0.8891428429620807}, 'result': 0.12254901960784315}
+2020-06-30 01:27:58 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:27:58 - 
+2020-06-30 01:27:58 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:27:58 - ********************************************************************************
+
+2020-06-30 01:31:15 - ********************************************************************************
+2020-06-30 01:31:15 - Current Trial Info
+2020-06-30 01:31:15 - number:2322
+2020-06-30 01:31:15 - user_attrs:{'real_hyper_params': {'learning_rate': 3e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.48777585184457256, 'dev_acc': 0.8921568627450981, 'dev_f1': 0.9208633093525179, 'dev_acc_and_f1': 0.906510086048808}, 'test_results': {'test_loss': 0.5723755282988013, 'test_acc': 0.8718840579710145, 'test_f1': 0.9032822757111598, 'test_acc_and_f1': 0.8875831668410872}, 'result': 0.10784313725490191}
+2020-06-30 01:31:15 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:31:15 - 
+2020-06-30 01:31:15 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:31:15 - ********************************************************************************
+
+2020-06-30 01:34:15 - ********************************************************************************
+2020-06-30 01:34:15 - Current Trial Info
+2020-06-30 01:34:15 - number:2323
+2020-06-30 01:34:15 - user_attrs:{'real_hyper_params': {'learning_rate': 2.4e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3993864214303447, 'dev_acc': 0.8774509803921569, 'dev_f1': 0.9116607773851589, 'dev_acc_and_f1': 0.8945558788886578}, 'test_results': {'test_loss': 0.4280495083614908, 'test_acc': 0.88, 'test_f1': 0.9112730390055722, 'test_acc_and_f1': 0.8956365195027861}, 'result': 0.12254901960784315}
+2020-06-30 01:34:15 - params:{'learning_rate': 30, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:34:15 - 
+2020-06-30 01:34:15 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:34:15 - ********************************************************************************
+
+2020-06-30 01:36:47 - ********************************************************************************
+2020-06-30 01:36:47 - Current Trial Info
+2020-06-30 01:36:47 - number:2324
+2020-06-30 01:36:47 - user_attrs:{'real_hyper_params': {'learning_rate': 1.4e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.28555596517581566, 'dev_acc': 0.8848039215686274, 'dev_f1': 0.9162210338680927, 'dev_acc_and_f1': 0.9005124777183601}, 'test_results': {'test_loss': 0.34944209287425987, 'test_acc': 0.8556521739130435, 'test_f1': 0.8935442496793501, 'test_acc_and_f1': 0.8745982117961968}, 'result': 0.11519607843137258}
+2020-06-30 01:36:47 - params:{'learning_rate': 32, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:36:47 - 
+2020-06-30 01:36:47 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:36:47 - ********************************************************************************
+
+2020-06-30 01:39:13 - ********************************************************************************
+2020-06-30 01:39:13 - Current Trial Info
+2020-06-30 01:39:13 - number:2325
+2020-06-30 01:39:13 - user_attrs:{'real_hyper_params': {'learning_rate': 5.5e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3328988221930523, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9123434704830053, 'dev_acc_and_f1': 0.8961227156336595}, 'test_results': {'test_loss': 0.3923430251457763, 'test_acc': 0.8684057971014493, 'test_f1': 0.9010893246187364, 'test_acc_and_f1': 0.8847475608600928}, 'result': 0.12009803921568629}
+2020-06-30 01:39:13 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:39:13 - 
+2020-06-30 01:39:13 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:39:13 - ********************************************************************************
+
+2020-06-30 01:41:53 - ********************************************************************************
+2020-06-30 01:41:53 - Current Trial Info
+2020-06-30 01:41:53 - number:2326
+2020-06-30 01:41:53 - user_attrs:{'real_hyper_params': {'learning_rate': 4.4e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4535995191510986, 'dev_acc': 0.8676470588235294, 'dev_f1': 0.9021739130434783, 'dev_acc_and_f1': 0.8849104859335039}, 'test_results': {'test_loss': 0.5174926938661547, 'test_acc': 0.8486956521739131, 'test_f1': 0.8861753161796773, 'test_acc_and_f1': 0.8674354841767952}, 'result': 0.13235294117647056}
+2020-06-30 01:41:53 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:41:53 - 
+2020-06-30 01:41:53 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:41:53 - ********************************************************************************
+
+2020-06-30 01:43:46 - ********************************************************************************
+2020-06-30 01:43:46 - Current Trial Info
+2020-06-30 01:43:46 - number:2327
+2020-06-30 01:43:46 - user_attrs:{'real_hyper_params': {'learning_rate': 8e-06, 'per_device_train_batch_size': 32, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3630011058321186, 'dev_acc': 0.8333333333333334, 'dev_f1': 0.8866666666666667, 'dev_acc_and_f1': 0.8600000000000001}, 'test_results': {'test_loss': 0.43332152675699304, 'test_acc': 0.8069565217391305, 'test_f1': 0.8645790971939812, 'test_acc_and_f1': 0.8357678094665558}, 'result': 0.16666666666666663}
+2020-06-30 01:43:46 - params:{'learning_rate': 37, 'batch_size': 1, 'epoch': 2}
+2020-06-30 01:43:46 - 
+2020-06-30 01:43:46 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:43:46 - ********************************************************************************
+
+2020-06-30 01:46:34 - ********************************************************************************
+2020-06-30 01:46:34 - Current Trial Info
+2020-06-30 01:46:34 - number:2328
+2020-06-30 01:46:34 - user_attrs:{'real_hyper_params': {'learning_rate': 3.2e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.34528221160757777, 'dev_acc': 0.8848039215686274, 'dev_f1': 0.9150090415913201, 'dev_acc_and_f1': 0.8999064815799738}, 'test_results': {'test_loss': 0.36918402808131995, 'test_acc': 0.8701449275362318, 'test_f1': 0.9036144578313252, 'test_acc_and_f1': 0.8868796926837785}, 'result': 0.11519607843137258}
+2020-06-30 01:46:34 - params:{'learning_rate': 38, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:46:34 - 
+2020-06-30 01:46:34 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:46:34 - ********************************************************************************
+
+2020-06-30 01:49:31 - ********************************************************************************
+2020-06-30 01:49:31 - Current Trial Info
+2020-06-30 01:49:31 - number:2329
+2020-06-30 01:49:31 - user_attrs:{'real_hyper_params': {'learning_rate': 3e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4327812533752591, 'dev_acc': 0.8872549019607843, 'dev_f1': 0.9181494661921709, 'dev_acc_and_f1': 0.9027021840764775}, 'test_results': {'test_loss': 0.4447720244837304, 'test_acc': 0.8823188405797101, 'test_f1': 0.9136537643555934, 'test_acc_and_f1': 0.8979863024676518}, 'result': 0.11274509803921573}
+2020-06-30 01:49:31 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:49:31 - 
+2020-06-30 01:49:31 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:49:31 - ********************************************************************************
+
+2020-06-30 01:52:29 - ********************************************************************************
+2020-06-30 01:52:29 - Current Trial Info
+2020-06-30 01:52:29 - number:2330
+2020-06-30 01:52:29 - user_attrs:{'real_hyper_params': {'learning_rate': 6e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.43335793700580505, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9135802469135803, 'dev_acc_and_f1': 0.896741103848947}, 'test_results': {'test_loss': 0.5303045673192375, 'test_acc': 0.8678260869565217, 'test_f1': 0.9033078880407124, 'test_acc_and_f1': 0.8855669874986171}, 'result': 0.12009803921568629}
+2020-06-30 01:52:29 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:52:29 - 
+2020-06-30 01:52:29 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:52:29 - ********************************************************************************
+
+2020-06-30 01:55:28 - ********************************************************************************
+2020-06-30 01:55:28 - Current Trial Info
+2020-06-30 01:55:28 - number:2331
+2020-06-30 01:55:28 - user_attrs:{'real_hyper_params': {'learning_rate': 6.9e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.47582024153248936, 'dev_acc': 0.875, 'dev_f1': 0.9103690685413005, 'dev_acc_and_f1': 0.8926845342706502}, 'test_results': {'test_loss': 0.5279325476192214, 'test_acc': 0.8660869565217392, 'test_f1': 0.902572754112189, 'test_acc_and_f1': 0.8843298553169641}, 'result': 0.125}
+2020-06-30 01:55:28 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:55:28 - 
+2020-06-30 01:55:28 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:55:28 - ********************************************************************************
+
+2020-06-30 01:58:28 - ********************************************************************************
+2020-06-30 01:58:28 - Current Trial Info
+2020-06-30 01:58:28 - number:2332
+2020-06-30 01:58:28 - user_attrs:{'real_hyper_params': {'learning_rate': 6.4e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.43303514359628453, 'dev_acc': 0.8995098039215687, 'dev_f1': 0.9279437609841829, 'dev_acc_and_f1': 0.9137267824528758}, 'test_results': {'test_loss': 0.5602740313646521, 'test_acc': 0.8684057971014493, 'test_f1': 0.9039356749894202, 'test_acc_and_f1': 0.8861707360454347}, 'result': 0.10049019607843135}
+2020-06-30 01:58:28 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-30 01:58:28 - 
+2020-06-30 01:58:28 - best trial number:73 and result:0.09068627450980393
+2020-06-30 01:58:28 - ********************************************************************************
+
+2020-06-30 02:01:28 - ********************************************************************************
+2020-06-30 02:01:28 - Current Trial Info
+2020-06-30 02:01:28 - number:2333
+2020-06-30 02:01:28 - user_attrs:{'real_hyper_params': {'learning_rate': 2.1e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3078709914549893, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.913884007029877, 'dev_acc_and_f1': 0.8968929839070954}, 'test_results': {'test_loss': 0.4129525041725073, 'test_acc': 0.8684057971014493, 'test_f1': 0.9031982942430704, 'test_acc_and_f1': 0.8858020456722598}, 'result': 0.12009803921568629}
+2020-06-30 02:01:28 - params:{'learning_rate': 32, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:01:28 - 
+2020-06-30 02:01:28 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:01:28 - ********************************************************************************
+
+2020-06-30 02:04:17 - ********************************************************************************
+2020-06-30 02:04:17 - Current Trial Info
+2020-06-30 02:04:17 - number:2334
+2020-06-30 02:04:17 - user_attrs:{'real_hyper_params': {'learning_rate': 2.4e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3471788748660508, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9233511586452763, 'dev_acc_and_f1': 0.9089795008912656}, 'test_results': {'test_loss': 0.44976342871302255, 'test_acc': 0.8718840579710145, 'test_f1': 0.9041214750542299, 'test_acc_and_f1': 0.8880027665126222}, 'result': 0.10539215686274506}
+2020-06-30 02:04:17 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:04:17 - 
+2020-06-30 02:04:17 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:04:17 - ********************************************************************************
+
+2020-06-30 02:07:36 - ********************************************************************************
+2020-06-30 02:07:36 - Current Trial Info
+2020-06-30 02:07:36 - number:2335
+2020-06-30 02:07:36 - user_attrs:{'real_hyper_params': {'learning_rate': 7e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.46921246769089325, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9144851657940662, 'dev_acc_and_f1': 0.89719356328919}, 'test_results': {'test_loss': 0.5706287728691543, 'test_acc': 0.8539130434782609, 'test_f1': 0.8939393939393939, 'test_acc_and_f1': 0.8739262187088275}, 'result': 0.12009803921568629}
+2020-06-30 02:07:36 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:07:36 - 
+2020-06-30 02:07:36 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:07:36 - ********************************************************************************
+
+2020-06-30 02:10:18 - ********************************************************************************
+2020-06-30 02:10:18 - Current Trial Info
+2020-06-30 02:10:18 - number:2336
+2020-06-30 02:10:18 - user_attrs:{'real_hyper_params': {'learning_rate': 7.9e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.6239576380626828, 'dev_acc': 0.6838235294117647, 'dev_f1': 0.8122270742358079, 'dev_acc_and_f1': 0.7480253018237863}, 'test_results': {'test_loss': 0.6387686715633781, 'test_acc': 0.664927536231884, 'test_f1': 0.7987465181058496, 'test_acc_and_f1': 0.7318370271688668}, 'result': 0.3161764705882353}
+2020-06-30 02:10:18 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:10:18 - 
+2020-06-30 02:10:18 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:10:18 - ********************************************************************************
+
+2020-06-30 02:13:20 - ********************************************************************************
+2020-06-30 02:13:20 - Current Trial Info
+2020-06-30 02:13:20 - number:2337
+2020-06-30 02:13:20 - user_attrs:{'real_hyper_params': {'learning_rate': 5.8e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.43913159957703424, 'dev_acc': 0.8970588235294118, 'dev_f1': 0.9257950530035336, 'dev_acc_and_f1': 0.9114269382664727}, 'test_results': {'test_loss': 0.5177325131371617, 'test_acc': 0.8718840579710145, 'test_f1': 0.9052721817402487, 'test_acc_and_f1': 0.8885781198556316}, 'result': 0.1029411764705882}
+2020-06-30 02:13:20 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:13:20 - 
+2020-06-30 02:13:20 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:13:20 - ********************************************************************************
+
+2020-06-30 02:15:48 - ********************************************************************************
+2020-06-30 02:15:48 - Current Trial Info
+2020-06-30 02:15:48 - number:2338
+2020-06-30 02:15:48 - user_attrs:{'real_hyper_params': {'learning_rate': 6.8e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.29142435822708934, 'dev_acc': 0.9019607843137255, 'dev_f1': 0.9290780141843972, 'dev_acc_and_f1': 0.9155193992490613}, 'test_results': {'test_loss': 0.37189682969754495, 'test_acc': 0.855072463768116, 'test_f1': 0.8937977909940528, 'test_acc_and_f1': 0.8744351273810844}, 'result': 0.0980392156862745}
+2020-06-30 02:15:48 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:15:48 - 
+2020-06-30 02:15:48 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:15:48 - ********************************************************************************
+
+2020-06-30 02:19:08 - ********************************************************************************
+2020-06-30 02:19:08 - Current Trial Info
+2020-06-30 02:19:08 - number:2339
+2020-06-30 02:19:08 - user_attrs:{'real_hyper_params': {'learning_rate': 6.4e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.6130921380484805, 'dev_acc': 0.8480392156862745, 'dev_f1': 0.8927335640138409, 'dev_acc_and_f1': 0.8703863898500577}, 'test_results': {'test_loss': 0.6723379349611975, 'test_acc': 0.8544927536231884, 'test_f1': 0.8944934846574191, 'test_acc_and_f1': 0.8744931191403038}, 'result': 0.1519607843137255}
+2020-06-30 02:19:08 - params:{'learning_rate': 40, 'batch_size': 0, 'epoch': 4}
+2020-06-30 02:19:08 - 
+2020-06-30 02:19:08 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:19:08 - ********************************************************************************
+
+2020-06-30 02:21:50 - ********************************************************************************
+2020-06-30 02:21:50 - Current Trial Info
+2020-06-30 02:21:50 - number:2340
+2020-06-30 02:21:50 - user_attrs:{'real_hyper_params': {'learning_rate': 5e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.47680966483027326, 'dev_acc': 0.8676470588235294, 'dev_f1': 0.9028776978417268, 'dev_acc_and_f1': 0.8852623783326281}, 'test_results': {'test_loss': 0.4951468403623612, 'test_acc': 0.8631884057971014, 'test_f1': 0.8969432314410481, 'test_acc_and_f1': 0.8800658186190748}, 'result': 0.13235294117647056}
+2020-06-30 02:21:50 - params:{'learning_rate': 31, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:21:50 - 
+2020-06-30 02:21:50 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:21:50 - ********************************************************************************
+
+2020-06-30 02:24:31 - ********************************************************************************
+2020-06-30 02:24:31 - Current Trial Info
+2020-06-30 02:24:31 - number:2341
+2020-06-30 02:24:31 - user_attrs:{'real_hyper_params': {'learning_rate': 4.2e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.41567853516807746, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9141856392294221, 'dev_acc_and_f1': 0.8970438000068679}, 'test_results': {'test_loss': 0.46637329272925854, 'test_acc': 0.8620289855072464, 'test_f1': 0.8979416809605488, 'test_acc_and_f1': 0.8799853332338976}, 'result': 0.12009803921568629}
+2020-06-30 02:24:31 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:24:31 - 
+2020-06-30 02:24:31 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:24:31 - ********************************************************************************
+
+2020-06-30 02:27:51 - ********************************************************************************
+2020-06-30 02:27:51 - Current Trial Info
+2020-06-30 02:27:51 - number:2342
+2020-06-30 02:27:51 - user_attrs:{'real_hyper_params': {'learning_rate': 1.1e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3310820032276359, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9233511586452763, 'dev_acc_and_f1': 0.9089795008912656}, 'test_results': {'test_loss': 0.4239636578907569, 'test_acc': 0.8602898550724638, 'test_f1': 0.8966995285040721, 'test_acc_and_f1': 0.8784946917882679}, 'result': 0.10539215686274506}
+2020-06-30 02:27:51 - params:{'learning_rate': 38, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:27:51 - 
+2020-06-30 02:27:51 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:27:51 - ********************************************************************************
+
+2020-06-30 02:30:20 - ********************************************************************************
+2020-06-30 02:30:20 - Current Trial Info
+2020-06-30 02:30:20 - number:2343
+2020-06-30 02:30:20 - user_attrs:{'real_hyper_params': {'learning_rate': 1.5e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.28364303196762125, 'dev_acc': 0.8725490196078431, 'dev_f1': 0.907473309608541, 'dev_acc_and_f1': 0.8900111646081921}, 'test_results': {'test_loss': 0.34806883780078757, 'test_acc': 0.8573913043478261, 'test_f1': 0.8930434782608696, 'test_acc_and_f1': 0.8752173913043478}, 'result': 0.12745098039215685}
+2020-06-30 02:30:20 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:30:20 - 
+2020-06-30 02:30:20 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:30:20 - ********************************************************************************
+
+2020-06-30 02:32:49 - ********************************************************************************
+2020-06-30 02:32:49 - Current Trial Info
+2020-06-30 02:32:49 - number:2344
+2020-06-30 02:32:49 - user_attrs:{'real_hyper_params': {'learning_rate': 4.9e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3619254324950424, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9133574007220215, 'dev_acc_and_f1': 0.897855170949246}, 'test_results': {'test_loss': 0.3960392059309891, 'test_acc': 0.8678260869565217, 'test_f1': 0.9012131715771231, 'test_acc_and_f1': 0.8845196292668225}, 'result': 0.11764705882352944}
+2020-06-30 02:32:49 - params:{'learning_rate': 29, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:32:49 - 
+2020-06-30 02:32:49 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:32:49 - ********************************************************************************
+
+2020-06-30 02:35:52 - ********************************************************************************
+2020-06-30 02:35:52 - Current Trial Info
+2020-06-30 02:35:52 - number:2345
+2020-06-30 02:35:52 - user_attrs:{'real_hyper_params': {'learning_rate': 4.4e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4774712380387035, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9163763066202091, 'dev_acc_and_f1': 0.8993646238983398}, 'test_results': {'test_loss': 0.5223130376242032, 'test_acc': 0.8765217391304347, 'test_f1': 0.9097839898348157, 'test_acc_and_f1': 0.8931528644826252}, 'result': 0.11764705882352944}
+2020-06-30 02:35:52 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:35:52 - 
+2020-06-30 02:35:52 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:35:52 - ********************************************************************************
+
+2020-06-30 02:38:20 - ********************************************************************************
+2020-06-30 02:38:20 - Current Trial Info
+2020-06-30 02:38:20 - number:2346
+2020-06-30 02:38:20 - user_attrs:{'real_hyper_params': {'learning_rate': 4.2e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2909155904370196, 'dev_acc': 0.8848039215686274, 'dev_f1': 0.9171075837742505, 'dev_acc_and_f1': 0.9009557526714389}, 'test_results': {'test_loss': 0.3950870013450859, 'test_acc': 0.8579710144927536, 'test_f1': 0.8952543822146217, 'test_acc_and_f1': 0.8766126983536877}, 'result': 0.11519607843137258}
+2020-06-30 02:38:20 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:38:20 - 
+2020-06-30 02:38:20 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:38:20 - ********************************************************************************
+
+2020-06-30 02:40:49 - ********************************************************************************
+2020-06-30 02:40:49 - Current Trial Info
+2020-06-30 02:40:49 - number:2347
+2020-06-30 02:40:49 - user_attrs:{'real_hyper_params': {'learning_rate': 4.1e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3147117304889595, 'dev_acc': 0.8872549019607843, 'dev_f1': 0.9178571428571428, 'dev_acc_and_f1': 0.9025560224089635}, 'test_results': {'test_loss': 0.3647557067408882, 'test_acc': 0.8707246376811594, 'test_f1': 0.9038378611470461, 'test_acc_and_f1': 0.8872812494141027}, 'result': 0.11274509803921573}
+2020-06-30 02:40:49 - params:{'learning_rate': 39, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:40:49 - 
+2020-06-30 02:40:49 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:40:49 - ********************************************************************************
+
+2020-06-30 02:42:45 - ********************************************************************************
+2020-06-30 02:42:45 - Current Trial Info
+2020-06-30 02:42:45 - number:2348
+2020-06-30 02:42:45 - user_attrs:{'real_hyper_params': {'learning_rate': 3.9e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2896411202701868, 'dev_acc': 0.8897058823529411, 'dev_f1': 0.9206349206349206, 'dev_acc_and_f1': 0.9051704014939308}, 'test_results': {'test_loss': 0.33571352830363643, 'test_acc': 0.8701449275362318, 'test_f1': 0.9039451114922814, 'test_acc_and_f1': 0.8870450195142566}, 'result': 0.11029411764705888}
+2020-06-30 02:42:45 - params:{'learning_rate': 32, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:42:45 - 
+2020-06-30 02:42:45 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:42:45 - ********************************************************************************
+
+2020-06-30 02:45:49 - ********************************************************************************
+2020-06-30 02:45:49 - Current Trial Info
+2020-06-30 02:45:49 - number:2349
+2020-06-30 02:45:49 - user_attrs:{'real_hyper_params': {'learning_rate': 7.7e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.47818304444937143, 'dev_acc': 0.8848039215686274, 'dev_f1': 0.9168141592920355, 'dev_acc_and_f1': 0.9008090404303315}, 'test_results': {'test_loss': 0.5369300319882179, 'test_acc': 0.8544927536231884, 'test_f1': 0.8940481215702829, 'test_acc_and_f1': 0.8742704375967356}, 'result': 0.11519607843137258}
+2020-06-30 02:45:49 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:45:49 - 
+2020-06-30 02:45:49 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:45:49 - ********************************************************************************
+
+2020-06-30 02:48:32 - ********************************************************************************
+2020-06-30 02:48:32 - Current Trial Info
+2020-06-30 02:48:32 - number:2350
+2020-06-30 02:48:32 - user_attrs:{'real_hyper_params': {'learning_rate': 7.7e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.6239634810709486, 'dev_acc': 0.6838235294117647, 'dev_f1': 0.8122270742358079, 'dev_acc_and_f1': 0.7480253018237863}, 'test_results': {'test_loss': 0.6386914988634763, 'test_acc': 0.664927536231884, 'test_f1': 0.7987465181058496, 'test_acc_and_f1': 0.7318370271688668}, 'result': 0.3161764705882353}
+2020-06-30 02:48:32 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:48:32 - 
+2020-06-30 02:48:32 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:48:32 - ********************************************************************************
+
+2020-06-30 02:51:54 - ********************************************************************************
+2020-06-30 02:51:54 - Current Trial Info
+2020-06-30 02:51:54 - number:2351
+2020-06-30 02:51:54 - user_attrs:{'real_hyper_params': {'learning_rate': 5.9e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.5179027973436842, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9132743362831858, 'dev_acc_and_f1': 0.8965881485337497}, 'test_results': {'test_loss': 0.5912236958457571, 'test_acc': 0.863768115942029, 'test_f1': 0.8989247311827957, 'test_acc_and_f1': 0.8813464235624123}, 'result': 0.12009803921568629}
+2020-06-30 02:51:54 - params:{'learning_rate': 37, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:51:54 - 
+2020-06-30 02:51:54 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:51:54 - ********************************************************************************
+
+2020-06-30 02:54:23 - ********************************************************************************
+2020-06-30 02:54:23 - Current Trial Info
+2020-06-30 02:54:23 - number:2352
+2020-06-30 02:54:23 - user_attrs:{'real_hyper_params': {'learning_rate': 5.6e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.30401063111482884, 'dev_acc': 0.8897058823529411, 'dev_f1': 0.918918918918919, 'dev_acc_and_f1': 0.90431240063593}, 'test_results': {'test_loss': 0.37010826441217903, 'test_acc': 0.8608695652173913, 'test_f1': 0.896640826873385, 'test_acc_and_f1': 0.8787551960453881}, 'result': 0.11029411764705888}
+2020-06-30 02:54:23 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:54:23 - 
+2020-06-30 02:54:23 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:54:23 - ********************************************************************************
+
+2020-06-30 02:56:30 - ********************************************************************************
+2020-06-30 02:56:30 - Current Trial Info
+2020-06-30 02:56:30 - number:2353
+2020-06-30 02:56:30 - user_attrs:{'real_hyper_params': {'learning_rate': 7.2e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.37615004357169657, 'dev_acc': 0.8431372549019608, 'dev_f1': 0.8915254237288135, 'dev_acc_and_f1': 0.8673313393153872}, 'test_results': {'test_loss': 0.3915491571167001, 'test_acc': 0.8371014492753623, 'test_f1': 0.8828678616090038, 'test_acc_and_f1': 0.859984655442183}, 'result': 0.1568627450980392}
+2020-06-30 02:56:30 - params:{'learning_rate': 31, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:56:30 - 
+2020-06-30 02:56:30 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:56:30 - ********************************************************************************
+
+2020-06-30 02:59:03 - ********************************************************************************
+2020-06-30 02:59:03 - Current Trial Info
+2020-06-30 02:59:03 - number:2354
+2020-06-30 02:59:03 - user_attrs:{'real_hyper_params': {'learning_rate': 2.6e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.29402927017095043, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9142857142857143, 'dev_acc_and_f1': 0.8983193277310924}, 'test_results': {'test_loss': 0.34613090798396756, 'test_acc': 0.8765217391304347, 'test_f1': 0.9079913606911447, 'test_acc_and_f1': 0.8922565499107897}, 'result': 0.11764705882352944}
+2020-06-30 02:59:03 - params:{'learning_rate': 26, 'batch_size': 0, 'epoch': 2}
+2020-06-30 02:59:03 - 
+2020-06-30 02:59:03 - best trial number:73 and result:0.09068627450980393
+2020-06-30 02:59:03 - ********************************************************************************
+
+2020-06-30 03:01:49 - ********************************************************************************
+2020-06-30 03:01:49 - Current Trial Info
+2020-06-30 03:01:49 - number:2355
+2020-06-30 03:01:49 - user_attrs:{'real_hyper_params': {'learning_rate': 3e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.34332608066353143, 'dev_acc': 0.9068627450980392, 'dev_f1': 0.9309090909090909, 'dev_acc_and_f1': 0.9188859180035651}, 'test_results': {'test_loss': 0.4822574862692919, 'test_acc': 0.8724637681159421, 'test_f1': 0.9027409372236957, 'test_acc_and_f1': 0.8876023526698189}, 'result': 0.09313725490196079}
+2020-06-30 03:01:49 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-30 03:01:49 - 
+2020-06-30 03:01:49 - best trial number:73 and result:0.09068627450980393
+2020-06-30 03:01:49 - ********************************************************************************
+
+2020-06-30 03:04:53 - ********************************************************************************
+2020-06-30 03:04:53 - Current Trial Info
+2020-06-30 03:04:53 - number:2356
+2020-06-30 03:04:53 - user_attrs:{'real_hyper_params': {'learning_rate': 2e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.33543624071513906, 'dev_acc': 0.8921568627450981, 'dev_f1': 0.9225352112676057, 'dev_acc_and_f1': 0.907346037006352}, 'test_results': {'test_loss': 0.39911166494022365, 'test_acc': 0.8689855072463768, 'test_f1': 0.9025862068965518, 'test_acc_and_f1': 0.8857858570714643}, 'result': 0.10784313725490191}
+2020-06-30 03:04:53 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-30 03:04:53 - 
+2020-06-30 03:04:53 - best trial number:73 and result:0.09068627450980393
+2020-06-30 03:04:53 - ********************************************************************************
+
+2020-06-30 03:07:39 - ********************************************************************************
+2020-06-30 03:07:39 - Current Trial Info
+2020-06-30 03:07:39 - number:2357
+2020-06-30 03:07:39 - user_attrs:{'real_hyper_params': {'learning_rate': 6.3e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3151962675300299, 'dev_acc': 0.8897058823529411, 'dev_f1': 0.9206349206349206, 'dev_acc_and_f1': 0.9051704014939308}, 'test_results': {'test_loss': 0.4158921356450904, 'test_acc': 0.8544927536231884, 'test_f1': 0.8930549637835535, 'test_acc_and_f1': 0.873773858703371}, 'result': 0.11029411764705888}
+2020-06-30 03:07:39 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 03:07:39 - 
+2020-06-30 03:07:39 - best trial number:73 and result:0.09068627450980393
+2020-06-30 03:07:39 - ********************************************************************************
+
+2020-06-30 03:10:43 - ********************************************************************************
+2020-06-30 03:10:43 - Current Trial Info
+2020-06-30 03:10:43 - number:2358
+2020-06-30 03:10:43 - user_attrs:{'real_hyper_params': {'learning_rate': 5.1e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 4}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.4336649326278883, 'dev_acc': 0.8799019607843137, 'dev_f1': 0.9117117117117116, 'dev_acc_and_f1': 0.8958068362480127}, 'test_results': {'test_loss': 0.5172016936854494, 'test_acc': 0.8660869565217392, 'test_f1': 0.8994340444057466, 'test_acc_and_f1': 0.8827605004637429}, 'result': 0.12009803921568629}
+2020-06-30 03:10:43 - params:{'learning_rate': 33, 'batch_size': 0, 'epoch': 2}
+2020-06-30 03:10:43 - 
+2020-06-30 03:10:43 - best trial number:73 and result:0.09068627450980393
+2020-06-30 03:10:43 - ********************************************************************************
+
+2020-06-30 03:13:15 - ********************************************************************************
+2020-06-30 03:13:15 - Current Trial Info
+2020-06-30 03:13:15 - number:2359
+2020-06-30 03:13:15 - user_attrs:{'real_hyper_params': {'learning_rate': 9e-06, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3103461012828584, 'dev_acc': 0.8700980392156863, 'dev_f1': 0.9071803852889667, 'dev_acc_and_f1': 0.8886392122523266}, 'test_results': {'test_loss': 0.3720635285049125, 'test_acc': 0.8440579710144928, 'test_f1': 0.8866413822166035, 'test_acc_and_f1': 0.8653496766155482}, 'result': 0.1299019607843137}
+2020-06-30 03:13:15 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-30 03:13:15 - 
+2020-06-30 03:13:15 - best trial number:73 and result:0.09068627450980393
+2020-06-30 03:13:15 - ********************************************************************************
+
+2020-06-30 03:15:56 - ********************************************************************************
+2020-06-30 03:15:56 - Current Trial Info
+2020-06-30 03:15:56 - number:2360
+2020-06-30 03:15:56 - user_attrs:{'real_hyper_params': {'learning_rate': 7.1e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3063066856679963, 'dev_acc': 0.8897058823529411, 'dev_f1': 0.9206349206349206, 'dev_acc_and_f1': 0.9051704014939308}, 'test_results': {'test_loss': 0.35611207763388475, 'test_acc': 0.8666666666666667, 'test_f1': 0.9013722126929673, 'test_acc_and_f1': 0.884019439679817}, 'result': 0.11029411764705888}
+2020-06-30 03:15:56 - params:{'learning_rate': 32, 'batch_size': 0, 'epoch': 2}
+2020-06-30 03:15:56 - 
+2020-06-30 03:15:56 - best trial number:73 and result:0.09068627450980393
+2020-06-30 03:15:56 - ********************************************************************************
+
+2020-06-30 03:18:28 - ********************************************************************************
+2020-06-30 03:18:28 - Current Trial Info
+2020-06-30 03:18:28 - number:2361
+2020-06-30 03:18:28 - user_attrs:{'real_hyper_params': {'learning_rate': 8e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.2926112876511088, 'dev_acc': 0.8970588235294118, 'dev_f1': 0.9263157894736843, 'dev_acc_and_f1': 0.9116873065015481}, 'test_results': {'test_loss': 0.39787284483167307, 'test_acc': 0.8504347826086956, 'test_f1': 0.8907705334462321, 'test_acc_and_f1': 0.870602658027464}, 'result': 0.1029411764705882}
+2020-06-30 03:18:28 - params:{'learning_rate': 34, 'batch_size': 0, 'epoch': 2}
+2020-06-30 03:18:28 - 
+2020-06-30 03:18:28 - best trial number:73 and result:0.09068627450980393
+2020-06-30 03:18:28 - ********************************************************************************
+
+2020-06-30 03:20:36 - ********************************************************************************
+2020-06-30 03:20:36 - Current Trial Info
+2020-06-30 03:20:36 - number:2362
+2020-06-30 03:20:36 - user_attrs:{'real_hyper_params': {'learning_rate': 6.8e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 2}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3235477391703456, 'dev_acc': 0.8676470588235294, 'dev_f1': 0.9052631578947367, 'dev_acc_and_f1': 0.886455108359133}, 'test_results': {'test_loss': 0.34326600307529725, 'test_acc': 0.856231884057971, 'test_f1': 0.8941076003415884, 'test_acc_and_f1': 0.8751697421997797}, 'result': 0.13235294117647056}
+2020-06-30 03:20:36 - params:{'learning_rate': 28, 'batch_size': 0, 'epoch': 2}
+2020-06-30 03:20:36 - 
+2020-06-30 03:20:36 - best trial number:73 and result:0.09068627450980393
+2020-06-30 03:20:36 - ********************************************************************************
+
+2020-06-30 03:23:27 - ********************************************************************************
+2020-06-30 03:23:27 - Current Trial Info
+2020-06-30 03:23:27 - number:2363
+2020-06-30 03:23:27 - user_attrs:{'real_hyper_params': {'learning_rate': 4.5e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.41986850415374716, 'dev_acc': 0.8774509803921569, 'dev_f1': 0.9119718309859154, 'dev_acc_and_f1': 0.8947114056890362}, 'test_results': {'test_loss': 0.4717741477544661, 'test_acc': 0.8597101449275363, 'test_f1': 0.8951473136915077, 'test_acc_and_f1': 0.877428729309522}, 'result': 0.12254901960784315}
+2020-06-30 03:23:27 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-30 03:23:27 - 
+2020-06-30 03:23:27 - best trial number:73 and result:0.09068627450980393
+2020-06-30 03:23:27 - ********************************************************************************
+
+2020-06-30 03:25:59 - ********************************************************************************
+2020-06-30 03:25:59 - Current Trial Info
+2020-06-30 03:25:59 - number:2364
+2020-06-30 03:25:59 - user_attrs:{'real_hyper_params': {'learning_rate': 3.9e-05, 'per_device_train_batch_size': 32, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.32706361307817344, 'dev_acc': 0.8774509803921569, 'dev_f1': 0.911032028469751, 'dev_acc_and_f1': 0.894241504430954}, 'test_results': {'test_loss': 0.3701152886884908, 'test_acc': 0.8736231884057971, 'test_f1': 0.9061154177433248, 'test_acc_and_f1': 0.889869303074561}, 'result': 0.12254901960784315}
+2020-06-30 03:25:59 - params:{'learning_rate': 35, 'batch_size': 0, 'epoch': 2}
+2020-06-30 03:25:59 - 
+2020-06-30 03:25:59 - best trial number:73 and result:0.09068627450980393
+2020-06-30 03:25:59 - ********************************************************************************
+
+2020-06-30 03:28:45 - ********************************************************************************
+2020-06-30 03:28:45 - Current Trial Info
+2020-06-30 03:28:45 - number:2365
+2020-06-30 03:28:45 - user_attrs:{'real_hyper_params': {'learning_rate': 7.3e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'info': 'create hyparameters by my self', 'args_need_to_record': {'transformer': 'roberta: roberta-base', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3242002535684436, 'dev_acc': 0.8823529411764706, 'dev_f1': 0.9151943462897526, 'dev_acc_and_f1': 0.8987736437331115}, 'test_results': {'test_loss': 0.41735647673960086, 'test_acc': 0.8365217391304348, 'test_f1': 0.8791773778920308, 'test_acc_and_f1': 0.8578495585112328}, 'result': 0.11764705882352944}
+2020-06-30 03:28:45 - params:{'learning_rate': 36, 'batch_size': 0, 'epoch': 2}
+2020-06-30 03:28:45 - 
+2020-06-30 03:28:45 - best trial number:73 and result:0.09068627450980393
+2020-06-30 03:28:45 - ********************************************************************************
+
