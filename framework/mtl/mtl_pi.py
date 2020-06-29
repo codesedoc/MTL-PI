@@ -326,10 +326,11 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
     def train(self,  *args, **kwargs):
         performing_args = self.performing_args
 
+        logger.info("*** Step1: Train auxiliary data ***")
+
         if self.pretrained_auxiliary:
             logging.info(f'Already trained auxiliary data')
         else:
-            logger.info("*** Step1: Train auxiliary data ***")
 
             self.framework.perform_state = PerformState.auxiliary
             self._switch_to_auxiliary_data()
