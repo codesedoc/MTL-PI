@@ -24,11 +24,13 @@ class ComponentEnum(Enum):
 
 class Controller:
     def __init__(self, trail=None, modify_args=None):
+        self._set_base_logger()
+
         self.arguments_box = configurator.get_arguments_box()
         self.trail = None
         if trail is not None:
             self.trail = self.load_optuna_trail(trail)
-        self._set_base_logger()
+
         logger.warning(
             "Device: %s, n_gpu: %s, 16-bits training: %s",
             self.arguments_box.performing_args.device,
@@ -118,35 +120,77 @@ class Controller:
 
         # self.weight_decay_list = [4 * math.pow(10, -i) for i in range(3, 8, 2)]
         real_hyps = {}
+        import random
+        def _fix_hyps(sample_count):
+            real_hyps.clear()
 
-        learning_rate = round(trial.suggest_int('learning_rate', 8, 80) * 1e-6, 8)
-        real_hyps['learning_rate'] = learning_rate
+            if sample_count <= my_self_sample_threshold:
+                # learning_rate = round(trial.suggest_int('learning_rate', 8, 80) * 1e-6, 8)
+                # per_device_train_batch_size = batch_size_list[trial.suggest_int('batch_size', 0, len(batch_size_list)-1)]
+                num_train_epochs = trial.suggest_int('epoch', 2, 4)
+            else:
+                trial.set_user_attr('info', "create hyparameters by my self")
+                learning_rate = random.randint(8, 80) * 1e-6
+                per_device_train_batch_size = batch_size_list[random.randint(0, len(batch_size_list)-1)]
+                num_train_epochs = random.randint(2, 4)
 
-        per_device_train_batch_size = batch_size_list[trial.suggest_int('batch_size', 0, len(batch_size_list)-1)]
-        real_hyps['per_device_train_batch_size'] = per_device_train_batch_size
-        #
-        num_train_epochs = trial.suggest_int('epoch', 2, 4)
-        real_hyps['num_train_epochs'] = num_train_epochs
-        #
-        # auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)
-        # real_hyps['auxiliary_learning_rate'] = auxiliary_learning_rate
-        #
-        # auxiliary_per_device_batch_size = batch_size_list[trial.suggest_int('auxiliary_batch_size', 0, len(batch_size_list)-1)]
-        # real_hyps['auxiliary_per_device_batch_size'] = auxiliary_per_device_batch_size
-        #
+            # real_hyps['learning_rate'] = learning_rate
+            # real_hyps['per_device_train_batch_size'] = per_device_train_batch_size
+            real_hyps['num_train_epochs'] = num_train_epochs
+            #
+            # auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)
+            # real_hyps['auxiliary_learning_rate'] = auxiliary_learning_rate
+            #
+            # auxiliary_per_device_batch_size = batch_size_list[trial.suggest_int('auxiliary_batch_size', 0, len(batch_size_list)-1)]
+            # real_hyps['auxiliary_per_device_batch_size'] = auxiliary_per_device_batch_size
+            #
 
-        # import torch
-        # print(torch.randn(10))
+            # import torch
+            # print(torch.randn(10))
 
-        # auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 2, 3)
-        # real_hyps['auxiliary_training_epoch'] = auxiliary_training_epoch
+            # auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 2, 3)
+            # real_hyps['auxiliary_training_epoch'] = auxiliary_training_epoch
 
-        # loss_a = trial.suggest_loguniform('loss_a', 0.01, 1.0)
-        # real_hyps['loss_a'] = loss_a
+            # loss_a = trial.suggest_loguniform('loss_a', 0.01, 1.0)
+            # real_hyps['loss_a'] = loss_a
 
-        #
+            #
 
-        trial.set_user_attr('real_hyper_params', real_hyps)
+            trial.set_user_attr('real_hyper_params', real_hyps)
+
+        from utils.hyperor import Hyperor
+        keys_of_tried_trial = trial.tried_trial_keys
+        sample_count = 0
+        my_self_sample_threshold = 1e+2
+        sample_limitation = 1e+3
+        import time
+        strat_time = time.time()
+        time_limitation = 3600*0.5
+        while True:
+            sample_count += 1
+            # strat_time = time.time()
+            _fix_hyps(sample_count)
+            used_tiem = time.time()-strat_time
+
+            # print(f'used tiem: {time.time()-strat_time}')
+
+            key_of_trial = Hyperor.key_of_one_trial(trial)
+            if key_of_trial not in keys_of_tried_trial:
+                logging.info(f'Finish load the {len(keys_of_tried_trial) +1 }-th trial. '
+                             f'After sample {sample_count} times hyperparameters for it')
+                break
+
+            if sample_count >= sample_limitation:
+                logging.warning(f'After sample {sample_count} time hyperparameters for this trial, out of the sample limitation! '
+                                f'Used time:{round(used_tiem, 2)} seconds!  '
+                                f'So, stop load this trial! The number of trial tried is {len(keys_of_tried_trial)}')
+                raise ValueError
+
+            if used_tiem> time_limitation:
+                logging.warning(f'After sample {sample_count} time hyperparameters for this trial, out of the time limitation! '
+                                f'Used time:{round(used_tiem, 2)} seconds!  '
+                                f'So, stop load this trial! The number of trial tried is {len(keys_of_tried_trial)}')
+                raise ValueError
 
         self._replace_all_arguments_by_dict(real_hyps)
 
