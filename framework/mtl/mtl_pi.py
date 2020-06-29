@@ -326,10 +326,11 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
     def train(self,  *args, **kwargs):
         performing_args = self.performing_args
 
+        logger.info("*** Step1: Train auxiliary data ***")
+
         if self.pretrained_auxiliary:
             logging.info(f'Already trained auxiliary data')
         else:
-            logger.info("*** Step1: Train auxiliary data ***")
 
             self.framework.perform_state = PerformState.auxiliary
             self._switch_to_auxiliary_data()
@@ -427,6 +428,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
     def args_need_to_record(self) -> Dict[str, Any]:
         result = {
+            'transformer': f"{self.framework.transformer_type.name}: {self.model_args.model_name_or_path}",
             'distance_type': self.model_args.distance_type,
             'feature_compared': self.model_args.feature_compared,
             'chose_two_way_when_evaluate': self.chose_two_way_when_evaluate,
