@@ -121,23 +121,62 @@ class Controller:
         # self.weight_decay_list = [4 * math.pow(10, -i) for i in range(3, 8, 2)]
         real_hyps = {}
         import random
-        def _fix_hyps(sample_count):
+
+        def _hyps_case(ranges):
+            if len(ranges) == 0:
+                return [[]]
+            result = []
+            for value in ranges[0]:
+                for cases_of_sub_seq in _hyps_case(ranges[1:]):
+                    new_case = [value]
+                    new_case.extend(cases_of_sub_seq)
+                    result.append(new_case)
+            return result
+
+        def _sample_hyps(sample_count):
             real_hyps.clear()
 
             if sample_count <= my_self_sample_threshold:
-                # learning_rate = round(trial.suggest_int('learning_rate', 8, 80) * 1e-6, 8)
-                # per_device_train_batch_size = batch_size_list[trial.suggest_int('batch_size', 0, len(batch_size_list)-1)]
-                num_train_epochs = trial.suggest_int('epoch', 2, 4)
+                learning_rate = round(trial.suggest_int('learning_rate', 8, 80) * 1e-6, 8)                                ##################
+                per_device_train_batch_size = batch_size_list[trial.suggest_int('batch_size', 0, len(batch_size_list)-1)] ########################
+                num_train_epochs = trial.suggest_int('epoch', 2, 4)                                                       ###################
             else:
                 trial.set_user_attr('info', "create hyparameters by my self")
-                learning_rate = random.randint(8, 80) * 1e-6
-                per_device_train_batch_size = batch_size_list[random.randint(0, len(batch_size_list)-1)]
-                num_train_epochs = random.randint(2, 4)
+                learning_rate = round(random.randint(8, 80) * 1e-6, 8)                                                   ##########################
+                per_device_train_batch_size = batch_size_list[random.randint(0, len(batch_size_list)-1)]                ##############
+                num_train_epochs = random.randint(2, 4)                                                                 ########################
 
-            # real_hyps['learning_rate'] = learning_rate
-            # real_hyps['per_device_train_batch_size'] = per_device_train_batch_size
+            real_hyps['learning_rate'] = learning_rate
+            real_hyps['per_device_train_batch_size'] = per_device_train_batch_size
             real_hyps['num_train_epochs'] = num_train_epochs
-            #
+
+            trial.set_user_attr('real_hyper_params', real_hyps.copy())
+
+            if sample_count == sample_limitation:
+                key_of_trial = Hyperor.key_of_one_trial(trial)
+                if key_of_trial not in keys_of_tried_trial:
+                    return
+                trial.set_user_attr('info', "create hyparameters by my self")
+
+                hyps_ranges = []
+                hyps_ranges.append([round(factor * 1e-6, 8)for factor in range(8, 80+1)])                               ########################
+                hyps_ranges.append(batch_size_list)                                                                     #########################
+                hyps_ranges.append(list(range(2, 4+1)))                                                                   ########################
+                cases = _hyps_case(hyps_ranges)
+
+                logging.info(f"The total case of hyperparameters: {len(cases)}")
+
+                for case in cases:
+                    real_hyps['learning_rate'] = case[0]                                                              ####################
+                    real_hyps['per_device_train_batch_size'] = case[1]                                                ########################
+                    real_hyps['num_train_epochs'] = case[2]                                                             ##################################
+
+                    trial.set_user_attr('real_hyper_params', real_hyps.copy())
+
+                    key_of_trial = Hyperor.key_of_one_trial(trial)
+                    if key_of_trial not in keys_of_tried_trial:
+                        return
+
             # auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)
             # real_hyps['auxiliary_learning_rate'] = auxiliary_learning_rate
             #
@@ -156,20 +195,18 @@ class Controller:
 
             #
 
-            trial.set_user_attr('real_hyper_params', real_hyps)
-
         from utils.hyperor import Hyperor
         keys_of_tried_trial = trial.tried_trial_keys
         sample_count = 0
         my_self_sample_threshold = 1e+2
-        sample_limitation = 1e+3
+        sample_limitation = 5e+2
         import time
         strat_time = time.time()
         time_limitation = 3600*0.5
         while True:
             sample_count += 1
             # strat_time = time.time()
-            _fix_hyps(sample_count)
+            _sample_hyps(sample_count)
             used_tiem = time.time()-strat_time
 
             # print(f'used tiem: {time.time()-strat_time}')
@@ -177,20 +214,21 @@ class Controller:
             key_of_trial = Hyperor.key_of_one_trial(trial)
             if key_of_trial not in keys_of_tried_trial:
                 logging.info(f'Finish load the {len(keys_of_tried_trial) +1 }-th trial. '
-                             f'After sample {sample_count} times hyperparameters for it')
+                             f'After sample {sample_count} times hyperparameters for it'
+                             f'\n It is {key_of_trial}')
                 break
 
             if sample_count >= sample_limitation:
                 logging.warning(f'After sample {sample_count} time hyperparameters for this trial, out of the sample limitation! '
                                 f'Used time:{round(used_tiem, 2)} seconds!  '
                                 f'So, stop load this trial! The number of trial tried is {len(keys_of_tried_trial)}')
-                raise ValueError
+                raise ValueError ("over sample limitation")
 
             if used_tiem> time_limitation:
                 logging.warning(f'After sample {sample_count} time hyperparameters for this trial, out of the time limitation! '
                                 f'Used time:{round(used_tiem, 2)} seconds!  '
                                 f'So, stop load this trial! The number of trial tried is {len(keys_of_tried_trial)}')
-                raise ValueError
+                raise ValueError ("over time")
 
         self._replace_all_arguments_by_dict(real_hyps)
 
