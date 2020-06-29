@@ -72,7 +72,7 @@ class Hyperor:
         return key
 
     def objective(self, trial):
-
+        print(f"already tried {len(self.trial_dict)} trials")
         from contrl.controller import Controller
         trial.set_user_attr('tried_trial_dict', self.trial_dict)
         controller = Controller(trial)
