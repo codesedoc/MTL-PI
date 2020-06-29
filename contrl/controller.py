@@ -198,8 +198,8 @@ class Controller:
         from utils.hyperor import Hyperor
         keys_of_tried_trial = trial.tried_trial_keys
         sample_count = 0
-        my_self_sample_threshold = 1e+2
-        sample_limitation = 5e+2
+        my_self_sample_threshold = 50
+        sample_limitation = 100
         import time
         strat_time = time.time()
         time_limitation = 3600*0.5
