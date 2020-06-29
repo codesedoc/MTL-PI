@@ -74,7 +74,7 @@ class Controller:
         return result
 
     def _replace_all_arguments_by_dict(self, replace_dict: Dict[str, Any]):
-        replace_dict_  = replace_dict.copy()
+        replace_dict_ = replace_dict.copy()
         self.arguments_box.model_args = self.arguments_box.model_args.replace_args(replace_dict_)
         self.arguments_box.data_args = self.arguments_box.data_args.replace_args(replace_dict_)
         performing_args = self.arguments_box.performing_args.replace_args(replace_dict_)
@@ -135,13 +135,14 @@ class Controller:
 
         def _sample_hyps(sample_count):
             real_hyps.clear()
-
+            sample_type: Optional[HyperParametersSampleTypeEnum] = None
             if sample_count <= my_self_sample_threshold:
+                sample_type = HyperParametersSampleTypeEnum.optuna
                 learning_rate = round(trial.suggest_int('learning_rate', 8, 80) * 1e-6, 8)                                ##################
                 per_device_train_batch_size = batch_size_list[trial.suggest_int('batch_size', 0, len(batch_size_list)-1)] ########################
                 num_train_epochs = trial.suggest_int('epoch', 2, 4)                                                       ###################
             else:
-                trial.set_user_attr('info', "create hyparameters by my self")
+                sample_type = HyperParametersSampleTypeEnum.my_self_sampler
                 learning_rate = round(random.randint(8, 80) * 1e-6, 8)                                                   ##########################
                 per_device_train_batch_size = batch_size_list[random.randint(0, len(batch_size_list)-1)]                ##############
                 num_train_epochs = random.randint(2, 4)                                                                 ########################
@@ -156,7 +157,8 @@ class Controller:
                 key_of_trial = Hyperor.key_of_one_trial(trial)
                 if key_of_trial not in keys_of_tried_trial:
                     return
-                trial.set_user_attr('info', "create hyparameters by my self")
+
+                sample_type = HyperParametersSampleTypeEnum.select
 
                 hyps_ranges = []
                 hyps_ranges.append([round(factor * 1e-6, 8)for factor in range(8, 80+1)])                               ########################
@@ -175,8 +177,9 @@ class Controller:
 
                     key_of_trial = Hyperor.key_of_one_trial(trial)
                     if key_of_trial not in keys_of_tried_trial:
-                        return
-
+                        break
+            trial.set_user_attr('info', f"create hyparameters by {sample_type.value}")
+            return sample_type
             # auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)
             # real_hyps['auxiliary_learning_rate'] = auxiliary_learning_rate
             #
@@ -206,15 +209,16 @@ class Controller:
         while True:
             sample_count += 1
             # strat_time = time.time()
-            _sample_hyps(sample_count)
+            sample_type = _sample_hyps(sample_count)
             used_tiem = time.time()-strat_time
 
             # print(f'used tiem: {time.time()-strat_time}')
 
             key_of_trial = Hyperor.key_of_one_trial(trial)
             if key_of_trial not in keys_of_tried_trial:
-                logging.info(f'Finish load the {len(keys_of_tried_trial) +1 }-th trial. '
-                             f'After sample {sample_count} times hyperparameters for it'
+                logging.info(f'Finish load the {len(keys_of_tried_trial) +1 }-th trial, '
+                             f'after sample {sample_count} times hyperparameters for it.'
+                             f'\nsample_type:{sample_type.value}'
                              f'\n It is {key_of_trial}')
                 break
 
@@ -278,3 +282,9 @@ class Controller:
         self.data_proxy.save_examples_according_to_evaluation(output_dir=self.arguments_box.performing_args.output_dir)
 
 
+
+@unique
+class HyperParametersSampleTypeEnum(Enum):
+    optuna = 'optuna'
+    my_self_sampler = 'my_self_sampler'
+    select = 'select'
