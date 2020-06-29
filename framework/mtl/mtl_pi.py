@@ -71,7 +71,8 @@ class MTLPIFramework(Framework):
             self.primary_classifier = torch.nn.Linear(config.hidden_size, config.num_labels)
 
         elif transformer_type == TransformerTypeEnum.xlnet:
-            self.xlnet_squence_sum = transformer_type.value(config)
+            from transformers.modeling_utils import SequenceSummary
+            self.xlnet_squence_sum = SequenceSummary(config)
             self.xlnet_squence_sum.apply(self._init_weights)
             self.auxiliary_classifier = torch.nn.Linear(config.d_model, config.num_labels)
             self.primary_classifier = torch.nn.Linear(config.d_model, config.num_labels)
@@ -426,6 +427,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
     def args_need_to_record(self) -> Dict[str, Any]:
         result = {
+            'transformer': f"{self.framework.transformer_type.name}: {self.model_args.model_name_or_path}",
             'distance_type': self.model_args.distance_type,
             'feature_compared': self.model_args.feature_compared,
             'chose_two_way_when_evaluate': self.chose_two_way_when_evaluate,

@@ -64,29 +64,36 @@ class Hyperor:
             self.trial_dict = {}
             self.study.set_user_attr('trial_dict', self.trial_dict)
 
+    @classmethod
+    def key_of_one_trial(cls, trial):
+        key = str(trial.user_attrs['real_hyper_params'])
+        if key is None:
+            raise ValueError
+        return key
+
     def objective(self, trial):
-
+        print(f"already tried {len(self.trial_dict)} trials")
         from contrl.controller import Controller
-
+        trial.set_user_attr('tried_trial_dict', self.trial_dict)
         controller = Controller(trial)
         controller.add_user_atts_to_trial(trial)
 
         trial = controller.trail
 
-        hyper_params = trial.user_attrs['real_hyper_params']
+        key_of_trail = self.key_of_one_trial(trial)
 
-        if str(hyper_params) in self.trial_dict:
+        if key_of_trail in self.trial_dict:
             self.logger.info('*'*80)
             self.logger.info('*************Repeat!**************\n')
             self.logger.info('number:{}'.format(trial.number))
-            self.logger.info('trail hyper_params: %s  repeat!' % (str(hyper_params)))
-            self.logger.info(f'corresponding result: {self.trial_dict[str(hyper_params)]}')
+            self.logger.info('trail hyper_params: %s  repeat!' % key_of_trail)
+            self.logger.info(f'corresponding result: {self.trial_dict[key_of_trail]}')
 
             best_trial = self.study.best_trial
             self.logger.info(f'best trial number:{best_trial.number} and result:{best_trial.user_attrs["result"]}')
             self.logger.info('*'*80+'\n')
 
-            return self.trial_dict[str(hyper_params)]
+            return self.trial_dict[key_of_trail]
 
         result, attr = controller.run()
 
@@ -97,13 +104,13 @@ class Hyperor:
         if not general_tool.is_number(result):
             raise ValueError
 
-        self.record_one_time_trial(trial, result, attr, hyper_params)
+        self.record_one_time_trial(trial, result, attr, key_of_trail)
 
         self.current_trial_count +=1
 
         return result
 
-    def record_one_time_trial(self, trial: optuna.Trial, result, attr, hyper_params):
+    def record_one_time_trial(self, trial: optuna.Trial, result, attr, key_of_trail):
 
         if isinstance(attr, dict):
             for k, v in attr.items():
@@ -118,7 +125,7 @@ class Hyperor:
             tail = f'best trial number:{best_trial.number} and result:{best_trial.user_attrs["result"]}'
         self.log_trial(trial, 'Current Trial Info', tail=tail)
 
-        self.trial_dict[str(hyper_params)] = result
+        self.trial_dict[key_of_trail] = result
         self.study.set_user_attr('trial_dict', self.trial_dict)
 
     def log_trial(self, trial, head=None, tail=None):
