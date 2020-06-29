@@ -5,7 +5,7 @@ from transformers import AutoConfig, AutoModel, AutoTokenizer
 from torch.optim.optimizer import Optimizer
 from torch.optim.lr_scheduler import LambdaLR
 
-from ..transformers.run_glue import TFRsFrameworkProxy
+from ..transformers.run_glue import TFRsFrameworkProxy, TransformerTypeEnum
 
 from typing import Any, Tuple, Dict, Optional, List, Union
 from dataclasses import dataclass, replace
@@ -58,17 +58,31 @@ class MTLPIFramework(Framework):
             cache_dir=model_args.cache_dir,
         )
 
-        self.dropout = torch.nn.Dropout(config.hidden_dropout_prob)
+        self.transformer_type = TransformerTypeEnum.get_enum_by_value(model_args.model_name_or_path.split('-')[0])
 
-        input_size_of_classifier = config.hidden_size
-        if (model_args.split_two_texts_as_input) and model_args.distance_type == DistanceTypeEnum.dim_l1.value:
-            input_size_of_classifier += 1
+        # input_size_of_classifier = config.hidden_size
+        # if (model_args.split_two_texts_as_input) and model_args.distance_type == DistanceTypeEnum.dim_l1.value:
+        #     input_size_of_classifier += 1
 
-        self.auxiliary_classifier = torch.nn.Linear(input_size_of_classifier, config.num_labels)
-        self.primary_classifier = torch.nn.Linear(input_size_of_classifier, config.num_labels)
+        transformer_type = self.transformer_type
+        if transformer_type == TransformerTypeEnum.bert or transformer_type == TransformerTypeEnum.albert:
+            self.dropout = torch.nn.Dropout(config.hidden_dropout_prob)
+            self.auxiliary_classifier = torch.nn.Linear(config.hidden_size, config.num_labels)
+            self.primary_classifier = torch.nn.Linear(config.hidden_size, config.num_labels)
+
+        elif transformer_type == TransformerTypeEnum.xlnet:
+            from transformers.modeling_utils import SequenceSummary
+            self.xlnet_squence_sum = SequenceSummary(config)
+            self.xlnet_squence_sum.apply(self._init_weights)
+            self.auxiliary_classifier = torch.nn.Linear(config.d_model, config.num_labels)
+            self.primary_classifier = torch.nn.Linear(config.d_model, config.num_labels)
+        else:
+            self.auxiliary_classifier = transformer_type.value(config)
+            self.primary_classifier = transformer_type.value(config)
 
         self.auxiliary_classifier.apply(self._init_weights)
         self.primary_classifier.apply(self._init_weights)
+
         self.perform_state = PerformState.auxiliary
         self.num_labels = config.num_labels
 
@@ -86,7 +100,12 @@ class MTLPIFramework(Framework):
         if isinstance(module, (torch.nn.Linear)):
             # Slightly different from the TF version which uses truncated_normal for initialization
             # cf https://github.com/pytorch/pytorch/pull/5617
-            module.weight.data.normal_(mean=0.0, std=self.encoder.config.initializer_range)
+            if self.transformer_type == TransformerTypeEnum.xlm:
+                std = self.encoder.config.init_std
+            else:
+                std = self.encoder.config.initializer_range
+
+            module.weight.data.normal_(mean=0.0, std=std)
             if module.bias is not None:
                 module.bias.data.zero_()
 
@@ -138,43 +157,51 @@ class MTLPIFramework(Framework):
 
             tfr_output = self.encoder(**tfr_input)[0]
 
-            features = tfr_output[:, 0]
+            transformer_type = self.transformer_type
 
-            features = self.dropout(features)
+            if transformer_type == TransformerTypeEnum.bert or transformer_type == TransformerTypeEnum.albert:
+                features = tfr_output[:, 0]
+
+                features = self.dropout(features)
+            elif transformer_type == TransformerTypeEnum.xlnet:
+                features = self.xlnet_squence_sum(tfr_output)
+            else:
+                features = tfr_output
 
         else:
-            tfr_input_name = ['input_ids', 'attention_mask']
-            tfr_input_for_first = {}
-            tfr_input_for_second = {}
-
-            for name in tfr_input_name:
-                if name in input_:
-                    tfr_input_for_first[name] = input_[name]
-                    tfr_input_for_second[name] = input_[f"second_{name}"]
-
-            def states_batch_length_batch(tfr_input_):
-                if self.model_args.feature_compared == FeatureComparedEnum.tokens.value:
-                    tfr_output_ = self.encoder(**tfr_input_)[0]
-
-                    tfr_output_ = tfr_output_ * tfr_input_['attention_mask'][:,:,None]
-                    tfr_output_ = tfr_output_[:, 1:]
-
-                    length_batch = tfr_input_['attention_mask'].sum(dim=1, keepdim=True) - 1
-
-                elif self.model_args.feature_compared == FeatureComparedEnum.cls.value:
-                    tfr_output_ = self.encoder(**tfr_input_)[0][:, 0]
-                    tfr_output_ = tfr_output_[:, None, :]
-                    length_batch = 1
-                else:
-                    raise ValueError
-
-                tfr_output_ = self.dropout(tfr_output_)
-                return tfr_output_, length_batch
-
-            text_a_states_batch, text_a_length_batch = states_batch_length_batch(tfr_input_for_first)
-            text_b_states_batch, text_b_length_batch = states_batch_length_batch(tfr_input_for_second)
-
-            features = self.semantic_layer(text_a_states_batch, text_b_states_batch, text_a_length_batch, text_b_length_batch)
+            raise ValueError
+            # tfr_input_name = ['input_ids', 'attention_mask']
+            # tfr_input_for_first = {}
+            # tfr_input_for_second = {}
+            #
+            # for name in tfr_input_name:
+            #     if name in input_:
+            #         tfr_input_for_first[name] = input_[name]
+            #         tfr_input_for_second[name] = input_[f"second_{name}"]
+            #
+            # def states_batch_length_batch(tfr_input_):
+            #     if self.model_args.feature_compared == FeatureComparedEnum.tokens.value:
+            #         tfr_output_ = self.encoder(**tfr_input_)[0]
+            #
+            #         tfr_output_ = tfr_output_ * tfr_input_['attention_mask'][:,:,None]
+            #         tfr_output_ = tfr_output_[:, 1:]
+            #
+            #         length_batch = tfr_input_['attention_mask'].sum(dim=1, keepdim=True) - 1
+            #
+            #     elif self.model_args.feature_compared == FeatureComparedEnum.cls.value:
+            #         tfr_output_ = self.encoder(**tfr_input_)[0][:, 0]
+            #         tfr_output_ = tfr_output_[:, None, :]
+            #         length_batch = 1
+            #     else:
+            #         raise ValueError
+            #
+            #     tfr_output_ = self.dropout(tfr_output_)
+            #     return tfr_output_, length_batch
+            #
+            # text_a_states_batch, text_a_length_batch = states_batch_length_batch(tfr_input_for_first)
+            # text_b_states_batch, text_b_length_batch = states_batch_length_batch(tfr_input_for_second)
+            #
+            # features = self.semantic_layer(text_a_states_batch, text_b_states_batch, text_a_length_batch, text_b_length_batch)
 
         features_classified = features
 
@@ -299,10 +326,11 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
     def train(self,  *args, **kwargs):
         performing_args = self.performing_args
 
+        logger.info("*** Step1: Train auxiliary data ***")
+
         if self.pretrained_auxiliary:
             logging.info(f'Already trained auxiliary data')
         else:
-            logger.info("*** Step1: Train auxiliary data ***")
 
             self.framework.perform_state = PerformState.auxiliary
             self._switch_to_auxiliary_data()
@@ -400,6 +428,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
     def args_need_to_record(self) -> Dict[str, Any]:
         result = {
+            'transformer': f"{self.framework.transformer_type.name}: {self.model_args.model_name_or_path}",
             'distance_type': self.model_args.distance_type,
             'feature_compared': self.model_args.feature_compared,
             'chose_two_way_when_evaluate': self.chose_two_way_when_evaluate,
