@@ -1164,3 +1164,47 @@
 2020-06-30 14:08:07 - ########## Optuna finish another 3 trials!  Now the number of unify tail is:124 ##########
 2020-06-30 14:08:07 - ********************************************************************************
 
+2020-06-30 14:09:46 - ####################KeyboardInterrupt: Stop tune hyper parameter!####################
+2020-06-30 14:09:46 - ********************************************************************************
+2020-06-30 14:09:46 - Best Trial Info
+2020-06-30 14:09:46 - number:120
+2020-06-30 14:09:46 - user_attrs:{'args_need_to_record': {'transformer': 'electra: google/electra-base-discriminator', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'single_task': True, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3926645841668634, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9249563699825479, 'dev_acc_and_f1': 0.9097821065599014}, 'info': 'create hyparameters by my_self_sampler', 'real_hyper_params': {'learning_rate': 2.7e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'result': 0.10539215686274506, 'test_results': {'test_loss': 0.4848161884756, 'test_acc': 0.8724637681159421, 'test_f1': 0.9067005937234945, 'test_acc_and_f1': 0.8895821809197183}}
+2020-06-30 14:09:46 - params:{'batch_size': 0, 'epoch': 4, 'learning_rate': 40}
+2020-06-30 14:09:46 - state:TrialState.COMPLETE
+2020-06-30 14:09:46 - 
+2020-06-30 14:09:46 - ########## Optuna finish another 0 trials!  Now the number of unify tail is:124 ##########
+2020-06-30 14:09:46 - ********************************************************************************
+
+2020-06-30 14:10:20 - ####################KeyboardInterrupt: Stop tune hyper parameter!####################
+2020-06-30 14:10:20 - ********************************************************************************
+2020-06-30 14:10:20 - Best Trial Info
+2020-06-30 14:10:20 - number:120
+2020-06-30 14:10:20 - user_attrs:{'args_need_to_record': {'transformer': 'electra: google/electra-base-discriminator', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'single_task': True, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3926645841668634, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9249563699825479, 'dev_acc_and_f1': 0.9097821065599014}, 'info': 'create hyparameters by my_self_sampler', 'real_hyper_params': {'learning_rate': 2.7e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'result': 0.10539215686274506, 'test_results': {'test_loss': 0.4848161884756, 'test_acc': 0.8724637681159421, 'test_f1': 0.9067005937234945, 'test_acc_and_f1': 0.8895821809197183}}
+2020-06-30 14:10:20 - params:{'batch_size': 0, 'epoch': 4, 'learning_rate': 40}
+2020-06-30 14:10:20 - state:TrialState.COMPLETE
+2020-06-30 14:10:20 - 
+2020-06-30 14:10:20 - ########## Optuna finish another 0 trials!  Now the number of unify tail is:124 ##########
+2020-06-30 14:10:20 - ********************************************************************************
+
+2020-06-30 14:10:29 - ####################KeyboardInterrupt: Stop tune hyper parameter!####################
+2020-06-30 14:10:29 - ********************************************************************************
+2020-06-30 14:10:29 - Best Trial Info
+2020-06-30 14:10:29 - number:120
+2020-06-30 14:10:29 - user_attrs:{'args_need_to_record': {'transformer': 'electra: google/electra-base-discriminator', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'single_task': True, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3926645841668634, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9249563699825479, 'dev_acc_and_f1': 0.9097821065599014}, 'info': 'create hyparameters by my_self_sampler', 'real_hyper_params': {'learning_rate': 2.7e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'result': 0.10539215686274506, 'test_results': {'test_loss': 0.4848161884756, 'test_acc': 0.8724637681159421, 'test_f1': 0.9067005937234945, 'test_acc_and_f1': 0.8895821809197183}}
+2020-06-30 14:10:29 - params:{'batch_size': 0, 'epoch': 4, 'learning_rate': 40}
+2020-06-30 14:10:29 - state:TrialState.COMPLETE
+2020-06-30 14:10:29 - 
+2020-06-30 14:10:29 - ########## Optuna finish another 0 trials!  Now the number of unify tail is:124 ##########
+2020-06-30 14:10:29 - ********************************************************************************
+
+2020-06-30 14:10:37 - ####################KeyboardInterrupt: Stop tune hyper parameter!####################
+2020-06-30 14:10:37 - ********************************************************************************
+2020-06-30 14:10:37 - Best Trial Info
+2020-06-30 14:10:37 - number:120
+2020-06-30 14:10:37 - user_attrs:{'args_need_to_record': {'transformer': 'electra: google/electra-base-discriminator', 'distance_type': 'None', 'feature_compared': 'None', 'chose_two_way_when_evaluate': False, 'adjust_prediction': False, 'single_task': True, 'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.3926645841668634, 'dev_acc': 0.8946078431372549, 'dev_f1': 0.9249563699825479, 'dev_acc_and_f1': 0.9097821065599014}, 'info': 'create hyparameters by my_self_sampler', 'real_hyper_params': {'learning_rate': 2.7e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'result': 0.10539215686274506, 'test_results': {'test_loss': 0.4848161884756, 'test_acc': 0.8724637681159421, 'test_f1': 0.9067005937234945, 'test_acc_and_f1': 0.8895821809197183}}
+2020-06-30 14:10:37 - params:{'batch_size': 0, 'epoch': 4, 'learning_rate': 40}
+2020-06-30 14:10:37 - state:TrialState.COMPLETE
+2020-06-30 14:10:37 - 
+2020-06-30 14:10:37 - ########## Optuna finish another 0 trials!  Now the number of unify tail is:124 ##########
+2020-06-30 14:10:37 - ********************************************************************************
+
