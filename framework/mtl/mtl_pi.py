@@ -117,20 +117,14 @@ class MTLPIFramework(Framework):
         a_logits = self.auxiliary_classifier(features_classified)
         p_logits = self.primary_classifier(features_classified)
 
-        loss_fct = torch.nn.CrossEntropyLoss()
-
-        # a_loss = self._calculate_loss(a_logits, auxiliary_labels, loss_fct)
-        # p_loss = self._calculate_loss(p_logits, primary_labels, loss_fct)
-        #
-        # loss_weight = self.loss_weight
-        # loss = loss_weight*a_loss + (1-loss_weight)*p_loss
-        # outputs = loss, ({'auxiliary': a_logits, 'primary': p_logits}, (a_loss, p_loss))
-        # outputs = loss, {'auxiliary': a_logits, 'primary': p_logits}
-
         logits = a_logits[:, [1, 0]] + p_logits
-        loss = self._calculate_loss(logits, primary_labels, loss_fct)
 
-        outputs = loss, logits
+        outputs = logits,
+        if primary_labels is not None:
+            loss_fct = torch.nn.CrossEntropyLoss()
+            loss = self._calculate_loss(logits, primary_labels, loss_fct)
+
+            outputs = loss, logits
 
         return outputs
 
@@ -381,6 +375,18 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
         # self.framework.perform_state = PerformState.primary
 
+        # if self.chose_two_way_when_evaluate:
+        #     self.framework.perform_state = PerformState.parallel
+        #     logging.info(f'******************Chose two way*******************')
+        # else:
+        #     self.framework.perform_state = PerformState.primary
+        #     logging.info(f'******************Chose single way*******************')
+
+        # self.save_model()
+
+    def predict(self):
+        self._switch_to_primary_data()
+
         if self.chose_two_way_when_evaluate:
             self.framework.perform_state = PerformState.parallel
             logging.info(f'******************Chose two way*******************')
@@ -388,7 +394,21 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             self.framework.perform_state = PerformState.primary
             logging.info(f'******************Chose single way*******************')
 
-        # self.save_model()
+        result = super().predict()
+
+        return result
+
+    def evaluate(self):
+        self._switch_to_primary_data()
+        if self.chose_two_way_when_evaluate:
+            self.framework.perform_state = PerformState.parallel
+            logging.info(f'******************Chose two way*******************')
+        else:
+            self.framework.perform_state = PerformState.primary
+            logging.info(f'******************Chose single way*******************')
+
+        result = super().evaluate()
+        return result
 
     def _switch_to_auxiliary_data(self):
         self.performing_args = self.auxiliary_performing_args
