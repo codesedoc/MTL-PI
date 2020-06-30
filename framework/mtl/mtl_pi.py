@@ -117,20 +117,14 @@ class MTLPIFramework(Framework):
         a_logits = self.auxiliary_classifier(features_classified)
         p_logits = self.primary_classifier(features_classified)
 
-        loss_fct = torch.nn.CrossEntropyLoss()
-
-        # a_loss = self._calculate_loss(a_logits, auxiliary_labels, loss_fct)
-        # p_loss = self._calculate_loss(p_logits, primary_labels, loss_fct)
-        #
-        # loss_weight = self.loss_weight
-        # loss = loss_weight*a_loss + (1-loss_weight)*p_loss
-        # outputs = loss, ({'auxiliary': a_logits, 'primary': p_logits}, (a_loss, p_loss))
-        # outputs = loss, {'auxiliary': a_logits, 'primary': p_logits}
-
         logits = a_logits[:, [1, 0]] + p_logits
-        loss = self._calculate_loss(logits, primary_labels, loss_fct)
 
-        outputs = loss, logits
+        outputs = logits,
+        if primary_labels is not None:
+            loss_fct = torch.nn.CrossEntropyLoss()
+            loss = self._calculate_loss(logits, primary_labels, loss_fct)
+
+            outputs = loss, logits
 
         return outputs
 
