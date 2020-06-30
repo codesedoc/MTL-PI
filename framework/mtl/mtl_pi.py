@@ -381,6 +381,18 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
         # self.framework.perform_state = PerformState.primary
 
+        # if self.chose_two_way_when_evaluate:
+        #     self.framework.perform_state = PerformState.parallel
+        #     logging.info(f'******************Chose two way*******************')
+        # else:
+        #     self.framework.perform_state = PerformState.primary
+        #     logging.info(f'******************Chose single way*******************')
+
+        # self.save_model()
+
+    def predict(self):
+        self._switch_to_primary_data()
+
         if self.chose_two_way_when_evaluate:
             self.framework.perform_state = PerformState.parallel
             logging.info(f'******************Chose two way*******************')
@@ -388,7 +400,21 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             self.framework.perform_state = PerformState.primary
             logging.info(f'******************Chose single way*******************')
 
-        # self.save_model()
+        result = super().predict()
+
+        return result
+
+    def evaluate(self):
+        self._switch_to_primary_data()
+        if self.chose_two_way_when_evaluate:
+            self.framework.perform_state = PerformState.parallel
+            logging.info(f'******************Chose two way*******************')
+        else:
+            self.framework.perform_state = PerformState.primary
+            logging.info(f'******************Chose single way*******************')
+
+        result = super().evaluate()
+        return result
 
     def _switch_to_auxiliary_data(self):
         self.performing_args = self.auxiliary_performing_args

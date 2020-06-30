@@ -125,7 +125,7 @@ class FrameworkProxy:
 
         # print(torch.randn((5)))
         # Evaluation
-        eval_results = {}
+        eval_results = None
         if performing_args.do_eval:
             logger.info("*** Evaluate ***")
             eval_results = self.evaluate()
