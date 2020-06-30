@@ -256,7 +256,11 @@ class Controller:
         perform_result = self.framework_proxy.perform(self.data_proxy)
         eval_results = perform_result['eval_results']
 
-        standard = 1 - eval_results.get('dev_acc')
+        if eval_results.get('dev_acc') is not None:
+            standard = 1 - eval_results.get('dev_acc')
+        else:
+            logger.warning("Framework did not result results")
+            standard = 100000
 
         if self.framework_proxy.tb_writer is not None:
             if self.trail is not None:
