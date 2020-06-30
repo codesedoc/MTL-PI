@@ -133,7 +133,7 @@ class Controller:
                     result.append(new_case)
             return result
 
-        def _sample_hyps(sample_count):
+        def _sample_hyps(sample_count)->HyperParametersSampleTypeEnum:
             real_hyps.clear()
             sample_type: Optional[HyperParametersSampleTypeEnum] = None
             if sample_count <= my_self_sample_threshold:
@@ -156,7 +156,7 @@ class Controller:
             if sample_count == sample_limitation:
                 key_of_trial = Hyperor.key_of_one_trial(trial)
                 if key_of_trial not in keys_of_tried_trial:
-                    return
+                    return sample_type
 
                 sample_type = HyperParametersSampleTypeEnum.select
 
@@ -179,6 +179,9 @@ class Controller:
                     if key_of_trial not in keys_of_tried_trial:
                         break
             trial.set_user_attr('info', f"create hyparameters by {sample_type.value}")
+
+            if sample_type == None:
+                pass
             return sample_type
             # auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)
             # real_hyps['auxiliary_learning_rate'] = auxiliary_learning_rate
