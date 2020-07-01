@@ -9,7 +9,7 @@ from argument.mtl_pi import MTLPIPerformingArguments, MTLPIModelArguments, MTLPI
 from data.proxy.mtl_pi import MTLPIDataProxy
 from framework.mtl.mtl_pi import MTLPIFrameworkProxy
 
-configurator._return_remaining_strings = True
+# configurator._return_remaining_strings = True
 
 # configurator.register_arguments(model_args = TFRsModelArguments, data_args=TFRsDataArguments, performing_args=TFRsPerformingArguments)
 # configurator.data_proxy_type = TFRsDataProxy
@@ -25,8 +25,8 @@ configurator.framework_proxy_type = MTLPIFrameworkProxy
 
 
 
-# tuning_hp = False
-tuning_hp = True
+tuning_hp = False
+# tuning_hp = True
 
 if tuning_hp:
     framework_name = configurator.framework_proxy_type.framework_class.name
