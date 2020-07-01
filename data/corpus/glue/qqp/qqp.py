@@ -240,6 +240,11 @@ class QQPCorpus(Corpus):
                 raise ValueError
 
             example = self.id2example[e_id]
+
+            if example.label is None:
+                logger.warning(f"{ds_type} data set has no label")
+                return
+
             if example.label == ParapraseLabel.yes:
                 if pred == ParapraseLabel.yes.value:
                     TP_e_ids.append(e_id)
