@@ -121,7 +121,7 @@ class FrameworkProxy:
         if performing_args.do_train:
             logger.info("*** Train ***")
             self.train()
-            # self.save_model()
+            self.save_model()
 
         # print(torch.randn((5)))
         # Evaluation
