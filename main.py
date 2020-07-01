@@ -39,7 +39,7 @@ else:
 
     c = controller.Controller()
     c.run()
-    # c.save_examples_according_to_evaluation()
+    c.save_examples_according_to_evaluation()
 
 
 
