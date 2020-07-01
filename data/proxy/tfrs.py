@@ -77,8 +77,7 @@ class TFRsDataProxy(DataProxy):
             else:
                 raise KeyError(output_mode)
 
-        labels = [label_from_example(example) for example in examples]
-
+        # labels = [label_from_example(example) for example in examples]
 
         reverse_texts_order = kwargs.get('reverse_texts_order', False)
 
@@ -86,33 +85,40 @@ class TFRsDataProxy(DataProxy):
 
         logger.info('*****Tokenizing texts*****')
 
-        if not combine_two_text_as_input:
-            batch_encoding = tokenizer.batch_encode_plus(
-                [self.get_raw_texts_for_input(example, reverse=reverse_texts_order)[0] for example in examples], max_length=max_length, pad_to_max_length=True,
-                return_token_type_ids=False
-            )
 
-            second_batch_encoding = tokenizer.batch_encode_plus(
-                [self.get_raw_texts_for_input(example, reverse=reverse_texts_order)[1] for example in examples], max_length=max_length, pad_to_max_length=True,
-                return_token_type_ids=False
-            )
-
-        else:
-            batch_encoding = tokenizer.batch_encode_plus(
-                [self.get_raw_texts_for_input(example, reverse=reverse_texts_order) for example in examples], max_length=max_length, pad_to_max_length=True,
-                return_token_type_ids=True
-            )
-            second_batch_encoding = []
 
         features = []
         tokens_list = []
         from tqdm import tqdm
-        examples_indexes = tqdm(range(len(examples)), desc="Transfer Data to InputFeature")
-        for i in examples_indexes:
-            inputs = {k: batch_encoding[k][i] for k in batch_encoding}
-            second_inputs = {f'second_{k}': second_batch_encoding[k][i] for k in second_batch_encoding}
+        tqdm_examples = tqdm(examples, desc="Transfer Data to InputFeature")
+        for example in tqdm_examples:
+            try:
+                if not combine_two_text_as_input:
+                    encoding = tokenizer.encode_plus(
+                        self.get_raw_texts_for_input(example, reverse=reverse_texts_order)[0], max_length=max_length, pad_to_max_length=True,
+                        return_token_type_ids=False
+                    )
 
-            feature = InputFeature_class(**inputs, example_id=examples[i].id, label=labels[i], index=examples[i].index,
+                    second_encoding = tokenizer.encode_plus(
+                        self.get_raw_texts_for_input(example, reverse=reverse_texts_order)[1], max_length=max_length, pad_to_max_length=True,
+                        return_token_type_ids=False
+                    )
+
+                else:
+                    encoding = tokenizer.encode_plus(
+                        *self.get_raw_texts_for_input(example, reverse=reverse_texts_order), max_length=max_length, pad_to_max_length=True,
+                        return_token_type_ids=True
+                    )
+
+                    second_encoding = {}
+            except Exception:
+                print(self.get_raw_texts_for_input(example, reverse=reverse_texts_order))
+                raise
+
+            inputs = encoding
+            second_inputs = second_encoding
+
+            feature = InputFeature_class(**inputs, example_id=example.id, label=label_from_example(example), index=example.index,
                                          **second_inputs)
 
             features.append(feature)
