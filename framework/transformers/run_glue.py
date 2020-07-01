@@ -22,6 +22,7 @@ from enum import Enum, unique
 
 
 from transformers.modeling_roberta import RobertaClassificationHead as RobertaClassifier
+from transformers.modeling_electra import ElectraClassificationHead as ElectraClassifier
 from transformers.modeling_utils import SequenceSummary as XLMClassifier
 
 @unique
@@ -31,13 +32,24 @@ class TransformerTypeEnum(Enum):
     roberta = RobertaClassifier
     xlm = XLMClassifier
     xlnet = 'xlent'
+    electra = ElectraClassifier
 
     @staticmethod
     def get_enum_by_value(name):
+        sub_str_e = None
+        result = None
         for e in TransformerTypeEnum:
-            if e.name == name:
-                return e
-        raise ValueError
+            if e.name == name.split('-')[0]:
+                result = e
+            if name.find(e.name) != -1 and name.find(e.name) != 0:
+                sub_str_e = e
+
+        if result is None:
+            if sub_str_e is None:
+                raise ValueError
+            else:
+                result = sub_str_e
+        return result
 
 
 class TFRsFramework(Framework):
@@ -53,7 +65,7 @@ class TFRsFramework(Framework):
             cache_dir=model_args.cache_dir,
         )
 
-        self.transformer_type = TransformerTypeEnum.get_enum_by_value(model_args.model_name_or_path.split('-')[0])
+        self.transformer_type = TransformerTypeEnum.get_enum_by_value(model_args.model_name_or_path)
 
     def forward(self, **input_):
         tfrs_input = {}

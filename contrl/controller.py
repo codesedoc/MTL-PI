@@ -133,30 +133,37 @@ class Controller:
                     result.append(new_case)
             return result
 
-        def _sample_hyps(sample_count):
+        def _sample_hyps(sample_count)->HyperParametersSampleTypeEnum:
             real_hyps.clear()
             sample_type: Optional[HyperParametersSampleTypeEnum] = None
             if sample_count <= my_self_sample_threshold:
                 sample_type = HyperParametersSampleTypeEnum.optuna
                 learning_rate = round(trial.suggest_int('learning_rate', 8, 80) * 1e-6, 8)                                ##################
+                auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)
                 per_device_train_batch_size = batch_size_list[trial.suggest_int('batch_size', 0, len(batch_size_list)-1)] ########################
                 num_train_epochs = trial.suggest_int('epoch', 2, 4)                                                       ###################
+                auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 2, 3)
+
             else:
                 sample_type = HyperParametersSampleTypeEnum.my_self_sampler
                 learning_rate = round(random.randint(8, 80) * 1e-6, 8)                                                   ##########################
+                auxiliary_learning_rate = round(random.randint(1, 5) * 1e-5, 8)
                 per_device_train_batch_size = batch_size_list[random.randint(0, len(batch_size_list)-1)]                ##############
                 num_train_epochs = random.randint(2, 4)                                                                 ########################
+                auxiliary_training_epoch = random.randint(2, 3)
 
             real_hyps['learning_rate'] = learning_rate
             real_hyps['per_device_train_batch_size'] = per_device_train_batch_size
             real_hyps['num_train_epochs'] = num_train_epochs
+            real_hyps['auxiliary_learning_rate'] = auxiliary_learning_rate
+            real_hyps['auxiliary_training_epoch'] = auxiliary_training_epoch
 
             trial.set_user_attr('real_hyper_params', real_hyps.copy())
 
             if sample_count == sample_limitation:
                 key_of_trial = Hyperor.key_of_one_trial(trial)
                 if key_of_trial not in keys_of_tried_trial:
-                    return
+                    return sample_type
 
                 sample_type = HyperParametersSampleTypeEnum.select
 
@@ -164,6 +171,8 @@ class Controller:
                 hyps_ranges.append([round(factor * 1e-6, 8)for factor in range(8, 80+1)])                               ########################
                 hyps_ranges.append(batch_size_list)                                                                     #########################
                 hyps_ranges.append(list(range(2, 4+1)))                                                                   ########################
+                hyps_ranges.append([round(factor * 1e-5, 8)for factor in range(1, 5+1)])
+                hyps_ranges.append(list(range(2, 3+1)))
                 cases = _hyps_case(hyps_ranges)
 
                 logging.info(f"The total case of hyperparameters: {len(cases)}")
@@ -172,6 +181,8 @@ class Controller:
                     real_hyps['learning_rate'] = case[0]                                                              ####################
                     real_hyps['per_device_train_batch_size'] = case[1]                                                ########################
                     real_hyps['num_train_epochs'] = case[2]                                                             ##################################
+                    real_hyps['auxiliary_learning_rate'] = case[3]
+                    real_hyps['auxiliary_training_epoch'] = case[4]
 
                     trial.set_user_attr('real_hyper_params', real_hyps.copy())
 
@@ -179,6 +190,9 @@ class Controller:
                     if key_of_trial not in keys_of_tried_trial:
                         break
             trial.set_user_attr('info', f"create hyparameters by {sample_type.value}")
+
+            if sample_type == None:
+                pass
             return sample_type
             # auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)
             # real_hyps['auxiliary_learning_rate'] = auxiliary_learning_rate
@@ -253,7 +267,11 @@ class Controller:
         perform_result = self.framework_proxy.perform(self.data_proxy)
         eval_results = perform_result['eval_results']
 
-        standard = 1 - eval_results.get('dev_acc')
+        if eval_results.get('dev_acc') is not None:
+            standard = 1 - eval_results.get('dev_acc')
+        else:
+            logger.warning("Framework did not result results")
+            standard = 100000
 
         if self.framework_proxy.tb_writer is not None:
             if self.trail is not None:

@@ -1032,3 +1032,14 @@
 2020-06-30 04:39:40 - ########## Optuna finish another 114 trials!  Now the number of unify tail is:114 ##########
 2020-06-30 04:39:40 - ********************************************************************************
 
+2020-07-01 22:53:02 - ####################KeyboardInterrupt: Stop tune hyper parameter!####################
+2020-07-01 22:53:02 - ********************************************************************************
+2020-07-01 22:53:02 - Best Trial Info
+2020-07-01 22:53:02 - number:47
+2020-07-01 22:53:02 - user_attrs:{'args_need_to_record': {'split_two_texts_as_input': False}, 'eval_results': {'dev_loss': 0.42962562752997174, 'dev_acc': 0.9019607843137255, 'dev_f1': 0.9280575539568345, 'dev_acc_and_f1': 0.91500916913528}, 'info': 'create hyparameters by optuna', 'real_hyper_params': {'learning_rate': 3.3e-05, 'per_device_train_batch_size': 16, 'num_train_epochs': 3}, 'result': 0.0980392156862745, 'test_results': {'test_loss': 0.564933959291213, 'test_acc': 0.856231884057971, 'test_f1': 0.8908450704225352, 'test_acc_and_f1': 0.8735384772402531}}
+2020-07-01 22:53:02 - params:{'batch_size': 0, 'epoch': 3, 'learning_rate': 33}
+2020-07-01 22:53:02 - state:TrialState.COMPLETE
+2020-07-01 22:53:02 - 
+2020-07-01 22:53:02 - ########## Optuna finish another 0 trials!  Now the number of unify tail is:1 ##########
+2020-07-01 22:53:02 - ********************************************************************************
+

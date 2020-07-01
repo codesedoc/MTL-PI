@@ -29,6 +29,8 @@ class MTLPIModelArguments(TFRsModelArguments):
 
     adjust_prediction: bool = field(default=False, metadata={"help": "Adjust the primary prediction with the auxiliary information."})
 
+    single_task: bool = field(default=False, metadata={"help": "Chose single task, equal to the baseline."})
+
     def get_name_abbreviation(self):
         base_result = super().get_name_abbreviation()
         result = {
@@ -39,6 +41,9 @@ class MTLPIModelArguments(TFRsModelArguments):
 
     def __post_init__(self):
         if not self.split_two_texts_as_input and (self.feature_compared == FeatureComparedEnum.tokens.value):
+            raise ValueError
+
+        if self.single_task and self.adjust_prediction:
             raise ValueError
 
 

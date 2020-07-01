@@ -58,7 +58,7 @@ class MTLPIFramework(Framework):
             cache_dir=model_args.cache_dir,
         )
 
-        self.transformer_type = TransformerTypeEnum.get_enum_by_value(model_args.model_name_or_path.split('-')[0])
+        self.transformer_type = TransformerTypeEnum.get_enum_by_value(model_args.model_name_or_path)
 
         # input_size_of_classifier = config.hidden_size
         # if (model_args.split_two_texts_as_input) and model_args.distance_type == DistanceTypeEnum.dim_l1.value:
@@ -117,20 +117,14 @@ class MTLPIFramework(Framework):
         a_logits = self.auxiliary_classifier(features_classified)
         p_logits = self.primary_classifier(features_classified)
 
-        loss_fct = torch.nn.CrossEntropyLoss()
-
-        # a_loss = self._calculate_loss(a_logits, auxiliary_labels, loss_fct)
-        # p_loss = self._calculate_loss(p_logits, primary_labels, loss_fct)
-        #
-        # loss_weight = self.loss_weight
-        # loss = loss_weight*a_loss + (1-loss_weight)*p_loss
-        # outputs = loss, ({'auxiliary': a_logits, 'primary': p_logits}, (a_loss, p_loss))
-        # outputs = loss, {'auxiliary': a_logits, 'primary': p_logits}
-
         logits = a_logits[:, [1, 0]] + p_logits
-        loss = self._calculate_loss(logits, primary_labels, loss_fct)
 
-        outputs = loss, logits
+        outputs = logits,
+        if primary_labels is not None:
+            loss_fct = torch.nn.CrossEntropyLoss()
+            loss = self._calculate_loss(logits, primary_labels, loss_fct)
+
+            outputs = loss, logits
 
         return outputs
 
@@ -292,18 +286,18 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             cache_dir=model_args.cache_dir,
         )
 
-        from utils import file_tool
-        self.framework_path = file_tool.connect_path(file_tool.dirname(__file__), 'after_auxiliary',
-                                                f'auep_{self.performing_args.auxiliary_training_epoch}',
-                                                f'aulr_{self.performing_args.auxiliary_learning_rate}')
-
-        self.pretrained_auxiliary = False
-
         framework = MTLPIFramework(model_args, config=config, framework_proxy=self)
+        if not self.model_args.single_task:
+            from utils import file_tool
+            self.framework_path = file_tool.connect_path(file_tool.dirname(__file__), 'after_auxiliary',
+                                                         f'auep_{self.performing_args.auxiliary_training_epoch}',
+                                                         f'aulr_{self.performing_args.auxiliary_learning_rate}')
+            self.pretrained_auxiliary = False
 
-        if file_tool.check_dir(self.framework_path):
-            framework = self.load_model(self.framework_path, framework=framework)
-            self.pretrained_auxiliary = True
+            if file_tool.check_dir(self.framework_path):
+                framework = self.load_model(self.framework_path, framework=framework)
+                logger.info(f'load framework from {self.framework_path}')
+                self.pretrained_auxiliary = True
         return framework
 
         pass
@@ -324,21 +318,23 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         return PredictionOutput(predictions=None, label_ids=None, metrics=None, indexes=None, example_id2pred=id2pred)
 
     def train(self,  *args, **kwargs):
-        performing_args = self.performing_args
 
         logger.info("*** Step1: Train auxiliary data ***")
 
-        if self.pretrained_auxiliary:
-            logging.info(f'Already trained auxiliary data')
+        if self.framework.model_args.single_task:
+            logging.info(f'Skip train auxiliary data')
         else:
+            if self.pretrained_auxiliary:
+                logging.info(f'Already trained auxiliary data')
+            else:
 
-            self.framework.perform_state = PerformState.auxiliary
-            self._switch_to_auxiliary_data()
+                self.framework.perform_state = PerformState.auxiliary
+                self._switch_to_auxiliary_data()
 
-            dataset = self.data_proxy.merge_datasets(ds_types=(DataSetType.train, DataSetType.dev, DataSetType.test))
-            self.data_proxy.set_datasets(DataSetType.train, dataset)
-            self._train()
-            self.save_model(self.framework_path)
+                dataset = self.data_proxy.merge_datasets(ds_types=(DataSetType.train, DataSetType.dev, DataSetType.test))
+                self.data_proxy.set_datasets(DataSetType.train, dataset)
+                self._train()
+                self.save_model(self.framework_path)
         # logger.info("*** Step2: Predict primary data ***")
         #
         # self._switch_to_primary_data()
@@ -362,7 +358,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
         setup_seed(self.model_args.seed)
 
-        logger.info("*** Step2: Parallel train ***")
+        logger.info("*** Step2: Train primary data ***")
         self._switch_to_primary_data()
 
         if self.adjust_prediction:
@@ -379,6 +375,18 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
         # self.framework.perform_state = PerformState.primary
 
+        # if self.chose_two_way_when_evaluate:
+        #     self.framework.perform_state = PerformState.parallel
+        #     logging.info(f'******************Chose two way*******************')
+        # else:
+        #     self.framework.perform_state = PerformState.primary
+        #     logging.info(f'******************Chose single way*******************')
+
+        # self.save_model()
+
+    def predict(self):
+        self._switch_to_primary_data()
+
         if self.chose_two_way_when_evaluate:
             self.framework.perform_state = PerformState.parallel
             logging.info(f'******************Chose two way*******************')
@@ -386,7 +394,21 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             self.framework.perform_state = PerformState.primary
             logging.info(f'******************Chose single way*******************')
 
-        # self.save_model()
+        result = super().predict()
+
+        return result
+
+    def evaluate(self):
+        self._switch_to_primary_data()
+        if self.chose_two_way_when_evaluate:
+            self.framework.perform_state = PerformState.parallel
+            logging.info(f'******************Chose two way*******************')
+        else:
+            self.framework.perform_state = PerformState.primary
+            logging.info(f'******************Chose single way*******************')
+
+        result = super().evaluate()
+        return result
 
     def _switch_to_auxiliary_data(self):
         self.performing_args = self.auxiliary_performing_args
@@ -432,7 +454,8 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             'distance_type': self.model_args.distance_type,
             'feature_compared': self.model_args.feature_compared,
             'chose_two_way_when_evaluate': self.chose_two_way_when_evaluate,
-            'adjust_prediction': self.adjust_prediction
+            'adjust_prediction': self.model_args.adjust_prediction,
+            'single_task': self.model_args.single_task
         }
 
         result.update(super().args_need_to_record())
