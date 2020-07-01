@@ -147,10 +147,10 @@ class QQPCorpus(Corpus):
             file_tool.save_data_pickle(examples, pkl_file_name)
             logger.info(f"Save {len(examples)} examples to {pkl_file_name}")
 
-        if ds_type == DataSetType.test:
-            examples = examples[: round(len(examples)*self.use_rate)]
-        else:
-            examples = self._get_part_of_data(examples)
+        # if ds_type == DataSetType.test:
+        #     examples = examples[: round(len(examples)*self.use_rate)]
+        # else:
+        #     examples = self._get_part_of_data(examples)
 
         return examples
 

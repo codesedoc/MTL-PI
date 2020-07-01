@@ -84,6 +84,8 @@ class TFRsDataProxy(DataProxy):
 
         combine_two_text_as_input = self.combine_two_text_as_input
 
+        logger.info('*****Tokenizing texts*****')
+
         if not combine_two_text_as_input:
             batch_encoding = tokenizer.batch_encode_plus(
                 [self.get_raw_texts_for_input(example, reverse=reverse_texts_order)[0] for example in examples], max_length=max_length, pad_to_max_length=True,
@@ -104,7 +106,9 @@ class TFRsDataProxy(DataProxy):
 
         features = []
         tokens_list = []
-        for i in range(len(examples)):
+        from tqdm import tqdm
+        examples_indexes = tqdm(range(len(examples)), desc="Transfer Data to InputFeature")
+        for i in examples_indexes:
             inputs = {k: batch_encoding[k][i] for k in batch_encoding}
             second_inputs = {f'second_{k}': second_batch_encoding[k][i] for k in second_batch_encoding}
 
