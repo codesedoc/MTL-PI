@@ -80,16 +80,22 @@ class QQPCorpus(Corpus):
                 if i == 0:
                     continue
 
-                guid = e_id_base+i
-
-                ## must mask test label
+                # guid = int(e_id_base+i)
+                # must mask test label
                 if ds_type != DataSetType.test:
                     if len(line) != 6:
                         invalid_line.append(i)
                         continue
 
+                    if len(line[3].strip()) == 0 or len(line[4].strip()) == 0:
+                        invalid_line.append(i)
+                        continue
+
+                    guid = int(line[0].strip())
+
                     id_1 = line[1].strip()
                     id_2 = line[2].strip()
+
 
                     if not(is_number(id_1) and is_number(id_2)):
                         raise ValueError('The id1 or id2 is not a number at the {}-th line in file:{}'.format(i+1, file_name))
@@ -109,6 +115,7 @@ class QQPCorpus(Corpus):
                 else:
                     if len(line) != 3:
                         raise ValueError
+                    guid = int(line[0].strip())
 
                     if line[1].strip() not in text2id:
                         text2id[line[1].strip()] = len(text2id)
@@ -132,6 +139,8 @@ class QQPCorpus(Corpus):
 
             if len(invalid_line) != 0:
                 logger.warning(f"The total line of {ds_type} data file is {len(lines)}, but {len(invalid_line)} lines are invalid")
+                logger.warning(f"The number of invalid_line:{len(invalid_line)}")
+            logger.info(f"The number of invalid_line:0")
             logger.info(f"Load {len(examples)} examples and {len(self.id2question)} questrions from {file_name}")
 
             return examples
@@ -147,10 +156,10 @@ class QQPCorpus(Corpus):
             file_tool.save_data_pickle(examples, pkl_file_name)
             logger.info(f"Save {len(examples)} examples to {pkl_file_name}")
 
-        if ds_type == DataSetType.test:
-            examples = examples[: round(len(examples)*self.use_rate)]
-        else:
-            examples = self._get_part_of_data(examples)
+        # if ds_type == DataSetType.test:
+        #     examples = examples[: round(len(examples)*self.use_rate)]
+        # else:
+        #     examples = self._get_part_of_data(examples)
 
         return examples
 

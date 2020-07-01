@@ -121,7 +121,7 @@ class FrameworkProxy:
         if performing_args.do_train:
             logger.info("*** Train ***")
             self.train()
-            # self.save_model()
+            self.save_model()
 
         # print(torch.randn((5)))
         # Evaluation
@@ -413,8 +413,9 @@ class FrameworkProxy:
         example_ids: Optional[Union[torch.Tensor, List[int]]] = None
 
         model.eval()
-        # for inputs in tqdm(dataloader, desc=description):
-        for inputs in iter(dataloader):
+
+        for inputs in tqdm(dataloader, desc=description):
+        # for inputs in iter(dataloader):
 
             has_labels = any(inputs.get(k) is not None for k in ["labels", "lm_labels", "masked_lm_labels"])
             for k, v in inputs.items():
