@@ -80,28 +80,28 @@ class MRPCorpus(Corpus):
 
             label = int(line[0].strip())
             index = None
-            #must mask test label
-            # if ds_type != DataSetType.test:
-            #     if label == ParapraseLabel.yes.value:
-            #         label = ParapraseLabel.yes
-            #     elif label == ParapraseLabel.no.value:
-            #         label = ParapraseLabel.no
-            #     else:
-            #         raise ValueError('The lable error in raw file')
-            # else:
-            #     index = label
-            #     label = None
+            # must mask test label
+            if ds_type != DataSetType.test:
+                if label == ParapraseLabel.yes.value:
+                    label = ParapraseLabel.yes
+                elif label == ParapraseLabel.no.value:
+                    label = ParapraseLabel.no
+                else:
+                    raise ValueError('The lable error in raw file')
+            else:
+                index = label
+                label = None
 
             ##if test file have label can try don't mask
-            if ds_type == DataSetType.test:
-                index = 1
-
-            if label == ParapraseLabel.yes.value:
-                label = ParapraseLabel.yes
-            elif label == ParapraseLabel.no.value:
-                label = ParapraseLabel.no
-            else:
-                raise ValueError('The lable error in raw file')
+            # if ds_type == DataSetType.test:
+            #     index = 1
+            #
+            # if label == ParapraseLabel.yes.value:
+            #     label = ParapraseLabel.yes
+            # elif label == ParapraseLabel.no.value:
+            #     label = ParapraseLabel.no
+            # else:
+            #     raise ValueError('The lable error in raw file')
 
             e = MRPCExample(id=guid, type=ds_type, sentence_1=sent_obj_1, sentence_2=sent_obj_2,
                             label=label, index=index)
