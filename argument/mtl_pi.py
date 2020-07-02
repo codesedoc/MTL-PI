@@ -31,6 +31,8 @@ class MTLPIModelArguments(TFRsModelArguments):
 
     single_task: bool = field(default=False, metadata={"help": "Chose single task, equal to the baseline."})
 
+    tune_off_auxiliary_when_parallel: bool = field(default=False, metadata={"help": "tune_off_auxiliary_when_parallel."})
+
     def get_name_abbreviation(self):
         base_result = super().get_name_abbreviation()
         result = {
