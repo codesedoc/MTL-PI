@@ -116,11 +116,12 @@ class MTLPIFramework(Framework):
     def _parallel_forward(self, primary_labels, auxiliary_labels, features_classified):
         a_logits = self.auxiliary_classifier(features_classified)
         p_logits = self.primary_classifier(features_classified)
+        weight = self.model_args.calibrator_weight
 
         if self.model_args.tune_off_auxiliary_when_parallel:
             a_logits = a_logits.detach()
 
-        logits = a_logits[:, [1, 0]] + p_logits
+        logits = torch.mm(a_logits, torch.tensor([[1-weight, weight], [1, 0]], device=a_logits.device)) + p_logits
 
         outputs = logits,
         if primary_labels is not None:
@@ -440,7 +441,8 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             'feature_compared': self.model_args.feature_compared,
             'chose_two_way_when_evaluate': self.chose_two_way_when_evaluate,
             'adjust_prediction': self.model_args.adjust_prediction,
-            'single_task': self.model_args.single_task
+            'single_task': self.model_args.single_task,
+            'calibrator_weight': self.model_args.calibrator_weight
         }
 
         result.update(super().args_need_to_record())

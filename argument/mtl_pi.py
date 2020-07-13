@@ -33,10 +33,13 @@ class MTLPIModelArguments(TFRsModelArguments):
 
     tune_off_auxiliary_when_parallel: bool = field(default=False, metadata={"help": "tune_off_auxiliary_when_parallel."})
 
+    calibrator_weight: float = field(default=1.0, metadata={"help": "The weight of calibrator."})
+
     def get_name_abbreviation(self):
         base_result = super().get_name_abbreviation()
         result = {
             "loss_a": "mlla",
+            'calibrator_weight': 'c_weight'
         }
         result.update(base_result)
         return result
