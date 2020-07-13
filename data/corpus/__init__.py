@@ -117,6 +117,19 @@ class Corpus:
         for e_ids, filename in e_ids_and_filename_tuples:
             self._save_examples(e_ids, filename)
 
+    @property
+    def data_distribute(self) -> Dict[str, Dict[str, int]]:
+        if not (hasattr(self, "_data_distribute") and self._data_distribute is not None):
+            self._data_distribute = {ds_type.value: self._get_data_distribute(self.type2examples[ds_type]) for ds_type in self.dataset_types}
+        return self._data_distribute
+
+    def _get_data_distribute(self, examples: List[Example]) -> Dict[str, int]:
+        raise NotImplementedError()
+
+    def load_all_data(self):
+        for ds_type in self.dataset_types:
+            self.get_examples(ds_type)
+
     pass
 
 
@@ -142,3 +155,4 @@ name2is_paraphrase = {
     'elaboration': False,
     'qqp': True
 }
+

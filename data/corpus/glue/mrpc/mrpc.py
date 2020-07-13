@@ -6,7 +6,7 @@ from data.corpus._utils import ItemsForMetricsComputation, acc_and_f1
 from data import Example, Sentence
 from enum import Enum, unique
 from dataclasses import dataclass
-from typing import Optional, Tuple, Dict, Any
+from typing import Optional, Tuple, Dict, Any, List
 from utils.general_tool import is_number
 logger = logging.getLogger(__name__)
 
@@ -80,7 +80,7 @@ class MRPCorpus(Corpus):
 
             label = int(line[0].strip())
             index = None
-            #must mask test label
+            # # must mask test label
             # if ds_type != DataSetType.test:
             #     if label == ParapraseLabel.yes.value:
             #         label = ParapraseLabel.yes
@@ -92,7 +92,7 @@ class MRPCorpus(Corpus):
             #     index = label
             #     label = None
 
-            ##if test file have label can try don't mask
+            #if test file have label can try don't mask
             if ds_type == DataSetType.test:
                 index = 1
 
@@ -108,6 +108,19 @@ class MRPCorpus(Corpus):
             examples.append(e)
 
         return examples
+
+    def _get_data_distribute(self, examples: List[Example]) -> Dict[str, int]:
+        result = {ParapraseLabel.yes.name: 0, ParapraseLabel.no.name: 0}
+        for e in examples:
+            label = e.label
+            if label == ParapraseLabel.yes:
+                result[ParapraseLabel.yes.name] += 1
+            elif label == ParapraseLabel.no:
+                result[ParapraseLabel.no.name] += 1
+            else:
+                raise ValueError('The lable error')
+        result['total'] = result[ParapraseLabel.yes.name] + result[ParapraseLabel.no.name]
+        return result
 
     def compute_metrics(self, itmes: ItemsForMetricsComputation):
         return acc_and_f1(itmes.predictions, itmes.label_ids)
