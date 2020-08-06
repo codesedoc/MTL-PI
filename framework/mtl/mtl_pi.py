@@ -131,7 +131,10 @@ class MTLPIFramework(Framework):
             a_logits = a_logits.detach()
 
         if self.model_args.learn_calibrator_weight:
-            weight = torch.sigmoid(self.calibrator_weight(features_classified))
+            if self.transformer_type == TransformerTypeEnum.roberta:
+                weight = torch.sigmoid(self.calibrator_weight(features_classified[:, 0, :]))
+            else:
+                weight = torch.sigmoid(self.calibrator_weight(features_classified))
             logits = torch.bmm(a_logits.unsqueeze(dim=1),
                               (weight.unsqueeze(dim=1)*torch.tensor([[-1, 1], [0, 0]], device=a_logits.device).expand(a_logits.shape[0], -1, -1)
                                + torch.tensor([[1, 0], [1, 0]], device=a_logits.device).expand(a_logits.shape[0], -1, -1))
@@ -343,21 +346,21 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
     def __delay_train(self,  *args, **kwargs):
         logger.info("*** Step1: Train auxiliary data ***")
 
-        if self.framework.model_args.single_task:
-            logging.info(f'Skip train auxiliary data')
-        else:
-            if self.pretrained_auxiliary:
-                logging.info(f'Already trained auxiliary data')
-            else:
-
-                self.framework.perform_state = PerformState.auxiliary
-                self._switch_to_auxiliary_data()
-
-                dataset = self.data_proxy.merge_datasets(
-                    ds_types=(DataSetType.train, DataSetType.dev, DataSetType.test))
-                self.data_proxy.set_datasets(DataSetType.train, dataset)
-                self._train()
-                self.save_model(self.framework_path)
+        # if self.framework.model_args.single_task:
+        #     logging.info(f'Skip train auxiliary data')
+        # else:
+        #     if self.pretrained_auxiliary:
+        #         logging.info(f'Already trained auxiliary data')
+        #     else:
+        #
+        #         self.framework.perform_state = PerformState.auxiliary
+        #         self._switch_to_auxiliary_data()
+        #
+        #         dataset = self.data_proxy.merge_datasets(
+        #             ds_types=(DataSetType.train, DataSetType.dev, DataSetType.test))
+        #         self.data_proxy.set_datasets(DataSetType.train, dataset)
+        #         self._train()
+        #         self.save_model(self.framework_path)
 
         from utils.general_tool import setup_seed
 
