@@ -483,8 +483,8 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
     def args_need_to_record(self) -> Dict[str, Any]:
         result = {
             'transformer': f"{self.framework.transformer_type.name}: {self.model_args.model_name_or_path}",
-            'distance_type': self.model_args.distance_type,
-            'feature_compared': self.model_args.feature_compared,
+            # 'distance_type': self.model_args.distance_type,
+            # 'feature_compared': self.model_args.feature_compared,
             'chose_two_way_when_evaluate': self.chose_two_way_when_evaluate,
             'adjust_prediction': self.model_args.adjust_prediction,
             'single_task': self.model_args.single_task,
