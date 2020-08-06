@@ -11,7 +11,13 @@ from typing import Any, Tuple, Dict, Optional, List, Union
 from dataclasses import dataclass, replace
 from data.proxy import DataSetType
 from model import SemanticLayer, DistanceTypeEnum
+from argument.mtl_pi import ModeForTrainData
+from .. import MiniBatch
 
+class MTLMiniBatch(MiniBatch):
+    def __init__(self, data=None):
+        super().__init__(data)
+        self.task = None
 
 import torch
 import logging
@@ -83,17 +89,21 @@ class MTLPIFramework(Framework):
         self.auxiliary_classifier.apply(self._init_weights)
         self.primary_classifier.apply(self._init_weights)
 
+        if model_args.learn_calibrator_weight:
+            self.calibrator_weight = torch.nn.Linear(config.hidden_size, 1)
+            self.calibrator_weight.apply(self._init_weights)
+
         self.perform_state = PerformState.auxiliary
         self.num_labels = config.num_labels
 
         # self.max_token_length = int(self.framework_proxy.data_proxy.data_args.max_seq_length)
-        self.loss_weight = model_args.loss_a
+        # self.loss_weight = model_args.loss_a
         self.model_args = model_args
 
-        if not self.model_args.split_two_texts_as_input:
-            self.model_args = replace(model_args, feature_compared='None', distance_type='None')
-
-        self.semantic_layer = SemanticLayer(model_args.distance_type)
+        # if not self.model_args.split_two_texts_as_input:
+        #     self.model_args = replace(model_args, feature_compared='None', distance_type='None')
+        #
+        # self.semantic_layer = SemanticLayer(model_args.distance_type)
 
     def _init_weights(self, module):
         """ Initialize the weights """
@@ -116,12 +126,22 @@ class MTLPIFramework(Framework):
     def _parallel_forward(self, primary_labels, auxiliary_labels, features_classified):
         a_logits = self.auxiliary_classifier(features_classified)
         p_logits = self.primary_classifier(features_classified)
-        weight = self.model_args.calibrator_weight
 
         if self.model_args.tune_off_auxiliary_when_parallel:
             a_logits = a_logits.detach()
 
-        logits = torch.mm(a_logits, torch.tensor([[1-weight, weight], [1, 0]], device=a_logits.device)) + p_logits
+        if self.model_args.learn_calibrator_weight:
+            weight = torch.sigmoid(self.calibrator_weight(features_classified))
+            logits = torch.bmm(a_logits.unsqueeze(dim=1),
+                              (weight.unsqueeze(dim=1)*torch.tensor([[-1, 1], [0, 0]], device=a_logits.device).expand(a_logits.shape[0], -1, -1)
+                               + torch.tensor([[1, 0], [1, 0]], device=a_logits.device).expand(a_logits.shape[0], -1, -1))
+                              ).squeeze()\
+                     + p_logits
+
+        else:
+            weight = self.model_args.calibrator_weight
+
+            logits = torch.mm(a_logits, torch.tensor([[1-weight, weight], [1, 0]], device=a_logits.device)) + p_logits
 
         outputs = logits,
         if primary_labels is not None:
@@ -145,7 +165,6 @@ class MTLPIFramework(Framework):
         return outputs
 
     def forward(self, **input_):
-
         if not self.model_args.split_two_texts_as_input:
             tfr_input_name = ['input_ids', 'attention_mask', 'token_type_ids']
             tfr_input ={}
@@ -291,7 +310,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         )
 
         framework = MTLPIFramework(model_args, config=config, framework_proxy=self)
-        if not self.model_args.single_task:
+        if not self.model_args.single_task and self.performing_args.train_mode == ModeForTrainData.delay:
             from utils import file_tool
             self.framework_path = file_tool.connect_path(file_tool.dirname(__file__), 'after_auxiliary',
                                                          f'auep_{self.performing_args.auxiliary_training_epoch}',
@@ -321,8 +340,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
         return PredictionOutput(predictions=None, label_ids=None, metrics=None, indexes=None, example_id2pred=id2pred)
 
-    def train(self,  *args, **kwargs):
-
+    def __delay_train(self,  *args, **kwargs):
         logger.info("*** Step1: Train auxiliary data ***")
 
         if self.framework.model_args.single_task:
@@ -335,7 +353,8 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
                 self.framework.perform_state = PerformState.auxiliary
                 self._switch_to_auxiliary_data()
 
-                dataset = self.data_proxy.merge_datasets(ds_types=(DataSetType.train, DataSetType.dev, DataSetType.test))
+                dataset = self.data_proxy.merge_datasets(
+                    ds_types=(DataSetType.train, DataSetType.dev, DataSetType.test))
                 self.data_proxy.set_datasets(DataSetType.train, dataset)
                 self._train()
                 self.save_model(self.framework_path)
@@ -357,9 +376,9 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         self._train()
 
         logger.info("*** Step3: Evaluate primary data ***")
-        self._switch_to_primary_data()
+        # self._switch_to_primary_data()
 
-        self.framework.perform_state = PerformState.primary
+        # self.framework.perform_state = PerformState.primary
 
         # if self.chose_two_way_when_evaluate:
         #     self.framework.perform_state = PerformState.parallel
@@ -369,6 +388,33 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         #     logging.info(f'******************Chose single way*******************')
 
         # self.save_model()
+
+    def __cross_train(self,  *args, **kwargs):
+        logger.info("*** Cross Training data ***")
+        self.data_proxy = self.primary_data_proxy
+        dataset = self.auxiliary_data_proxy.merge_datasets(
+            ds_types=(DataSetType.train, DataSetType.dev, DataSetType.test))
+        self.auxiliary_data_proxy.set_datasets(DataSetType.train, dataset)
+        self._train()
+
+    def __mix_train(self,  *args, **kwargs):
+        logger.info("*** Mix Training data ***")
+        self.data_proxy = self.primary_data_proxy
+        dataset = self.auxiliary_data_proxy.merge_datasets(
+            ds_types=(DataSetType.train, DataSetType.dev, DataSetType.test))
+        self.auxiliary_data_proxy.set_datasets(DataSetType.train, dataset)
+        self._train()
+
+    def train(self,  *args, **kwargs):
+        if self.performing_args.train_mode == ModeForTrainData.delay:
+            self.__delay_train(*args, **kwargs)
+        elif self.performing_args.train_mode == ModeForTrainData.cross:
+            self.__cross_train(*args, **kwargs)
+        elif self.performing_args.train_mode == ModeForTrainData.mix:
+            self.__mix_train(*args, **kwargs)
+        else:
+            raise ValueError
+
 
     def predict(self):
         self._switch_to_primary_data()
@@ -447,3 +493,42 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
 
         result.update(super().args_need_to_record())
         return result
+
+    def _get_mini_batches(self):
+        result = []
+        if self.performing_args.train_mode == ModeForTrainData.delay:
+            result = super()._get_mini_batches()
+        else:
+            for x in list(self.auxiliary_data_proxy.get_dataloader(DataSetType.train)):
+                temp = MTLMiniBatch(x)
+                temp.task = "auxiliary"
+                result.append(temp)
+
+            for x in list(self.primary_data_proxy.get_dataloader(DataSetType.train)):
+                temp = MTLMiniBatch(x)
+                temp.task = "primary"
+                result.append(temp)
+
+            if self.performing_args.train_mode == ModeForTrainData.mix:
+                import random
+                random.shuffle(result)
+
+        return result
+
+    def _train_step(
+            self, model: torch.nn.Module, mini_batch: MTLMiniBatch, optimizer: Optimizer
+    ) -> float:
+        if self.performing_args.train_mode != ModeForTrainData.delay:
+            if mini_batch.task == "auxiliary":
+                self.framework.perform_state = PerformState.auxiliary
+
+            elif mini_batch.task == "primary":
+                self.framework.perform_state = PerformState.parallel
+            else:
+                raise NotImplementedError()
+
+        return super()._train_step(model, mini_batch, optimizer)
+        # return 0
+
+    def _get_num_train_exampels(self):
+        return self.primary_data_proxy.get_num_examples(DataSetType.train) +  self.auxiliary_data_proxy.get_num_examples(DataSetType.train)
