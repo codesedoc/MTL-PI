@@ -34,6 +34,11 @@ class TrainOutput(NamedTuple):
     training_loss: float
 
 
+class MiniBatch:
+    def __init__(self, data=None):
+        self.data = data
+
+
 @dataclass
 class OptimizationKit:
     optimizer: Optimizer
@@ -151,23 +156,34 @@ class FrameworkProxy:
     def train(self, *args, **kwargs):
         self._train(*args, **kwargs)
 
+    def _get_mini_batches(self):
+        return [MiniBatch(x) for x in list(self.data_proxy.get_dataloader(DataSetType.train))]
+
+    def _get_num_train_exampels(self):
+        return self.data_proxy.get_num_examples(DataSetType.train)
+
     def _train(self, *args, **kwargs):
         from data import DataSetType
-        train_dataloader = self.data_proxy.get_dataloader(DataSetType.train)
-
+        # train_dataloader = self.data_proxy.get_dataloader(DataSetType.train)
+        mini_batches = self._get_mini_batches()
         # from utils.general_tool import setup_seed
         # setup_seed(self.model_args.seed)
         args = self.performing_args
         if args.max_steps > 0:
             t_total = args.max_steps
             num_train_epochs = (
-                    args.max_steps // (len(train_dataloader) // args.gradient_accumulation_steps) + 1
+                    # args.max_steps // (len(train_dataloader) // args.gradient_accumulation_steps) + 1
+                    args.max_steps // (len(mini_batches) // args.gradient_accumulation_steps) + 1
             )
+
             logging_steps = args.logging_steps
         else:
-            t_total = int(len(train_dataloader) // args.gradient_accumulation_steps * args.num_train_epochs)
+            # t_total = int(len(train_dataloader) // args.gradient_accumulation_steps * args.num_train_epochs)
+            # num_train_epochs = args.num_train_epochs
+            # logging_steps = len(train_dataloader)
+            t_total = int(len(mini_batches) // args.gradient_accumulation_steps * args.num_train_epochs)
             num_train_epochs = args.num_train_epochs
-            logging_steps = len(train_dataloader)
+            logging_steps = len(mini_batches)
 
         kit = self._get_optimization_kit(num_total_training_steps=t_total, force=True)
         optimizer, scheduler = kit.optimizer, kit.lr_scheduler
@@ -188,7 +204,7 @@ class FrameworkProxy:
         total_train_batch_size = self.data_proxy.data_args.train_batch_size * args.gradient_accumulation_steps
 
         logger.info("***** Running training *****")
-        logger.info("  Num examples = %d", self.data_proxy.get_num_examples(DataSetType.train))
+        logger.info("  Num examples = %d", self._get_num_train_exampels())
         logger.info("  Num Epochs = %d", num_train_epochs)
         # logger.info("  Instantaneous batch size per device = %d", self.data_proxy.data_args.per_device_train_batch_size)
         # logger.info("  Total train batch size (w. parallel, distributed & accumulation) = %d", total_train_batch_size)
@@ -206,19 +222,19 @@ class FrameworkProxy:
         # train_iterator = trange(0, int(num_train_epochs), desc="Epoch")
         train_iterator = range(int(num_train_epochs))
         for epoch in train_iterator:
-            if isinstance(train_dataloader, DataLoader) and isinstance(train_dataloader.sampler, DistributedSampler):
-                train_dataloader.sampler.set_epoch(epoch)
+            # if isinstance(train_dataloader, DataLoader) and isinstance(train_dataloader.sampler, DistributedSampler):
+            #     train_dataloader.sampler.set_epoch(epoch)
 
-            epoch_iterator = tqdm(train_dataloader, desc="Iteration")
-
-            for step, inputs in enumerate(epoch_iterator):
+            # epoch_iterator = tqdm(train_dataloader, desc="Iteration")
+            epoch_iterator = tqdm(mini_batches, desc="Iteration")
+            for step, mini_batch in enumerate(epoch_iterator):
 
                 # Skip past any already trained steps if resuming training
                 if steps_trained_in_current_epoch > 0:
                     steps_trained_in_current_epoch -= 1
                     continue
 
-                tr_loss += self._train_step(model, inputs, optimizer)
+                tr_loss += self._train_step(model, mini_batch, optimizer)
 
                 if (step + 1) % args.gradient_accumulation_steps == 0 or (
                         # last step in epoch but step is always smaller than gradient_accumulation_steps
@@ -293,8 +309,10 @@ class FrameworkProxy:
         return None
 
     def _train_step(
-            self, model: torch.nn.Module, inputs: Dict[str, torch.Tensor], optimizer: Optimizer
+            self, model: torch.nn.Module, mini_batch: MiniBatch, optimizer: Optimizer
     ) -> float:
+        inputs: Dict[str, torch.Tensor] = mini_batch.data
+
         model.train()
         args = self.performing_args
         for k, v in inputs.items():
