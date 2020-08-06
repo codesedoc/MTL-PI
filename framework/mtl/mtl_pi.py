@@ -116,8 +116,12 @@ class MTLPIFramework(Framework):
     def _parallel_forward(self, primary_labels, auxiliary_labels, features_classified):
         a_logits = self.auxiliary_classifier(features_classified)
         p_logits = self.primary_classifier(features_classified)
+        weight = self.model_args.calibrator_weight
 
-        logits = a_logits[:, [1, 0]] + p_logits
+        if self.model_args.tune_off_auxiliary_when_parallel:
+            a_logits = a_logits.detach()
+
+        logits = torch.mm(a_logits, torch.tensor([[1-weight, weight], [1, 0]], device=a_logits.device)) + p_logits
 
         outputs = logits,
         if primary_labels is not None:
@@ -335,24 +339,6 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
                 self.data_proxy.set_datasets(DataSetType.train, dataset)
                 self._train()
                 self.save_model(self.framework_path)
-        # logger.info("*** Step2: Predict primary data ***")
-        #
-        # self._switch_to_primary_data()
-        #
-        # predict_output = self._predict_for_primary_train()
-        #
-        # updates = self._create_update_input_features_updates(predict_output)
-        #
-        # if not self.performing_args.skip_revise_predictions:
-        #     updates, revise_details = self.original_data_proxy.revise_invalid_predict_for_primary_task(updates=updates)
-        #     if self.tb_writer is not None:
-        #         import json
-        #         self.tb_writer.add_text("revise_details_about_predicted_label_by_auxiliary_model",
-        #                                 json.dumps(revise_details, indent=2), global_step=self.global_step)
-        #
-        # self.data_proxy.update_inputfeatures_in_dataset(DataSetType.train, updates)
-
-        # self.framework.primary_classifier.load_state_dict(self.framework.auxiliary_classifier.state_dict())
 
         from utils.general_tool import setup_seed
 
@@ -373,7 +359,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         logger.info("*** Step3: Evaluate primary data ***")
         self._switch_to_primary_data()
 
-        # self.framework.perform_state = PerformState.primary
+        self.framework.perform_state = PerformState.primary
 
         # if self.chose_two_way_when_evaluate:
         #     self.framework.perform_state = PerformState.parallel
@@ -455,7 +441,8 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             'feature_compared': self.model_args.feature_compared,
             'chose_two_way_when_evaluate': self.chose_two_way_when_evaluate,
             'adjust_prediction': self.model_args.adjust_prediction,
-            'single_task': self.model_args.single_task
+            'single_task': self.model_args.single_task,
+            'calibrator_weight': self.model_args.calibrator_weight
         }
 
         result.update(super().args_need_to_record())

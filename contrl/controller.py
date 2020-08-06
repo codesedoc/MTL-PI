@@ -143,6 +143,8 @@ class Controller:
                 per_device_train_batch_size = batch_size_list[trial.suggest_int('batch_size', 0, len(batch_size_list)-1)] ########################
                 num_train_epochs = trial.suggest_int('epoch', 2, 4)                                                       ###################
                 auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 2, 3)
+                # calibrator_weight = trial.suggest_uniform('calibrator_weight', 0, 1)
+                calibrator_weight = round(trial.suggest_int('calibrator_weight', 0, 10) * 0.1, 8)
 
             else:
                 sample_type = HyperParametersSampleTypeEnum.my_self_sampler
@@ -151,12 +153,15 @@ class Controller:
                 per_device_train_batch_size = batch_size_list[random.randint(0, len(batch_size_list)-1)]                ##############
                 num_train_epochs = random.randint(2, 4)                                                                 ########################
                 auxiliary_training_epoch = random.randint(2, 3)
+                # calibrator_weight = random.uniform(0, 1)
+                calibrator_weight = round(random.randint(0, 10) * 0.1, 8)
 
             real_hyps['learning_rate'] = learning_rate
             real_hyps['per_device_train_batch_size'] = per_device_train_batch_size
             real_hyps['num_train_epochs'] = num_train_epochs
             real_hyps['auxiliary_learning_rate'] = auxiliary_learning_rate
             real_hyps['auxiliary_training_epoch'] = auxiliary_training_epoch
+            real_hyps['calibrator_weight'] = calibrator_weight
 
             trial.set_user_attr('real_hyper_params', real_hyps.copy())
 
@@ -173,6 +178,7 @@ class Controller:
                 hyps_ranges.append(list(range(2, 4+1)))                                                                   ########################
                 hyps_ranges.append([round(factor * 1e-5, 8)for factor in range(1, 5+1)])
                 hyps_ranges.append(list(range(2, 3+1)))
+                hyps_ranges.append([round(factor * 0.1, 8)for factor in range(0, 10+1)])
                 cases = _hyps_case(hyps_ranges)
 
                 logging.info(f"The total case of hyperparameters: {len(cases)}")
@@ -183,6 +189,7 @@ class Controller:
                     real_hyps['num_train_epochs'] = case[2]                                                             ##################################
                     real_hyps['auxiliary_learning_rate'] = case[3]
                     real_hyps['auxiliary_training_epoch'] = case[4]
+                    real_hyps['calibrator_weight'] = case[5]
 
                     trial.set_user_attr('real_hyper_params', real_hyps.copy())
 
