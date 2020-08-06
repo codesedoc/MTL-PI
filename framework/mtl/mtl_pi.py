@@ -346,21 +346,21 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
     def __delay_train(self,  *args, **kwargs):
         logger.info("*** Step1: Train auxiliary data ***")
 
-        # if self.framework.model_args.single_task:
-        #     logging.info(f'Skip train auxiliary data')
-        # else:
-        #     if self.pretrained_auxiliary:
-        #         logging.info(f'Already trained auxiliary data')
-        #     else:
-        #
-        #         self.framework.perform_state = PerformState.auxiliary
-        #         self._switch_to_auxiliary_data()
-        #
-        #         dataset = self.data_proxy.merge_datasets(
-        #             ds_types=(DataSetType.train, DataSetType.dev, DataSetType.test))
-        #         self.data_proxy.set_datasets(DataSetType.train, dataset)
-        #         self._train()
-        #         self.save_model(self.framework_path)
+        if self.framework.model_args.single_task:
+            logging.info(f'Skip train auxiliary data')
+        else:
+            if self.pretrained_auxiliary:
+                logging.info(f'Already trained auxiliary data')
+            else:
+
+                self.framework.perform_state = PerformState.auxiliary
+                self._switch_to_auxiliary_data()
+
+                dataset = self.data_proxy.merge_datasets(
+                    ds_types=(DataSetType.train, DataSetType.dev, DataSetType.test))
+                self.data_proxy.set_datasets(DataSetType.train, dataset)
+                self._train()
+                self.save_model(self.framework_path)
 
         from utils.general_tool import setup_seed
 
