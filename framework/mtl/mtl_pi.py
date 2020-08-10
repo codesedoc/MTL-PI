@@ -131,7 +131,10 @@ class MTLPIFramework(Framework):
             a_logits = a_logits.detach()
 
         if self.model_args.learn_calibrator_weight:
-            weight = torch.sigmoid(self.calibrator_weight(features_classified))
+            if self.transformer_type == TransformerTypeEnum.roberta:
+                weight = torch.sigmoid(self.calibrator_weight(features_classified[:, 0, :]))
+            else:
+                weight = torch.sigmoid(self.calibrator_weight(features_classified))
             logits = torch.bmm(a_logits.unsqueeze(dim=1),
                               (weight.unsqueeze(dim=1)*torch.tensor([[-1, 1], [0, 0]], device=a_logits.device).expand(a_logits.shape[0], -1, -1)
                                + torch.tensor([[1, 0], [1, 0]], device=a_logits.device).expand(a_logits.shape[0], -1, -1))
