@@ -488,6 +488,7 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
             'transformer': f"{self.framework.transformer_type.name}: {self.model_args.model_name_or_path}",
             # 'distance_type': self.model_args.distance_type,
             # 'feature_compared': self.model_args.feature_compared,
+            'train_mode': self.performing_args.train_mode,
             'chose_two_way_when_evaluate': self.chose_two_way_when_evaluate,
             'adjust_prediction': self.model_args.adjust_prediction,
             'single_task': self.model_args.single_task,
