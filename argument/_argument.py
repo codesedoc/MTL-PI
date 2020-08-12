@@ -160,7 +160,7 @@ class DataArguments(Arguments):
     task_name: str = field(metadata={"help": "The name of the task to train on: " + ", ".join(name2corpus_type.keys())})
 
     data_dir: str = field(
-        metadata={"help": "The input data dir. Should contain the .tsv files (or other data files) for the task."}
+        default='.', metadata={"help": "The input data dir. Should contain the .tsv files (or other data files) for the task."}
     )
     overwrite_data_cache: bool = field(
         default=False, metadata={"help": "Overwrite the cached training and evaluation sets"}

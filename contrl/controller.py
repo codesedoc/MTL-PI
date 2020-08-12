@@ -115,7 +115,7 @@ class Controller:
     def load_optuna_trail(self, trial: Trial):
         # self.learn_rate_list = [5e-5, 3e-5, 2e-5, 1e-5]
         # self.learn_rate_list = [round(j * math.pow(10, -i), 7) for j in [2, 4, 6, 8] for i in range(4, 7)]
-        batch_size_list = [16, 32]
+        batch_size_list = [8, 16]
         # self.transformer_dropout_list = [0, 0.05, 0.1]
 
         # self.weight_decay_list = [4 * math.pow(10, -i) for i in range(3, 8, 2)]
@@ -138,20 +138,20 @@ class Controller:
             sample_type: Optional[HyperParametersSampleTypeEnum] = None
             if sample_count <= my_self_sample_threshold:
                 sample_type = HyperParametersSampleTypeEnum.optuna
-                learning_rate = round(trial.suggest_int('learning_rate', 8, 80) * 1e-6, 8)                                ##################
+                learning_rate = round(trial.suggest_int('learning_rate', 20, 80) * 1e-6, 8)                                ##################
                 # auxiliary_learning_rate = round(trial.suggest_int('auxiliary_learning_rate', 1, 5) * 1e-5, 8)
                 per_device_train_batch_size = batch_size_list[trial.suggest_int('batch_size', 0, len(batch_size_list)-1)] ########################
-                num_train_epochs = trial.suggest_int('epoch', 2, 4)                                                       ###################
+                num_train_epochs = trial.suggest_int('epoch', 4, 5)                                                       ###################
                 # auxiliary_training_epoch = trial.suggest_int('auxiliary_training_epoch', 2, 3)
                 # calibrator_weight = trial.suggest_uniform('calibrator_weight', 0, 1)
                 calibrator_weight = round(trial.suggest_int('calibrator_weight', 0, 10) * 0.1, 8)
 
             else:
                 sample_type = HyperParametersSampleTypeEnum.my_self_sampler
-                learning_rate = round(random.randint(8, 80) * 1e-6, 8)                                                   ##########################
+                learning_rate = round(random.randint(20, 80) * 1e-6, 8)                                                   ##########################
                 # auxiliary_learning_rate = round(random.randint(1, 5) * 1e-5, 8)
                 per_device_train_batch_size = batch_size_list[random.randint(0, len(batch_size_list)-1)]                ##############
-                num_train_epochs = random.randint(2, 4)                                                                 ########################
+                num_train_epochs = random.randint(4, 5)                                                                 ########################
                 # auxiliary_training_epoch = random.randint(2, 3)
                 # calibrator_weight = random.uniform(0, 1)
                 calibrator_weight = round(random.randint(0, 10) * 0.1, 8)
@@ -173,9 +173,9 @@ class Controller:
                 sample_type = HyperParametersSampleTypeEnum.select
 
                 hyps_ranges = []
-                hyps_ranges.append([round(factor * 1e-6, 8)for factor in range(8, 80+1)])                               ########################
+                hyps_ranges.append([round(factor * 1e-6, 8)for factor in range(20, 80+1)])                               ########################
                 hyps_ranges.append(batch_size_list)                                                                     #########################
-                hyps_ranges.append(list(range(2, 4+1)))                                                                   ########################
+                hyps_ranges.append(list(range(4, 5+1)))                                                                   ########################
                 # hyps_ranges.append([round(factor * 1e-5, 8)for factor in range(1, 5+1)])
                 # hyps_ranges.append(list(range(2, 3+1)))
                 hyps_ranges.append([round(factor * 0.1, 8)for factor in range(0, 10+1)])
