@@ -142,6 +142,7 @@ class GArgumentParser(ArgumentParser):
             # additional namespace.
             outputs.append(namespace)
         if return_remaining_strings:
+            print("no use arguments:{}".format(remaining_args))
             return (*outputs, remaining_args)
         else:
             if remaining_args:
