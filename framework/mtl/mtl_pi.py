@@ -131,7 +131,7 @@ class MTLPIFramework(Framework):
             a_logits = a_logits.detach()
 
         if self.model_args.learn_calibrator_weight:
-            if self.transformer_type == TransformerTypeEnum.roberta:
+            if self.transformer_type == TransformerTypeEnum.roberta or  self.transformer_type == TransformerTypeEnum.electra:
                 weight = torch.sigmoid(self.calibrator_weight(features_classified[:, 0, :]))
             else:
                 weight = torch.sigmoid(self.calibrator_weight(features_classified))

@@ -187,9 +187,12 @@ def create_category2examples_and_sentences():
 
     save_data = ['\t'.join(('type', 'count'))]
     category2examples_itmes_sorted = sorted(category2examples.copy().items(), key=lambda item: len(item[1]), reverse=True)
+    non_elab_count = 0
     for type_name, es in category2examples_itmes_sorted:
         save_data.append(f'{type_name}\t{len(es)}')
-
+        if type_name != "elab":
+            non_elab_count += len(es)
+    print("non_elab_count: %d" % non_elab_count )
     file_tool.save_list_data(save_data, 'raw/category_count.txt', 'w')
 
     return category2examples, sentences
