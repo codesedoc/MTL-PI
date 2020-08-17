@@ -22,10 +22,10 @@ def acc_and_f1(preds, labels):
     acc = simple_accuracy(preds, labels)
     f1 = f1_score(y_true=labels, y_pred=preds)
     confusion_matrix_ = confusion_matrix(y_true=labels, y_pred=preds, labels=[0, 1])
-    tp = confusion_matrix_[1][1]
-    tn = confusion_matrix_[0][0]
-    fp = confusion_matrix_[0][1]
-    fn = confusion_matrix_[1][0]
+    tp = int(confusion_matrix_[1][1])
+    tn = int(confusion_matrix_[0][0])
+    fp = int(confusion_matrix_[0][1])
+    fn = int(confusion_matrix_[1][0])
     return {
         "acc": acc,
         "f1": f1,
