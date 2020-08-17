@@ -535,4 +535,22 @@ class MTLPIFrameworkProxy(TFRsFrameworkProxy):
         # return 0
 
     def _get_num_train_exampels(self):
-        return self.primary_data_proxy.get_num_examples(DataSetType.train) +  self.auxiliary_data_proxy.get_num_examples(DataSetType.train)
+        primary_num = self.primary_data_proxy.get_num_examples(DataSetType.train)
+        auxiliary_num = self.auxiliary_data_proxy.get_num_examples(DataSetType.train)
+        if self.performing_args.train_mode == ModeForTrainData.delay:
+            if self.framework.perform_state == PerformState.auxiliary:
+                result = auxiliary_num
+            elif self.framework.perform_state == PerformState.primary:
+                result = primary_num
+            elif self.framework.perform_state == PerformState.parallel:
+                result = primary_num
+            else:
+                raise ValueError
+
+        elif self.performing_args.train_mode == ModeForTrainData.cross:
+            result = primary_num + auxiliary_num
+        elif self.performing_args.train_mode == ModeForTrainData.mix:
+            result = primary_num + auxiliary_num
+        else:
+            raise ValueError
+        return result
