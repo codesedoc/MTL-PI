@@ -157,7 +157,10 @@ class FrameworkProxy:
         self._train(*args, **kwargs)
 
     def _get_mini_batches(self):
-        return [MiniBatch(x) for x in list(self.data_proxy.get_dataloader(DataSetType.train))]
+        temp = self.data_proxy.get_dataloader(DataSetType.train)
+        result = [MiniBatch(x) for x in list(temp)]
+        # setup_seed(self.model_args.seed)
+        return result
 
     def _get_num_train_exampels(self):
         return self.data_proxy.get_num_examples(DataSetType.train)
@@ -165,7 +168,9 @@ class FrameworkProxy:
     def _train(self, *args, **kwargs):
         from data import DataSetType
         # train_dataloader = self.data_proxy.get_dataloader(DataSetType.train)
-        mini_batches = self._get_mini_batches()
+
+        mini_batches = self.data_proxy.get_dataloader(DataSetType.train)
+
         # from utils.general_tool import setup_seed
         # setup_seed(self.model_args.seed)
         args = self.performing_args
@@ -204,7 +209,7 @@ class FrameworkProxy:
         total_train_batch_size = self.data_proxy.data_args.train_batch_size * args.gradient_accumulation_steps
 
         logger.info("***** Running training *****")
-        logger.info("  Num examples = %d", self._get_num_train_exampels())
+        # logger.info("  Num examples = %d", self._get_num_train_exampels())
         logger.info("  Num Epochs = %d", num_train_epochs)
         # logger.info("  Instantaneous batch size per device = %d", self.data_proxy.data_args.per_device_train_batch_size)
         # logger.info("  Total train batch size (w. parallel, distributed & accumulation) = %d", total_train_batch_size)
@@ -225,6 +230,7 @@ class FrameworkProxy:
             # if isinstance(train_dataloader, DataLoader) and isinstance(train_dataloader.sampler, DistributedSampler):
             #     train_dataloader.sampler.set_epoch(epoch)
 
+            print(torch.randn(3,3))
             # epoch_iterator = tqdm(train_dataloader, desc="Iteration")
             epoch_iterator = tqdm(mini_batches, desc="Iteration")
             for step, mini_batch in enumerate(epoch_iterator):
@@ -309,10 +315,10 @@ class FrameworkProxy:
         return None
 
     def _train_step(
-            self, model: torch.nn.Module, mini_batch: MiniBatch, optimizer: Optimizer
+            self, model: torch.nn.Module, mini_batch, optimizer: Optimizer
     ) -> float:
-        inputs: Dict[str, torch.Tensor] = mini_batch.data
-
+        # inputs: Dict[str, torch.Tensor] = mini_batch.data
+        inputs = mini_batch
         model.train()
         args = self.performing_args
         for k, v in inputs.items():
