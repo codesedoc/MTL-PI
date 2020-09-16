@@ -333,8 +333,26 @@ class Controller:
         self.framework_proxy.save_model(model_path)
 
     def save_examples_according_to_evaluation(self):
-        self.data_proxy.save_examples_according_to_evaluation(output_dir=self.arguments_box.performing_args.output_dir)
+        import time
+        output_dir = file_tool.connect_path('result/run',
+                                            configurator.framework_proxy_type.framework_class.name,
+                                            gethostname(),
+                                            time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
+                                            )
+        file_tool.makedir(output_dir)
+        self.output_hyperparameters(output_dir)
+        self.data_proxy.save_examples_according_to_evaluation(output_dir=output_dir)
 
+    def output_hyperparameters(self, output_dir):
+        temp = {}
+        temp.update(self.arguments_box.model_args.names2value)
+        temp.update(self.arguments_box.performing_args.names2value)
+        temp.update(self.arguments_box.data_args.names2value)
+
+        data = ['name\tvalue']
+        for k, v in temp.items():
+            data.append("{}\t{}".format(k,v))
+        file_tool.save_list_data(data,file_tool.connect_path(output_dir,'arguments.txts'), model='w')
 
 
 @unique
