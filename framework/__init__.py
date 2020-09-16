@@ -168,7 +168,7 @@ class FrameworkProxy:
     def _train(self, *args, **kwargs):
         from data import DataSetType
         # train_dataloader = self.data_proxy.get_dataloader(DataSetType.train)
-
+        # mini_batches = self._get_mini_batches()
         mini_batches = self.data_proxy.get_dataloader(DataSetType.train)
 
         # from utils.general_tool import setup_seed
@@ -230,7 +230,6 @@ class FrameworkProxy:
             # if isinstance(train_dataloader, DataLoader) and isinstance(train_dataloader.sampler, DistributedSampler):
             #     train_dataloader.sampler.set_epoch(epoch)
 
-            print(torch.randn(3,3))
             # epoch_iterator = tqdm(train_dataloader, desc="Iteration")
             epoch_iterator = tqdm(mini_batches, desc="Iteration")
             for step, mini_batch in enumerate(epoch_iterator):
