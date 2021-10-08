@@ -262,8 +262,8 @@ class QQPCorpus(Corpus):
             output_path = file_tool.connect_path(output_dir, 'examples_output', ds_type.value)
 
         return (
-            (TP_e_ids, file_tool.connect_path(output_path, 'TP.txt')),
-            (TN_e_ids, file_tool.connect_path(output_path, 'TN.txt')),
-            (FP_e_ids, file_tool.connect_path(output_path, 'FP.txt')),
-            (FN_e_ids, file_tool.connect_path(output_path, 'FN.txt'))
+            (TP_e_ids, file_tool.connect_path(output_path, 'TP.txts')),
+            (TN_e_ids, file_tool.connect_path(output_path, 'TN.txts')),
+            (FP_e_ids, file_tool.connect_path(output_path, 'FP.txts')),
+            (FN_e_ids, file_tool.connect_path(output_path, 'FN.txts'))
         )

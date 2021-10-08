@@ -21,10 +21,20 @@ def simple_accuracy(preds: np.ndarray, labels: np.ndarray):
 def acc_and_f1(preds, labels):
     acc = simple_accuracy(preds, labels)
     f1 = f1_score(y_true=labels, y_pred=preds)
+    confusion_matrix_ = confusion_matrix(y_true=labels, y_pred=preds, labels=[0, 1])
+    tp = int(confusion_matrix_[1][1])
+    tn = int(confusion_matrix_[0][0])
+    fp = int(confusion_matrix_[0][1])
+    fn = int(confusion_matrix_[1][0])
     return {
         "acc": acc,
         "f1": f1,
         "acc_and_f1": (acc + f1) / 2,
+        'tp': tp,
+        'tn': tn,
+        'fp': fp,
+        'fn': fn,
+
     }
 
 
